@@ -96,6 +96,18 @@ See the table below for plugin paths on each platform.
 
 To rebuild and update the plugin zip for new releases, run `scripts/build-repo.ps1` (Windows) or `scripts/build-repo.sh` (Linux/macOS). See **docs/CATALOG.md** for maintaining the plugin repository and manifest.
 
+### Creating a GitHub release (e.g. Initial v1.0)
+
+1. Run `scripts/build-repo.ps1` so `dist/Jellyfin.Plugin.PosterTags_1.0.0.0.zip` exists.
+2. On GitHub: **Releases → Create a new release**.
+3. **Tag:** `v1.0.0.0` (create new tag).
+4. **Release title:** `Initial v1.0`.
+5. **Description:** e.g. "Initial release. Resolution, HDR, premium audio, ratings, custom tag, live preview, auto-apply on scan."
+6. **Upload** the file `dist/Jellyfin.Plugin.PosterTags_1.0.0.0.zip` as an asset.
+7. Publish the release.
+
+After that, the catalog URL `https://raw.githubusercontent.com/bestopensors/JF-plugin/main/manifest-catalog.json` will serve the plugin; users who added that JSON link will see **Poster Tags** in the catalog and can install it.
+
 ---
 
 ## License
