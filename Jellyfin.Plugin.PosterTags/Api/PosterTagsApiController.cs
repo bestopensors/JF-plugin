@@ -20,6 +20,7 @@ namespace Jellyfin.Plugin.PosterTags.Api;
 public class PosterTagsApiController : ControllerBase
 {
     private const string ConfigPageResourceName = "Jellyfin.Plugin.PosterTags.Configuration.config.html";
+    private const string ConfigContentResourceName = "Jellyfin.Plugin.PosterTags.Configuration.configContent.html";
 
     private readonly ILibraryManager _libraryManager;
     private readonly PosterTagService _posterTagService;
@@ -54,7 +55,9 @@ public class PosterTagsApiController : ControllerBase
     public IActionResult GetConfigurationPage()
     {
         var asm = typeof(Plugin).Assembly;
-        using var stream = asm.GetManifestResourceStream(ConfigPageResourceName);
+        // Serve full settings HTML (configContent) so iframe and direct URL both work
+        using var stream = asm.GetManifestResourceStream(ConfigContentResourceName)
+            ?? asm.GetManifestResourceStream(ConfigPageResourceName);
         if (stream is null)
         {
             return NotFound();

@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Configuration\config.html" LogicalName="Jellyfin.Plugin.PosterTags.Configuration.config.html" />
+    <EmbeddedResource Include="Configuration\configContent.html" LogicalName="Jellyfin.Plugin.PosterTags.Configuration.configContent.html" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Jellyfin.Common" Version="10.11.6">

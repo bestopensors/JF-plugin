@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.11",
+        "changelog": "Settings: embedded config is single div+iframe loading /Plugins/PosterTags/ConfigurationPage so loadView gets valid element; full form in iframe.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.11.zip",
+        "checksum": "d79c050dd5f0359e1430accd3454563e",
+        "timestamp": "2026-01-30T16:11:03Z"
+      },
+      {
         "version": "1.0.10",
         "changelog": "Config page: remove leading HTML comment so client firstChild is the div (fix classList render).",
         "targetAbi": "10.11.0.0",
