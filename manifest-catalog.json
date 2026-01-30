@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.10",
+        "changelog": "Config page: remove leading HTML comment so client firstChild is the div (fix classList render).",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.10.zip",
+        "checksum": "cf17cdf809224fbf0e8263e48b08d042",
+        "timestamp": "2026-01-30T16:03:55Z"
+      },
+      {
         "version": "1.0.9",
         "changelog": "Config page: match SmartLists (config.html + EnableInMainMenu). Use /Plugins/{Id}/Configuration when available.",
         "targetAbi": "10.11.0.0",
