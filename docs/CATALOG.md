@@ -49,14 +49,17 @@ You can host your **own** plugin repository. Users add your repository URL once;
    - From the repo root, run the script that builds and zips the plugin (see below).  
    - It will print the **checksum** and a **manifest entry** you can use.
 
-2. **Upload the .zip**
-   - Create a **GitHub Release** (e.g. tag `v1.0`), attach the generated `.zip` as an asset.  
-   - Copy the **asset URL** (e.g. `https://github.com/bestopensors/JF-plugin/releases/download/v1.0/Jellyfin.Plugin.PosterTags_1.0.zip`).
+2. **Host the .zip (pick one; in-repo is more reliable for Jellyfin)**
+   - **Recommended (in-repo):** The build script copies the zip to `releases/`. Commit and push that folder. Use as **sourceUrl**:  
+     `https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.zip`  
+     This returns a direct 200 response and avoids GitHub release redirects that can cause 404 in Jellyfin.
+   - **Alternative (GitHub Release):** Create a **GitHub Release** (e.g. tag `v1.0`), attach the `.zip` as an asset. Use the release asset URL as **sourceUrl**. If Jellyfin gets 404, switch to the in-repo URL above.
 
 3. **Create the catalog manifest**
    - Use the manifest entry printed by the script (or the template in the repo).  
-   - Put your **sourceUrl** (the release asset URL) and the **checksum** the script printed.  
-   - Save as a JSON file, e.g. `manifest-catalog.json`, in the repo.
+   - Set **sourceUrl** to the zip URL (prefer the `raw.githubusercontent.com/.../releases/...` URL).  
+   - Set **checksum** to the MD5 the script printed.  
+   - Save as `manifest-catalog.json` in the repo.
 
 4. **Host the manifest**
    - Commit `manifest-catalog.json` to the repo.  
@@ -94,6 +97,8 @@ If Jellyfin shows **"An error occurred while installing the plugin"** and the se
 
 5. **Test the URL**  
    Open the **sourceUrl** in a browser (logged out). You should get a download of the zip file. If you get a 404 page, fix the release tag and asset name (and optionally the repo URL) as above, then update `manifest-catalog.json` and push.
+
+**If 404 persists with a GitHub release URL:** Jellyfin’s HTTP client can fail when GitHub redirects (302) the download. Use the **in-repo** zip URL instead: put the zip in `releases/` in the repo and set **sourceUrl** to `https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/releases/Jellyfin.Plugin.PosterTags_1.0.zip`. Commit and push `releases/` and update the catalog; then in Jellyfin remove the repo, add it again, and try Install.
 
 ### Troubleshooting: Download works but installation still fails
 

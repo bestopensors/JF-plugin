@@ -31,7 +31,7 @@ Install via the **plugin catalog** by adding this repository. Copy the link belo
 
 **That’s the intended way to install:** add the JSON link above, then install from the catalog. No manual download or file copying.
 
-If the zip **downloads** from the release URL but installation still fails in Jellyfin, see **docs/CATALOG.md** → *Troubleshooting: Download works but installation still fails* (checksum, Jellyfin version, and how to read the server log). The exact error line in the log will show the cause.
+If installation fails with **404** in the logs: the catalog uses a direct zip URL (`releases/` in the repo) so Jellyfin gets a 200 response; avoid GitHub release download URLs if they cause 404 (redirects). See **docs/CATALOG.md** for more troubleshooting.
 
 ---
 

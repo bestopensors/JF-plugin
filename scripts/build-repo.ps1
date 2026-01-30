@@ -28,23 +28,32 @@ $zipPath = Join-Path $DistDir $zipName
 if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
 Compress-Archive -Path "$PublishDir\*" -DestinationPath $zipPath -Force
 
+# Also copy to releases/ for direct raw URL (avoids GitHub release redirect 404 issues in Jellyfin)
+$ReleasesDir = Join-Path $RepoRoot "releases"
+New-Item -ItemType Directory -Path $ReleasesDir -Force | Out-Null
+Copy-Item $zipPath -Destination (Join-Path $ReleasesDir $zipName) -Force
+
 # MD5 checksum (32-char lowercase, no dashes)
 $hash = (Get-FileHash -Path $zipPath -Algorithm MD5).Hash.ToLowerInvariant()
 
 Write-Host "Created: $zipPath" -ForegroundColor Green
+Write-Host "Copied to: $ReleasesDir\$zipName (use this URL in catalog for reliable install)" -ForegroundColor Green
 Write-Host "MD5: $hash" -ForegroundColor Green
 Write-Host ""
 Write-Host "Add this repository in Jellyfin: Dashboard -> Plugins -> Repositories" -ForegroundColor Yellow
 Write-Host "Use the URL to your manifest-catalog.json (e.g. raw GitHub URL)." -ForegroundColor Yellow
 Write-Host ""
-Write-Host "Paste this into manifest-catalog.json (replace sourceUrl with your zip download URL):" -ForegroundColor Cyan
+Write-Host "Recommended sourceUrl (direct, no redirects):" -ForegroundColor Cyan
+Write-Host "  https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/$zipName" -ForegroundColor White
+Write-Host ""
+Write-Host "Paste this into manifest-catalog.json:" -ForegroundColor Cyan
 $timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
 $entry = @"
   {
     "version": "$version",
     "changelog": "See https://github.com/bestopensors/JF-plugin/releases",
     "targetAbi": "10.11.0.0",
-    "sourceUrl": "https://github.com/bestopensors/JF-plugin/releases/download/v$version/$zipName",
+    "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/$zipName",
     "checksum": "$hash",
     "timestamp": "$timestamp"
   }
