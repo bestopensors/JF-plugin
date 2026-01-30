@@ -1,5 +1,27 @@
-<div id="PosterTagsConfigPage" class="configPage" style="color:#e0e0e0;padding:1em;min-height:200px;">
-        <p id="PosterTagsVersion" style="margin:0 0 0.5em 0;font-size:0.85em;color:#888;">Poster Tags plugin version: <strong>{{POSTERTAGS_VERSION}}</strong></p>
+<style>
+            #PosterTagsConfigPage { box-sizing: border-box; }
+            .postertags-page { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 3rem; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 14px; line-height: 1.5; }
+            .postertags-page .postertags-version { margin: 0 0 1rem; font-size: 0.8rem; color: #888; }
+            .postertags-page .sectionTitleContainer { margin-bottom: 0.5rem; }
+            .postertags-page .sectionTitle { font-size: 1.5rem; font-weight: 600; margin: 0; color: #fff; letter-spacing: -0.02em; }
+            .postertags-page .sectionContentContainer { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 1.5rem; margin-top: 1rem; border: 1px solid rgba(255,255,255,0.08); }
+            .postertags-page .fieldDescription { color: #a0a0a0; font-size: 0.9rem; margin: 0.35rem 0 1rem; line-height: 1.45; }
+            .postertags-page h3.sectionTitle { font-size: 1rem; font-weight: 600; color: #e8e8e8; margin: 1.5rem 0 0.5rem; padding-bottom: 0.25rem; }
+            .postertags-page .selectContainer, .postertags-page .inputContainer, .postertags-page .checkboxContainer { margin-bottom: 0.5rem; }
+            .postertags-page .inputLabel, .postertags-page .checkboxLabel { font-weight: 500; color: #e0e0e0; }
+            .postertags-page select.select, .postertags-page .inputControl { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; color: #e0e0e0; padding: 0.5rem 0.65rem; min-height: 36px; }
+            .postertags-page select.select:focus, .postertags-page .inputControl:focus { outline: none; border-color: #00a4dc; box-shadow: 0 0 0 2px rgba(0,164,220,0.25); }
+            .postertags-page .btn { padding: 0.5rem 1rem; border-radius: 4px; font-weight: 500; cursor: pointer; border: none; }
+            .postertags-page .btn-primary { background: #00a4dc; color: #fff; }
+            .postertags-page .btn-primary:hover { background: #0092c4; }
+            .postertags-page .btn-secondary { background: rgba(255,255,255,0.12); color: #e0e0e0; }
+            .postertags-page .btn-secondary:hover { background: rgba(255,255,255,0.18); }
+            .postertags-page a { color: #00a4dc; text-decoration: none; }
+            .postertags-page a:hover { text-decoration: underline; }
+            #PreviewContainer { border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); }
+        </style>
+        <div id="PosterTagsConfigPage" class="configPage postertags-page" style="min-height:200px;">
+        <p id="PosterTagsVersion" class="postertags-version">Poster Tags plugin version: <strong>{{POSTERTAGS_VERSION}}</strong></p>
         <script>
             (function(){
                 try {
@@ -13,9 +35,9 @@
         <div class="sectionTitleContainer flex align-items-center">
             <h2 class="sectionTitle">Poster Tags — Settings</h2>
         </div>
-        <div class="sectionContentContainer sectionContentContainerBorderNoPadding">
+        <div class="sectionContentContainer sectionContentContainerBorderNoPadding" style="border: none;">
             <form id="PosterTagsConfigForm">
-                <p class="fieldDescription" style="margin-bottom: 1.5em;">
+                <p class="fieldDescription" style="margin-bottom: 1.5rem;">
                     Configure how tags are embedded on library posters. With <strong>Apply automatically after library scan</strong> enabled, new movies and series get tags without running a task. You can also run the <strong>Add Poster Tags</strong> scheduled task (Dashboard → Scheduled Tasks) to apply to existing items.
                 </p>
 
@@ -197,7 +219,7 @@
                     <div class="fieldDescription">When enabled, new and updated items get poster tags without running the scheduled task. Works with real-time library scans (e.g. when new movies are added).</div>
                 </div>
 
-                <div style="margin-top: 1.5em;">
+                <div style="margin-top: 2rem; padding-top: 1rem;">
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>

@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.16",
+        "changelog": "Config page: padding for sidebar clearance; modern CSS and layout for settings.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.16.zip",
+        "checksum": "09b2d5390fccbcce2024d5d2942e6f47",
+        "timestamp": "2026-01-30T16:40:41Z"
+      },
+      {
         "version": "1.0.15",
         "changelog": "Config page: root div has data-role=\"page\" (jellyfin-web loadView requires it); HTML fragment so querySelector finds element. Fixes classList undefined error.",
         "targetAbi": "10.11.0.0",
