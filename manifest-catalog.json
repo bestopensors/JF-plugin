@@ -12,8 +12,8 @@
         "changelog": "Initial release. Resolution, HDR, premium audio, ratings, custom tag, live preview, auto-apply on scan.",
         "targetAbi": "10.11.0.0",
         "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.zip",
-        "checksum": "3b635f3520309119286acfff00120ad8",
-        "timestamp": "2026-01-30T12:55:13Z"
+        "checksum": "1229c6cb4650338ea3897e1a4ec58e97",
+        "timestamp": "2026-01-30T13:09:17Z"
       }
     ]
   }

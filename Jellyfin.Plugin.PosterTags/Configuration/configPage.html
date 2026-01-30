@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>Poster Tags</title>
-</head>
-<body>
-    <div id="PosterTagsConfigPage" class="configPage">
+<div id="PosterTagsConfigPage" class="configPage">
         <div class="sectionTitleContainer flex align-items-center">
             <h2 class="sectionTitle">Poster Tags — Settings</h2>
         </div>
@@ -206,8 +199,10 @@
                 var msg = document.createElement('p');
                 msg.className = 'fieldDescription';
                 msg.style.cssText = 'color:#e74c3c;margin:1em;';
-                msg.textContent = 'Poster Tags: Jellyfin API (ApiClient/Dashboard) not available in this context. Open plugin Settings from Dashboard → Plugins → Poster Tags.';
-                document.body.insertBefore(msg, document.body.firstChild);
+                msg.textContent = 'Poster Tags: Jellyfin API (ApiClient/Dashboard) not available. Open Settings from Dashboard → Plugins → Poster Tags.';
+                var root = document.querySelector('#PosterTagsConfigPage');
+                if (root && root.firstChild) root.insertBefore(msg, root.firstChild);
+                else if (root) root.appendChild(msg);
                 return;
             }
         })();
@@ -480,5 +475,3 @@
             });
         }
     </script>
-</body>
-</html>
