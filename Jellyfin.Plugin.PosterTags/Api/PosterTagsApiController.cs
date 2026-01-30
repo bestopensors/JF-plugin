@@ -126,7 +126,7 @@ public class PosterTagsApiController : ControllerBase
     public async Task<IActionResult> PostPreview([FromBody] PreviewRequest? request, CancellationToken cancellationToken)
     {
         PluginConfiguration config;
-        if (request?.Config != null && request.Config.Count > 0)
+        if (request?.Config != null)
         {
             config = ParseConfigFromDictionary(request.Config);
         }

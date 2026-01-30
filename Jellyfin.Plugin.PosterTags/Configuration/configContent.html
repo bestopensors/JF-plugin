@@ -1,38 +1,45 @@
 <style>
             #PosterTagsConfigPage { box-sizing: border-box; position: relative; pointer-events: auto; z-index: 1; overflow-x: hidden; max-width: 100%; }
-            .postertags-page { max-width: 100%; margin: 0; padding: 2rem 2rem 3rem 3rem; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 14px; line-height: 1.5; }
+            .postertags-page { max-width: 100%; margin: 0; padding: 2rem 2rem 3rem 3rem; color: #e4e4e7; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 14px; line-height: 1.55; }
             .postertags-layout { display: flex; gap: 2rem; align-items: flex-start; max-width: min(1200px, 100%); margin: 0 auto; width: 100%; }
             .postertags-main { flex: 1; min-width: 0; max-width: 720px; }
-            .postertags-preview-sidebar { width: 280px; min-width: 240px; flex-shrink: 0; position: sticky; top: 0; }
+            .postertags-preview-sidebar { width: 300px; min-width: 260px; flex-shrink: 0; position: sticky; top: 0; }
             .postertags-preview-sidebar .sectionTitle { margin-top: 0; }
-            .postertags-page .postertags-version { margin: 0 0 1rem; font-size: 0.8rem; color: #888; }
+            .postertags-page .postertags-version { margin: 0 0 1rem; font-size: 0.8rem; color: #71717a; }
             .postertags-page .sectionTitleContainer { margin-bottom: 0.5rem; }
             .postertags-page .sectionTitle { font-size: 1.5rem; font-weight: 600; margin: 0; color: #fff; letter-spacing: -0.02em; }
-            .postertags-page .sectionContentContainer { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 1.5rem; margin-top: 1rem; border: 1px solid rgba(255,255,255,0.08); }
-            .postertags-page .fieldDescription { color: #a0a0a0; font-size: 0.9rem; margin: 0.35rem 0 1rem; line-height: 1.45; }
-            .postertags-page h3.sectionTitle { font-size: 1rem; font-weight: 600; color: #e8e8e8; margin: 1.5rem 0 0.5rem; padding-bottom: 0.25rem; }
-            .postertags-page .selectContainer, .postertags-page .inputContainer, .postertags-page .checkboxContainer { margin-bottom: 0.5rem; }
-            .postertags-page .inputLabel, .postertags-page .checkboxLabel { font-weight: 500; color: #e0e0e0; }
-            .postertags-page select.select, .postertags-page .inputControl { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; color: #e0e0e0; padding: 0.5rem 0.65rem; min-height: 36px; }
-            .postertags-page select.select:focus, .postertags-page .inputControl:focus { outline: none; border-color: #00a4dc; box-shadow: 0 0 0 2px rgba(0,164,220,0.25); }
-            .postertags-page .btn { padding: 0.5rem 1rem; border-radius: 4px; font-weight: 500; cursor: pointer; border: none; }
-            .postertags-page .btn-primary { background: #00a4dc; color: #fff; }
-            .postertags-page .btn-primary:hover { background: #0092c4; }
-            .postertags-page .btn-secondary { background: rgba(255,255,255,0.12); color: #e0e0e0; }
-            .postertags-page .btn-secondary:hover { background: rgba(255,255,255,0.18); }
-            .postertags-page a { color: #00a4dc; text-decoration: none; }
+            .postertags-page .sectionContentContainer { background: rgba(255,255,255,0.04); border-radius: 12px; padding: 1.5rem 1.75rem; margin-top: 1rem; border: 1px solid rgba(255,255,255,0.06); box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+            .postertags-page .fieldDescription { color: #a1a1aa; font-size: 0.875rem; margin: 0.4rem 0 1rem; line-height: 1.5; }
+            .postertags-page h3.sectionTitle { font-size: 0.9375rem; font-weight: 600; color: #f4f4f5; margin: 1.75rem 0 0.5rem; padding-bottom: 0.35rem; letter-spacing: 0.01em; }
+            .postertags-page h3.sectionTitle:first-of-type { margin-top: 0; }
+            .postertags-page .selectContainer, .postertags-page .inputContainer, .postertags-page .checkboxContainer { margin-bottom: 0.75rem; }
+            .postertags-page .inputLabel, .postertags-page .checkboxLabel { font-weight: 500; color: #e4e4e7; }
+            .postertags-page select.select { appearance: none; background: rgba(0,0,0,0.35) url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%23a1a1aa" d="M2.5 4.5L6 8l3.5-3.5"/></svg>') no-repeat right 0.75rem center; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: #e4e4e7; padding: 0.5rem 2rem 0.5rem 0.75rem; min-height: 40px; font-size: 0.9375rem; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; }
+            .postertags-page select.select:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.2); }
+            .postertags-page .inputControl { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: #e4e4e7; padding: 0.5rem 0.75rem; min-height: 40px; font-size: 0.9375rem; transition: border-color 0.15s, box-shadow 0.15s; }
+            .postertags-page .inputControl:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.2); }
+            .postertags-page .inputControl::placeholder { color: #71717a; }
+            .postertags-page .btn { padding: 0.5rem 1.25rem; border-radius: 8px; font-weight: 500; font-size: 0.9375rem; cursor: pointer; border: none; transition: background 0.15s, transform 0.05s; }
+            .postertags-page .btn:active { transform: scale(0.98); }
+            .postertags-page .btn-primary { background: #3b82f6; color: #fff; }
+            .postertags-page .btn-primary:hover { background: #2563eb; }
+            .postertags-page .btn-secondary { background: rgba(255,255,255,0.08); color: #e4e4e7; border: 1px solid rgba(255,255,255,0.12); }
+            .postertags-page .btn-secondary:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.18); }
+            .postertags-page a { color: #60a5fa; text-decoration: none; }
             .postertags-page a:hover { text-decoration: underline; }
-            #PreviewContainer { border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); }
-            .postertags-preview-placeholder { display: flex; align-items: center; justify-content: center; min-height: 200px; padding: 1.5rem; color: #888; font-size: 0.95rem; text-align: center; background: rgba(0,0,0,0.2); border-radius: 4px; }
+            .postertags-page input[type="checkbox"] { width: 1.125rem; height: 1.125rem; margin: 0 0.5rem 0 0; accent-color: #3b82f6; cursor: pointer; flex-shrink: 0; }
+            .postertags-page input[type="range"] { accent-color: #3b82f6; height: 6px; border-radius: 3px; }
+            #PreviewContainer { border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); background: rgba(0,0,0,0.2); box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+            .postertags-preview-placeholder { display: flex; align-items: center; justify-content: center; min-height: 200px; padding: 1.5rem; color: #71717a; font-size: 0.9rem; text-align: center; background: rgba(0,0,0,0.15); border-radius: 8px; }
             #PreviewImageWrap.has-image .postertags-preview-placeholder { display: none; }
-            #PreviewImageWrap { overflow: hidden; }
-            #PreviewImageWrap .postertags-preview-img { display: none; max-width: 100%; width: 100%; height: auto; max-height: 420px; object-fit: contain; border-radius: 4px; min-height: 200px; background: rgba(0,0,0,0.3); }
+            #PreviewImageWrap { overflow: hidden; border-radius: 8px; }
+            #PreviewImageWrap .postertags-preview-img { display: none; max-width: 100%; width: 100%; height: auto; max-height: 420px; object-fit: contain; border-radius: 8px; min-height: 200px; background: rgba(0,0,0,0.3); }
             #PreviewImageWrap.has-image .postertags-preview-img { display: block; }
-            .library-cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.75rem; margin: 0.5rem 0 1rem; }
-            .library-card { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; cursor: pointer; transition: background 0.15s, border-color 0.15s; pointer-events: auto; user-select: none; -webkit-user-select: none; }
-            .library-card:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.25); }
-            .library-card input[type="checkbox"] { margin: 0; flex-shrink: 0; cursor: pointer; pointer-events: auto; }
-            .library-card .library-name { font-weight: 500; color: #e0e0e0; word-break: break-word; }
+            .library-cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.65rem; margin: 0.5rem 0 1rem; }
+            .library-card { display: flex; align-items: center; gap: 0.5rem; padding: 0.7rem 0.9rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; cursor: pointer; transition: background 0.15s, border-color 0.15s, box-shadow 0.15s; pointer-events: auto; user-select: none; -webkit-user-select: none; }
+            .library-card:hover { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.18); box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+            .library-card input[type="checkbox"] { margin: 0; flex-shrink: 0; }
+            .library-card .library-name { font-weight: 500; color: #e4e4e7; word-break: break-word; font-size: 0.9rem; }
         </style>
         <div id="PosterTagsConfigPage" class="configPage postertags-page" style="min-height:200px;">
         <p id="PosterTagsVersion" class="postertags-version">Poster Tags plugin version: <strong>{{POSTERTAGS_VERSION}}</strong></p>
@@ -55,6 +62,9 @@
             <form id="PosterTagsConfigForm">
                 <p class="fieldDescription" style="margin-bottom: 1.5rem;">
                     Configure how tags are embedded on library posters. With <strong>Apply automatically after library scan</strong> enabled, new movies and series get tags without running a task. You can also run the <strong>Add Poster Tags</strong> scheduled task (Dashboard → Scheduled Tasks) to apply to existing items.
+                </p>
+                <p class="fieldDescription" style="margin-bottom: 1.25rem; padding: 0.6rem 0.75rem; background: rgba(59,130,246,0.12); border-radius: 8px; border: 1px solid rgba(59,130,246,0.2); color: #93c5fd;">
+                    <strong>Live preview</strong> uses your current settings — no need to save. Enable badges or custom tag and click <strong>Pick random &amp; refresh</strong> to see them on the poster.
                 </p>
 
                 <h3 class="sectionTitle" style="font-size: 1em; margin: 1em 0 0.5em;">Libraries to process</h3>
@@ -222,8 +232,8 @@
         </div>
         <aside class="postertags-preview-sidebar">
                 <h3 class="sectionTitle" style="font-size: 1em; margin: 0 0 0.5em;">Live preview</h3>
-                <p class="fieldDescription" style="margin-bottom: 0.5rem;">Random movie/series from selected libraries. Same logic as applied tags.</p>
-                <div id="PreviewContainer" style="margin: 0; padding: 1em; background: rgba(0,0,0,0.2); border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
+                <p class="fieldDescription" style="margin-bottom: 0.75rem;">Uses your current settings (no save needed). Pick a random poster to see badges and custom tag.</p>
+                <div id="PreviewContainer" style="margin: 0; padding: 1.1em; border-radius: 12px;">
                     <div id="PreviewLabel" style="margin-bottom: 0.5em; font-weight: 500;">Using: —</div>
                     <div id="PreviewImageWrap" style="position: relative; display: inline-block; min-height: 200px; width: 100%;">
                         <div id="PreviewSpinner" class="posterTagsSpinner" style="display: none; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 48px; height: 48px; border: 4px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: posterTagsSpin 0.8s linear infinite;"></div>

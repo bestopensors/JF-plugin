@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.28",
+        "changelog": "Preview: always use form config (no save needed); resolution from media streams when needed; modern UI (cards, selects, accents); note that live preview uses current settings.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.28.zip",
+        "checksum": "13d234d937e7f3004d9466ecdf636f6b",
+        "timestamp": "2026-01-30T23:22:56Z"
+      },
+      {
         "version": "1.0.27",
         "changelog": "Preview: use current form config for Pick random; always return poster when no badges; image constrained to box; API config parsing case-insensitive.",
         "targetAbi": "10.11.0.0",

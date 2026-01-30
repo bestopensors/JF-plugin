@@ -489,30 +489,50 @@ public class PosterTagService
     {
         var badges = new List<string>();
 
-        if (item is Video video && config.ShowQuality && video.Height > 0)
+        if (item is Video video && config.ShowQuality)
         {
             var height = video.Height;
-            string? res = null;
-            if (height >= 2160 && config.Show4K)
+            if (height <= 0)
             {
-                res = config.UseLetterResolution ? "UHD" : "4K";
-            }
-            else if (height >= 1080 && config.ShowHD)
-            {
-                res = config.UseLetterResolution ? "FHD" : "1080p";
-            }
-            else if (height >= 720 && config.ShowHD)
-            {
-                res = config.UseLetterResolution ? "HD" : "720p";
-            }
-            else if (height > 0)
-            {
-                res = config.UseLetterResolution ? "SD" : FormatResolutionNumber(height);
+                try
+                {
+                    var streams = _mediaSourceManager.GetMediaStreams(item.Id);
+                    var videoStream = streams?.FirstOrDefault(s => s.Type == MediaStreamType.Video && s.Height > 0);
+                    if (videoStream != null && videoStream.Height.HasValue)
+                    {
+                        height = videoStream.Height.Value;
+                    }
+                }
+                catch
+                {
+                    // use 0, no resolution badge
+                }
             }
 
-            if (!string.IsNullOrEmpty(res))
+            string? res = null;
+            if (height > 0)
             {
-                badges.Add(res);
+                if (height >= 2160 && config.Show4K)
+                {
+                    res = config.UseLetterResolution ? "UHD" : "4K";
+                }
+                else if (height >= 1080 && config.ShowHD)
+                {
+                    res = config.UseLetterResolution ? "FHD" : "1080p";
+                }
+                else if (height >= 720 && config.ShowHD)
+                {
+                    res = config.UseLetterResolution ? "HD" : "720p";
+                }
+                else
+                {
+                    res = config.UseLetterResolution ? "SD" : FormatResolutionNumber(height);
+                }
+
+                if (!string.IsNullOrEmpty(res))
+                {
+                    badges.Add(res);
+                }
             }
         }
 
