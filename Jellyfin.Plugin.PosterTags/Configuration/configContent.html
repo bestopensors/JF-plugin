@@ -360,7 +360,7 @@
                     method: 'POST',
                     headers: Object.assign({ 'Content-Type': 'application/json' }, getAuthHeaders()),
                     credentials: 'include',
-                    body: JSON.stringify({ ItemId: itemId, Config: config })
+                    body: JSON.stringify({ itemId: itemId, config: config })
                 }).then(function (r) {
                     if (!r.ok) throw new Error(r.statusText);
                     return r.blob();
@@ -402,7 +402,7 @@
                         method: 'POST',
                         headers: Object.assign({ 'Content-Type': 'application/json' }, getAuthHeaders()),
                         credentials: 'include',
-                        body: JSON.stringify({ ItemId: data.Id, Config: config })
+                        body: JSON.stringify({ itemId: data.Id, config: config })
                     });
                 })
                 .then(function (r) {

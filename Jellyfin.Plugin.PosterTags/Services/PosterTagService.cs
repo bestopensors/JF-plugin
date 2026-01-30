@@ -912,6 +912,37 @@ public class PosterTagService
         return char.ConvertFromUtf32(first) + char.ConvertFromUtf32(second);
     }
 
+    private static Font GetBadgeFont(int fontSize)
+    {
+        var names = new[] { "Arial", "Segoe UI", "Helvetica", "Liberation Sans", "DejaVu Sans", "sans-serif" };
+        foreach (var name in names)
+        {
+            try
+            {
+                return SystemFonts.CreateFont(name, fontSize, FontStyle.Bold);
+            }
+            catch
+            {
+                // try next
+            }
+        }
+
+        var families = SystemFonts.Collection.Families.ToArray();
+        if (families.Length > 0)
+        {
+            try
+            {
+                return SystemFonts.CreateFont(families[0].Name, fontSize, FontStyle.Bold);
+            }
+            catch
+            {
+                // fall through
+            }
+        }
+
+        return SystemFonts.CreateFont("Arial", fontSize, FontStyle.Bold);
+    }
+
     private void DrawBadges(Image<Rgba32> image, List<string> badges, PluginConfiguration config)
     {
         if (config == null)
@@ -927,7 +958,7 @@ public class PosterTagService
 
         try
         {
-            var font = SystemFonts.CreateFont("Arial", fontSize, FontStyle.Bold);
+            var font = GetBadgeFont(fontSize);
 
             // Draw main badges box if any
             if (badges != null && badges.Count > 0)

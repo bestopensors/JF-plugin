@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.30",
+        "changelog": "Live preview fix: send itemId/config (camelCase) so tags apply; robust bool parsing; fallback font for badges.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.30.zip",
+        "checksum": "cb4bcc3f61b7a84ab615b4bc5a99f298",
+        "timestamp": "2026-01-30T23:38:43Z"
+      },
+      {
         "version": "1.0.29",
         "changelog": "Preview: copy artwork on Pick random (original unchanged); embed tags on copy; sticky live preview sidebar.",
         "targetAbi": "10.11.0.0",
