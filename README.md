@@ -6,29 +6,30 @@ Add configurable tags and badges to library posters: resolution (4K, HD), HDR (H
 
 ---
 
-## Install from Jellyfin Plugins Catalog (recommended)
+## Installation (JSON catalog — use this)
 
-The plugin is delivered via a **plugin repository**. Add the repository once; then the plugin appears in the catalog and you can install it like any other.
+Install via the **plugin catalog** by adding this repository. Copy the link below, add it in Jellyfin once, and the plugin will show up in the catalog for one-click install.
 
-### 1. Add the repository URL
+### 1. Add the repository (copy/paste this JSON link)
 
 1. In Jellyfin go to **Dashboard → Plugins → Repositories**.
-2. Click **Add** and paste this URL:
+2. Click **Add**.
+3. Paste this URL exactly:
 
    ```
    https://raw.githubusercontent.com/bestopensors/JF-plugin/main/manifest-catalog.json
    ```
 
-3. Save.
+4. Save.
 
-### 2. Install the plugin
+### 2. Install the plugin from the catalog
 
 1. Go to **Dashboard → Plugins → Catalog**.
 2. Find **Poster Tags** and click **Install**.
 3. Restart Jellyfin when prompted (or restart the server).
-4. The plugin is then available under **Dashboard → Plugins → Poster Tags**.
+4. Configure under **Dashboard → Plugins → Poster Tags**.
 
-That’s it. No manual download or file copying.
+**That’s the intended way to install:** add the JSON link above, then install from the catalog. No manual download or file copying.
 
 ---
 
