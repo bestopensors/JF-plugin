@@ -1,6 +1,10 @@
 <style>
             #PosterTagsConfigPage { box-sizing: border-box; position: relative; pointer-events: auto; z-index: 1; }
-            .postertags-page { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 3rem; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 14px; line-height: 1.5; }
+            .postertags-page { max-width: none; margin: 0; padding: 2rem 1.5rem 3rem; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 14px; line-height: 1.5; }
+            .postertags-layout { display: flex; gap: 2rem; align-items: flex-start; max-width: 1200px; margin: 0 auto; }
+            .postertags-main { flex: 1; min-width: 0; max-width: 720px; }
+            .postertags-preview-sidebar { width: 320px; flex-shrink: 0; position: sticky; top: 0; }
+            .postertags-preview-sidebar .sectionTitle { margin-top: 0; }
             .postertags-page .postertags-version { margin: 0 0 1rem; font-size: 0.8rem; color: #888; }
             .postertags-page .sectionTitleContainer { margin-bottom: 0.5rem; }
             .postertags-page .sectionTitle { font-size: 1.5rem; font-weight: 600; margin: 0; color: #fff; letter-spacing: -0.02em; }
@@ -44,6 +48,8 @@
         <div class="sectionTitleContainer flex align-items-center">
             <h2 class="sectionTitle">Poster Tags — Settings</h2>
         </div>
+        <div class="postertags-layout">
+        <div class="postertags-main">
         <div class="sectionContentContainer sectionContentContainerBorderNoPadding" style="border: none;">
             <form id="PosterTagsConfigForm">
                 <p class="fieldDescription" style="margin-bottom: 1.5rem;">
@@ -53,25 +59,6 @@
                 <h3 class="sectionTitle" style="font-size: 1em; margin: 1em 0 0.5em;">Libraries to process</h3>
                 <p class="fieldDescription" style="margin-bottom: 0.5rem;">Select which libraries to add poster tags to. Leave all unchecked to process all libraries.</p>
                 <div id="LibraryCardsContainer" class="library-cards-grid"></div>
-
-                <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Live preview</h3>
-                <p class="fieldDescription">Preview uses a random movie or series from your selected libraries (only items with a primary poster image). Same logic as applied tags (resolution, HDR, audio, ratings — including external API if enabled).</p>
-                <div id="PreviewContainer" style="margin: 1em 0; padding: 1em; background: rgba(0,0,0,0.2); border-radius: 4px;">
-                    <div id="PreviewLabel" style="margin-bottom: 0.5em; font-weight: 500;">Using: —</div>
-                    <div id="PreviewImageWrap" style="position: relative; display: inline-block; min-height: 200px;">
-                        <div id="PreviewSpinner" class="posterTagsSpinner" style="display: none; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 48px; height: 48px; border: 4px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: posterTagsSpin 0.8s linear infinite;"></div>
-                        <div id="PreviewPlaceholder" class="postertags-preview-placeholder">Nothing to preview. Please click the random button below.</div>
-                        <img id="PreviewImage" class="postertags-preview-img" alt="Preview" />
-                    </div>
-                    <div style="margin-top: 0.5em;">
-                        <button type="button" id="RefreshPreviewBtn" class="btn btn-secondary">Pick random &amp; refresh preview</button>
-                        <span id="PreviewStatus" style="margin-left: 0.5em; font-size: 0.9em;"></span>
-                    </div>
-                </div>
-                <style>
-                    @keyframes posterTagsSpin { to { transform: translate(-50%,-50%) rotate(360deg); } }
-                    .posterTagsSpinner.isLoading { display: block !important; }
-                </style>
 
                 <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Badge position &amp; shape</h3>
                 <div class="selectContainer">
@@ -231,6 +218,28 @@
                 </div>
             </form>
         </div>
+        </div>
+        <aside class="postertags-preview-sidebar">
+                <h3 class="sectionTitle" style="font-size: 1em; margin: 0 0 0.5em;">Live preview</h3>
+                <p class="fieldDescription" style="margin-bottom: 0.5rem;">Random movie/series from selected libraries. Same logic as applied tags.</p>
+                <div id="PreviewContainer" style="margin: 0; padding: 1em; background: rgba(0,0,0,0.2); border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
+                    <div id="PreviewLabel" style="margin-bottom: 0.5em; font-weight: 500;">Using: —</div>
+                    <div id="PreviewImageWrap" style="position: relative; display: inline-block; min-height: 200px; width: 100%;">
+                        <div id="PreviewSpinner" class="posterTagsSpinner" style="display: none; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 48px; height: 48px; border: 4px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: posterTagsSpin 0.8s linear infinite;"></div>
+                        <div id="PreviewPlaceholder" class="postertags-preview-placeholder">Nothing to preview. Please click the random button below.</div>
+                        <img id="PreviewImage" class="postertags-preview-img" alt="Preview" />
+                    </div>
+                    <div style="margin-top: 0.75em;">
+                        <button type="button" id="RefreshPreviewBtn" class="btn btn-secondary">Pick random &amp; refresh</button>
+                        <span id="PreviewStatus" style="display: block; margin-top: 0.35em; font-size: 0.9em;"></span>
+                    </div>
+                </div>
+        </aside>
+        </div>
+        <style>
+            @keyframes posterTagsSpin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+            .posterTagsSpinner.isLoading { display: block !important; }
+        </style>
         </div>
     <script>
         (function () {

@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.22",
+        "changelog": "Libraries: show only user libraries (UserView), not drives. Layout: preview in sticky right sidebar.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.22.zip",
+        "checksum": "d1017cfccd9b3f2b6e885fb7e9124beb",
+        "timestamp": "2026-01-30T22:44:47Z"
+      },
+      {
         "version": "1.0.21",
         "changelog": "Layout: single scroll root + pointer-events so page scrolls and library cards/buttons are clickable; z-index so iframe receives events.",
         "targetAbi": "10.11.0.0",

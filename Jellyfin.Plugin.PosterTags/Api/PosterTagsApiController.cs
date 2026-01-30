@@ -184,8 +184,9 @@ public class PosterTagsApiController : ControllerBase
             IncludeItemTypes = new[] { BaseItemKind.CollectionFolder, BaseItemKind.Folder }
         });
 
+        // Only user-facing libraries (UserView), not raw drives/folders
         var list = children
-            .Where(c => c != null && !string.IsNullOrEmpty(c.Name))
+            .Where(c => c is UserView && !string.IsNullOrEmpty(c.Name))
             .Select(c => new { Id = c!.Id.ToString("N", CultureInfo.InvariantCulture), Name = c.Name })
             .OrderBy(x => x.Name, StringComparer.OrdinalIgnoreCase)
             .ToList<object>();
