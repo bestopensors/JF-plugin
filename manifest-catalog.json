@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.20",
+        "changelog": "Scroll: entire page scrollable (html overflow auto). Libraries: card grid with library names; no scroll-in-select.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.20.zip",
+        "checksum": "a38afda7dbfa1d76a8f59acbc209bbb2",
+        "timestamp": "2026-01-30T17:03:07Z"
+      },
+      {
         "version": "1.0.19",
         "changelog": "Scroll: body is iframe viewport (html overflow hidden) so config scrolls inside iframe not outer page. Libraries: load on DOMContentLoaded so dropdown populates.",
         "targetAbi": "10.11.0.0",

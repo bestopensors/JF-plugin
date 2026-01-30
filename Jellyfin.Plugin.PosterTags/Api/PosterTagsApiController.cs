@@ -67,8 +67,8 @@ public class PosterTagsApiController : ControllerBase
         var html = reader.ReadToEnd();
         html = html.Replace("{{POSTERTAGS_VERSION}}", Plugin.AssemblyVersion, StringComparison.Ordinal);
 
-        // Wrap in full document: body is the iframe viewport and scrolls (stops outer page from scrolling)
-        var doc = "<!DOCTYPE html><html><head><meta charset=\"utf-8\"><style>html{height:100%;overflow:hidden;}body{height:100%;overflow-y:auto;overflow-x:hidden;margin:0;padding:0;position:relative;-webkit-overflow-scrolling:touch;}</style></head><body>" + html + "</body></html>";
+        // Wrap in full document: body grows with content and scrolls (entire page scrollable)
+        var doc = "<!DOCTYPE html><html><head><meta charset=\"utf-8\"><style>html{height:100%;overflow:auto;-webkit-overflow-scrolling:touch;}body{min-height:100%;margin:0;padding:0;position:relative;}</style></head><body>" + html + "</body></html>";
         return Content(doc, "text/html; charset=utf-8");
     }
 

@@ -23,8 +23,12 @@
             #PreviewImageWrap.has-image .postertags-preview-placeholder { display: none; }
             #PreviewImageWrap .postertags-preview-img { display: none; max-width: 300px; max-height: 450px; border-radius: 4px; min-height: 200px; background: rgba(0,0,0,0.3); }
             #PreviewImageWrap.has-image .postertags-preview-img { display: block; }
+            .library-cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.75rem; margin: 0.5rem 0 1rem; }
+            .library-card { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; cursor: pointer; transition: background 0.15s, border-color 0.15s; }
+            .library-card:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.25); }
+            .library-card input[type="checkbox"] { margin: 0; flex-shrink: 0; }
+            .library-card .library-name { font-weight: 500; color: #e0e0e0; word-break: break-word; }
         </style>
-        <div class="postertags-scroll-wrap">
         <div id="PosterTagsConfigPage" class="configPage postertags-page" style="min-height:200px;">
         <p id="PosterTagsVersion" class="postertags-version">Poster Tags plugin version: <strong>{{POSTERTAGS_VERSION}}</strong></p>
         <script>
@@ -46,12 +50,9 @@
                     Configure how tags are embedded on library posters. With <strong>Apply automatically after library scan</strong> enabled, new movies and series get tags without running a task. You can also run the <strong>Add Poster Tags</strong> scheduled task (Dashboard → Scheduled Tasks) to apply to existing items.
                 </p>
 
-                <h3 class="sectionTitle" style="font-size: 1em; margin: 1em 0 0.5em;">Libraries</h3>
-                <div class="selectContainer">
-                    <label class="inputLabel inputLabelUnified" for="LibraryIds">Libraries to process</label>
-                    <select id="LibraryIds" name="LibraryIds" class="select flex align-items-center" multiple size="4"></select>
-                    <div class="fieldDescription">Leave empty to process all libraries.</div>
-                </div>
+                <h3 class="sectionTitle" style="font-size: 1em; margin: 1em 0 0.5em;">Libraries to process</h3>
+                <p class="fieldDescription" style="margin-bottom: 0.5rem;">Select which libraries to add poster tags to. Leave all unchecked to process all libraries.</p>
+                <div id="LibraryCardsContainer" class="library-cards-grid"></div>
 
                 <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Live preview</h3>
                 <p class="fieldDescription">Preview uses a random movie or series from your selected libraries (only items with a primary poster image). Same logic as applied tags (resolution, HDR, audio, ratings — including external API if enabled).</p>
@@ -230,6 +231,7 @@
                 </div>
             </form>
         </div>
+        </div>
     <script>
         (function () {
             if (typeof window.ApiClient === 'undefined' && window.parent && typeof window.parent.ApiClient !== 'undefined') {
@@ -264,8 +266,8 @@
         }
 
         function buildConfigFromForm() {
-            var select = document.querySelector('#LibraryIds');
-            var selectedIds = select ? Array.from(select.selectedOptions || []).map(function (o) { return o.value; }) : [];
+            var selectedIds = [];
+            document.querySelectorAll('input[name="LibraryIds"]:checked').forEach(function (cb) { selectedIds.push(cb.value); });
             return {
                 SelectedLibraryIds: selectedIds,
                 Show4K: document.querySelector('#Show4K').checked,
@@ -467,20 +469,30 @@
             return base + '/Plugins/PosterTags/Libraries';
         }
         function loadLibraries(selectedIds) {
-            var select = document.querySelector('#LibraryIds');
-            if (!select) return;
-            select.innerHTML = '';
+            var container = document.querySelector('#LibraryCardsContainer');
+            if (!container) return;
+            container.innerHTML = '';
             var url = getLibrariesUrl();
             var opts = { credentials: 'include', headers: getAuthHeaders() };
             fetch(url, opts)
                 .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error(r.statusText)); })
                 .then(function (libraries) {
                     (libraries || []).forEach(function (lib) {
-                        var option = document.createElement('option');
-                        option.value = lib.Id || '';
-                        option.textContent = lib.Name || lib.Id || '';
-                        option.selected = selectedIds.indexOf(lib.Id) !== -1;
-                        select.appendChild(option);
+                        var id = lib.Id || '';
+                        var name = lib.Name || lib.Id || id || 'Library';
+                        var label = document.createElement('label');
+                        label.className = 'library-card';
+                        var cb = document.createElement('input');
+                        cb.type = 'checkbox';
+                        cb.name = 'LibraryIds';
+                        cb.value = id;
+                        cb.checked = selectedIds.indexOf(id) !== -1;
+                        var span = document.createElement('span');
+                        span.className = 'library-name';
+                        span.textContent = name;
+                        label.appendChild(cb);
+                        label.appendChild(span);
+                        container.appendChild(label);
                     });
                 })
                 .catch(function () {});
@@ -496,8 +508,8 @@
             formEl.addEventListener('submit', function (e) {
                 e.preventDefault();
                 Dashboard.showLoadingMsg();
-            var select = document.querySelector('#LibraryIds');
-            var selectedIds = select ? Array.from(select.selectedOptions || []).map(function (o) { return o.value; }) : [];
+            var selectedIds = [];
+            document.querySelectorAll('input[name="LibraryIds"]:checked').forEach(function (cb) { selectedIds.push(cb.value); });
             ApiClient.getPluginConfiguration(PosterTagsConfig.pluginUniqueId).then(function (config) {
                 if (!config) config = {};
                 config.Show4K = document.querySelector('#Show4K').checked;
