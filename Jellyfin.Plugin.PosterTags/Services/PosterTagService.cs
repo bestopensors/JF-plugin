@@ -334,7 +334,23 @@ public class PosterTagService
         var hasCustomTag = config.CustomTagEnabled && !string.IsNullOrWhiteSpace(config.CustomTagText?.Trim());
         if (badges.Count == 0 && !hasCustomTag)
         {
-            return null;
+            // Still return the poster image so preview always shows something; user can enable badges and refresh.
+            try
+            {
+                using var image = await Image.LoadAsync<Rgba32>(primaryPath, cancellationToken).ConfigureAwait(false);
+                using var ms = new MemoryStream();
+                await image.SaveAsPngAsync(ms, cancellationToken).ConfigureAwait(false);
+                return ms.ToArray();
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug(ex, "Poster Tags: failed to load poster for preview {Name}", item.Name);
+                return null;
+            }
         }
 
         try

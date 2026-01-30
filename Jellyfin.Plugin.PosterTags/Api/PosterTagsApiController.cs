@@ -276,45 +276,56 @@ public class PosterTagsApiController : ControllerBase
         return items[rnd.Next(items.Count)];
     }
 
+    private static bool TryGetConfigValue(Dictionary<string, JsonElement> dict, string key, out JsonElement value)
+    {
+        if (dict.TryGetValue(key, out value))
+        {
+            return true;
+        }
+
+        var camel = char.ToLowerInvariant(key[0]) + key[1..];
+        return dict.TryGetValue(camel, out value);
+    }
+
     private static PluginConfiguration ParseConfigFromDictionary(Dictionary<string, JsonElement> dict)
     {
         var config = new PluginConfiguration();
-        if (dict.TryGetValue("SelectedLibraryIds", out var libs) && libs.ValueKind == JsonValueKind.Array)
+        if (TryGetConfigValue(dict, "SelectedLibraryIds", out var libs) && libs.ValueKind == JsonValueKind.Array)
         {
             config.SelectedLibraryIds = libs.EnumerateArray().Select(e => e.GetString()).Where(s => !string.IsNullOrEmpty(s)).Select(s => s!).ToArray();
         }
 
-        if (dict.TryGetValue("Show4K", out var v)) config.Show4K = v.ValueKind == JsonValueKind.True;
-        if (dict.TryGetValue("ShowHD", out v)) config.ShowHD = v.ValueKind == JsonValueKind.True;
-        if (dict.TryGetValue("ShowQuality", out v)) config.ShowQuality = v.ValueKind == JsonValueKind.True;
-        if (dict.TryGetValue("ShowAudioLanguageFlags", out v)) config.ShowAudioLanguageFlags = v.ValueKind == JsonValueKind.True;
-        if (dict.TryGetValue("ShowImdbRating", out v)) config.ShowImdbRating = v.ValueKind == JsonValueKind.True;
-        if (dict.TryGetValue("ShowRottenTomatoes", out v)) config.ShowRottenTomatoes = v.ValueKind == JsonValueKind.True;
-        if (dict.TryGetValue("BadgePosition", out v) && Enum.TryParse<BadgePosition>(v.GetString(), out var badgePos))
+        if (TryGetConfigValue(dict, "Show4K", out var v)) config.Show4K = v.ValueKind == JsonValueKind.True;
+        if (TryGetConfigValue(dict, "ShowHD", out v)) config.ShowHD = v.ValueKind == JsonValueKind.True;
+        if (TryGetConfigValue(dict, "ShowQuality", out v)) config.ShowQuality = v.ValueKind == JsonValueKind.True;
+        if (TryGetConfigValue(dict, "ShowAudioLanguageFlags", out v)) config.ShowAudioLanguageFlags = v.ValueKind == JsonValueKind.True;
+        if (TryGetConfigValue(dict, "ShowImdbRating", out v)) config.ShowImdbRating = v.ValueKind == JsonValueKind.True;
+        if (TryGetConfigValue(dict, "ShowRottenTomatoes", out v)) config.ShowRottenTomatoes = v.ValueKind == JsonValueKind.True;
+        if (TryGetConfigValue(dict, "BadgePosition", out v) && Enum.TryParse<BadgePosition>(v.GetString(), out var badgePos))
         {
             config.BadgePosition = badgePos;
         }
 
-        if (dict.TryGetValue("UseLetterResolution", out v)) config.UseLetterResolution = v.ValueKind == JsonValueKind.True;
-        if (dict.TryGetValue("SkipItemsWithNoAudioLanguage", out v)) config.SkipItemsWithNoAudioLanguage = v.ValueKind == JsonValueKind.True;
-        if (dict.TryGetValue("UseExternalRatings", out v)) config.UseExternalRatings = v.ValueKind == JsonValueKind.True;
-        if (dict.TryGetValue("MdbListApiKey", out v)) config.MdbListApiKey = v.GetString() ?? string.Empty;
-        if (dict.TryGetValue("TmdbApiKey", out v)) config.TmdbApiKey = v.GetString() ?? string.Empty;
-        if (dict.TryGetValue("CustomTagEnabled", out v)) config.CustomTagEnabled = v.ValueKind == JsonValueKind.True;
-        if (dict.TryGetValue("CustomTagText", out v)) config.CustomTagText = v.GetString() ?? string.Empty;
-        if (dict.TryGetValue("CustomTagPosition", out v) && Enum.TryParse<BadgePosition>(v.GetString(), out var customPos))
+        if (TryGetConfigValue(dict, "UseLetterResolution", out v)) config.UseLetterResolution = v.ValueKind == JsonValueKind.True;
+        if (TryGetConfigValue(dict, "SkipItemsWithNoAudioLanguage", out v)) config.SkipItemsWithNoAudioLanguage = v.ValueKind == JsonValueKind.True;
+        if (TryGetConfigValue(dict, "UseExternalRatings", out v)) config.UseExternalRatings = v.ValueKind == JsonValueKind.True;
+        if (TryGetConfigValue(dict, "MdbListApiKey", out v)) config.MdbListApiKey = v.GetString() ?? string.Empty;
+        if (TryGetConfigValue(dict, "TmdbApiKey", out v)) config.TmdbApiKey = v.GetString() ?? string.Empty;
+        if (TryGetConfigValue(dict, "CustomTagEnabled", out v)) config.CustomTagEnabled = v.ValueKind == JsonValueKind.True;
+        if (TryGetConfigValue(dict, "CustomTagText", out v)) config.CustomTagText = v.GetString() ?? string.Empty;
+        if (TryGetConfigValue(dict, "CustomTagPosition", out v) && Enum.TryParse<BadgePosition>(v.GetString(), out var customPos))
         {
             config.CustomTagPosition = customPos;
         }
 
-        if (dict.TryGetValue("TagCurvature", out v) && v.TryGetInt32(out var curv))
+        if (TryGetConfigValue(dict, "TagCurvature", out v) && v.TryGetInt32(out var curv))
         {
             config.TagCurvature = Math.Clamp(curv, 0, 100);
         }
-        if (dict.TryGetValue("AutoApplyOnLibraryScan", out v)) config.AutoApplyOnLibraryScan = v.ValueKind == JsonValueKind.True;
-        if (dict.TryGetValue("ShowHDR", out v)) config.ShowHDR = v.ValueKind == JsonValueKind.True;
-        if (dict.TryGetValue("ShowDolbyAtmos", out v)) config.ShowDolbyAtmos = v.ValueKind == JsonValueKind.True;
-        if (dict.TryGetValue("ShowDtsX", out v)) config.ShowDtsX = v.ValueKind == JsonValueKind.True;
+        if (TryGetConfigValue(dict, "AutoApplyOnLibraryScan", out v)) config.AutoApplyOnLibraryScan = v.ValueKind == JsonValueKind.True;
+        if (TryGetConfigValue(dict, "ShowHDR", out v)) config.ShowHDR = v.ValueKind == JsonValueKind.True;
+        if (TryGetConfigValue(dict, "ShowDolbyAtmos", out v)) config.ShowDolbyAtmos = v.ValueKind == JsonValueKind.True;
+        if (TryGetConfigValue(dict, "ShowDtsX", out v)) config.ShowDtsX = v.ValueKind == JsonValueKind.True;
         return config;
     }
 }

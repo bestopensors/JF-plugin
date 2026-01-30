@@ -25,7 +25,8 @@
             #PreviewContainer { border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); }
             .postertags-preview-placeholder { display: flex; align-items: center; justify-content: center; min-height: 200px; padding: 1.5rem; color: #888; font-size: 0.95rem; text-align: center; background: rgba(0,0,0,0.2); border-radius: 4px; }
             #PreviewImageWrap.has-image .postertags-preview-placeholder { display: none; }
-            #PreviewImageWrap .postertags-preview-img { display: none; max-width: 300px; max-height: 450px; border-radius: 4px; min-height: 200px; background: rgba(0,0,0,0.3); }
+            #PreviewImageWrap { overflow: hidden; }
+            #PreviewImageWrap .postertags-preview-img { display: none; max-width: 100%; width: 100%; height: auto; max-height: 420px; object-fit: contain; border-radius: 4px; min-height: 200px; background: rgba(0,0,0,0.3); }
             #PreviewImageWrap.has-image .postertags-preview-img { display: block; }
             .library-cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.75rem; margin: 0.5rem 0 1rem; }
             .library-card { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; cursor: pointer; transition: background 0.15s, border-color 0.15s; pointer-events: auto; user-select: none; -webkit-user-select: none; }
@@ -386,7 +387,13 @@
                     PosterTagsConfig.previewItemId = data.Id;
                     PosterTagsConfig.previewItemName = data.Name || '';
                     document.querySelector('#PreviewLabel').textContent = 'Using: ' + (data.Name || data.Id) + '…';
-                    return fetch(ApiClient.getUrl(PosterTagsConfig.previewBase + '/Preview?itemId=' + encodeURIComponent(data.Id)), { headers: getAuthHeaders(), credentials: 'include' });
+                    var config = buildConfigFromForm();
+                    return fetch(ApiClient.getUrl(PosterTagsConfig.previewBase + '/Preview'), {
+                        method: 'POST',
+                        headers: Object.assign({ 'Content-Type': 'application/json' }, getAuthHeaders()),
+                        credentials: 'include',
+                        body: JSON.stringify({ ItemId: data.Id, Config: config })
+                    });
                 })
                 .then(function (r) {
                     if (!r.ok) throw new Error(r.statusText);

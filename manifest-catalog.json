@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.27",
+        "changelog": "Preview: use current form config for Pick random; always return poster when no badges; image constrained to box; API config parsing case-insensitive.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.27.zip",
+        "checksum": "0f712e3aaabe06f40aeceaf867b3be66",
+        "timestamp": "2026-01-30T23:14:17Z"
+      },
+      {
         "version": "1.0.26",
         "changelog": "Settings layout: scoped CSS with left:420px !important so dashboard cannot override; config view stays right of sidebar.",
         "targetAbi": "10.11.0.0",
