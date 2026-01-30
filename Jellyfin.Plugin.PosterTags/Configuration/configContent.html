@@ -463,15 +463,16 @@
         });
 
         function getLibrariesUrl() {
-            if (typeof ApiClient !== 'undefined' && ApiClient.getUrl) return ApiClient.getUrl('Plugins/PosterTags/Libraries');
-            return (window.location.origin || '') + '/Plugins/PosterTags/Libraries';
+            var base = (window.location.origin || '').replace(/\/$/, '');
+            return base + '/Plugins/PosterTags/Libraries';
         }
         function loadLibraries(selectedIds) {
             var select = document.querySelector('#LibraryIds');
             if (!select) return;
             select.innerHTML = '';
             var url = getLibrariesUrl();
-            fetch(url, { credentials: 'include', headers: getAuthHeaders() })
+            var opts = { credentials: 'include', headers: getAuthHeaders() };
+            fetch(url, opts)
                 .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error(r.statusText)); })
                 .then(function (libraries) {
                     (libraries || []).forEach(function (lib) {
@@ -484,6 +485,11 @@
                 })
                 .catch(function () {});
         }
+        (function ensureLibrariesLoad() {
+            function run() { loadLibraries([]); }
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+            else run();
+        })();
 
         var formEl = document.querySelector('#PosterTagsConfigForm');
         if (formEl && typeof ApiClient !== 'undefined' && typeof Dashboard !== 'undefined') {

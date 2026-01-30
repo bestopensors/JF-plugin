@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.19",
+        "changelog": "Scroll: body is iframe viewport (html overflow hidden) so config scrolls inside iframe not outer page. Libraries: load on DOMContentLoaded so dropdown populates.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.19.zip",
+        "checksum": "7e866645265b34193fbb9189f07aa6c6",
+        "timestamp": "2026-01-30T16:58:14Z"
+      },
+      {
         "version": "1.0.18",
         "changelog": "Scroll: config served as full HTML so body scrolls natively (clickable scrollbar). Libraries: server API /Plugins/PosterTags/Libraries so list always loads.",
         "targetAbi": "10.11.0.0",
