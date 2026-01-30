@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.21",
+        "changelog": "Layout: single scroll root + pointer-events so page scrolls and library cards/buttons are clickable; z-index so iframe receives events.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.21.zip",
+        "checksum": "603c85aa6060ced4319ef2b090dd9d6b",
+        "timestamp": "2026-01-30T17:10:15Z"
+      },
+      {
         "version": "1.0.20",
         "changelog": "Scroll: entire page scrollable (html overflow auto). Libraries: card grid with library names; no scroll-in-select.",
         "targetAbi": "10.11.0.0",

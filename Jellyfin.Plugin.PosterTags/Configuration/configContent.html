@@ -1,5 +1,5 @@
 <style>
-            #PosterTagsConfigPage { box-sizing: border-box; }
+            #PosterTagsConfigPage { box-sizing: border-box; position: relative; pointer-events: auto; z-index: 1; }
             .postertags-page { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 3rem; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 14px; line-height: 1.5; }
             .postertags-page .postertags-version { margin: 0 0 1rem; font-size: 0.8rem; color: #888; }
             .postertags-page .sectionTitleContainer { margin-bottom: 0.5rem; }
@@ -24,9 +24,9 @@
             #PreviewImageWrap .postertags-preview-img { display: none; max-width: 300px; max-height: 450px; border-radius: 4px; min-height: 200px; background: rgba(0,0,0,0.3); }
             #PreviewImageWrap.has-image .postertags-preview-img { display: block; }
             .library-cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.75rem; margin: 0.5rem 0 1rem; }
-            .library-card { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; cursor: pointer; transition: background 0.15s, border-color 0.15s; }
+            .library-card { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; cursor: pointer; transition: background 0.15s, border-color 0.15s; pointer-events: auto; user-select: none; -webkit-user-select: none; }
             .library-card:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.25); }
-            .library-card input[type="checkbox"] { margin: 0; flex-shrink: 0; }
+            .library-card input[type="checkbox"] { margin: 0; flex-shrink: 0; cursor: pointer; pointer-events: auto; }
             .library-card .library-name { font-weight: 500; color: #e0e0e0; word-break: break-word; }
         </style>
         <div id="PosterTagsConfigPage" class="configPage postertags-page" style="min-height:200px;">
@@ -477,7 +477,7 @@
             fetch(url, opts)
                 .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error(r.statusText)); })
                 .then(function (libraries) {
-                    (libraries || []).forEach(function (lib) {
+                    (libraries || []).forEach(function (lib, index) {
                         var id = lib.Id || '';
                         var name = lib.Name || lib.Id || id || 'Library';
                         var label = document.createElement('label');
@@ -486,7 +486,9 @@
                         cb.type = 'checkbox';
                         cb.name = 'LibraryIds';
                         cb.value = id;
+                        cb.id = 'postertags-lib-' + index;
                         cb.checked = selectedIds.indexOf(id) !== -1;
+                        label.htmlFor = cb.id;
                         var span = document.createElement('span');
                         span.className = 'library-name';
                         span.textContent = name;

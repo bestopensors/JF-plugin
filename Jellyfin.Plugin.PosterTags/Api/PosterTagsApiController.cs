@@ -67,8 +67,9 @@ public class PosterTagsApiController : ControllerBase
         var html = reader.ReadToEnd();
         html = html.Replace("{{POSTERTAGS_VERSION}}", Plugin.AssemblyVersion, StringComparison.Ordinal);
 
-        // Wrap in full document: body grows with content and scrolls (entire page scrollable)
-        var doc = "<!DOCTYPE html><html><head><meta charset=\"utf-8\"><style>html{height:100%;overflow:auto;-webkit-overflow-scrolling:touch;}body{min-height:100%;margin:0;padding:0;position:relative;}</style></head><body>" + html + "</body></html>";
+        // Single scroll root so iframe content scrolls and receives clicks (pointer-events, no overflow on html/body)
+        var scrollRoot = "<div id=\"postertags-scroll-root\" style=\"flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative;pointer-events:auto;z-index:1;\">" + html + "</div>";
+        var doc = "<!DOCTYPE html><html><head><meta charset=\"utf-8\"><style>html,body{height:100%;margin:0;padding:0;overflow:hidden;pointer-events:auto;}body{display:flex;flex-direction:column;}</style></head><body>" + scrollRoot + "</body></html>";
         return Content(doc, "text/html; charset=utf-8");
     }
 
