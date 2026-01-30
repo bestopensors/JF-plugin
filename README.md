@@ -35,7 +35,7 @@ If installation fails with **404** in the logs: the catalog uses a direct zip UR
 
 ### Blank Settings page (workaround)
 
-If **Dashboard → Plugins → Poster Tags → Settings** shows a black/blank screen, open the configuration page directly in the same browser (while logged in):
+This plugin is set up like [SmartLists](https://github.com/jyourstone/jellyfin-smartlists-plugin) (config page as `config.html` with `EnableInMainMenu = true`). If your Jellyfin uses **Plugin Pages** for plugin config (e.g. SmartLists opens at `/Plugins/{PluginId}/Configuration`), the Settings button should work after updating to 1.0.9. If **Dashboard → Plugins → Poster Tags → Settings** still shows a black/blank screen, open the configuration page directly in the same browser (while logged in):
 
 - **URL:** `http://YOUR_JELLYFIN_SERVER/Plugins/PosterTags/ConfigurationPage`  
   Example: `http://localhost:8096/Plugins/PosterTags/ConfigurationPage` or `https://jellyfin.example.com/Plugins/PosterTags/ConfigurationPage`

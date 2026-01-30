@@ -54,15 +54,15 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     /// <inheritdoc />
     public IEnumerable<PluginPageInfo> GetPages()
     {
-        // Match official template: path = "{Namespace}.Configuration.configPage.html"
-        var pathToUse = string.Format(CultureInfo.InvariantCulture, "{0}.Configuration.configPage.html", GetType().Namespace);
+        // Match SmartLists (working plugin): config.html + EnableInMainMenu so dashboard uses /Plugins/{Id}/Configuration
+        var pathToUse = GetType().Namespace + ".Configuration.config.html";
         var asm = GetType().Assembly;
         using (var stream = asm.GetManifestResourceStream(pathToUse))
         {
             if (stream is null)
             {
                 var allNames = asm.GetManifestResourceNames();
-                var fallback = allNames.FirstOrDefault(n => n.EndsWith("configPage.html", StringComparison.OrdinalIgnoreCase));
+                var fallback = allNames.FirstOrDefault(n => n.EndsWith("config.html", StringComparison.OrdinalIgnoreCase));
                 if (!string.IsNullOrEmpty(fallback))
                 {
                     pathToUse = fallback;
@@ -78,13 +78,14 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
             }
         }
 
-        _logger.LogInformation("Poster Tags: GetPages returning EmbeddedResourcePath = {Path}", pathToUse);
+        _logger.LogInformation("Poster Tags: GetPages returning EmbeddedResourcePath = {Path}, EnableInMainMenu = true", pathToUse);
         return new[]
         {
             new PluginPageInfo
             {
                 Name = Name,
-                EmbeddedResourcePath = pathToUse
+                EmbeddedResourcePath = pathToUse,
+                EnableInMainMenu = true
             }
         };
     }

@@ -19,7 +19,7 @@ namespace Jellyfin.Plugin.PosterTags.Api;
 [Route("Plugins/PosterTags")]
 public class PosterTagsApiController : ControllerBase
 {
-    private const string ConfigPageResourceName = "Jellyfin.Plugin.PosterTags.Configuration.configPage.html";
+    private const string ConfigPageResourceName = "Jellyfin.Plugin.PosterTags.Configuration.config.html";
 
     private readonly ILibraryManager _libraryManager;
     private readonly PosterTagService _posterTagService;

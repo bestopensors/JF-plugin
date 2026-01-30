@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.9",
+        "changelog": "Config page: match SmartLists (config.html + EnableInMainMenu). Use /Plugins/{Id}/Configuration when available.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.9.zip",
+        "checksum": "86e69476cc21308a596d32efae62df54",
+        "timestamp": "2026-01-30T15:58:43Z"
+      },
+      {
         "version": "1.0.8",
         "changelog": "Config page: match template (fragment + namespace path). Version display on workaround page + console + /Plugins/PosterTags/Version API.",
         "targetAbi": "10.11.0.0",
