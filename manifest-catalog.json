@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.23",
+        "changelog": "Move content right: wrapper padding 280px, page padding 2.5rem left so settings and preview fully visible.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.23.zip",
+        "checksum": "4a6cf614a63baa7c7c281904222bf8dd",
+        "timestamp": "2026-01-30T22:47:49Z"
+      },
+      {
         "version": "1.0.22",
         "changelog": "Libraries: show only user libraries (UserView), not drives. Layout: preview in sticky right sidebar.",
         "targetAbi": "10.11.0.0",
