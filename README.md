@@ -35,7 +35,7 @@ If installation fails with **404** in the logs: the catalog uses a direct zip UR
 
 ### Blank Settings page (workaround)
 
-The embedded config page root element has **id="configPage"** (required by the Jellyfin web client) and contains an iframe that loads the full settings from `/Plugins/PosterTags/ConfigurationPage`. Open **Dashboard → Plugins → Poster Tags → Settings** to use it.
+The embedded config page is an HTML fragment whose root element has **id="configPage"** and **data-role="page"** (required by the Jellyfin web client’s `loadView`). It contains an iframe that loads the full settings from `/Plugins/PosterTags/ConfigurationPage`. Open **Dashboard → Plugins → Poster Tags → Settings** to use it.
 
 - **URL:** `http://YOUR_JELLYFIN_SERVER/Plugins/PosterTags/ConfigurationPage`  
   Example: `http://localhost:8096/Plugins/PosterTags/ConfigurationPage` or `https://jellyfin.example.com/Plugins/PosterTags/ConfigurationPage`

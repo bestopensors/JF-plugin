@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.15",
+        "changelog": "Config page: root div has data-role=\"page\" (jellyfin-web loadView requires it); HTML fragment so querySelector finds element. Fixes classList undefined error.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.15.zip",
+        "checksum": "41c863eeed8bd750cb4f2d42c0894109",
+        "timestamp": "2026-01-30T16:32:29Z"
+      },
+      {
         "version": "1.0.14",
         "changelog": "Config page root div: id=\"configPage\" (Jellyfin web client expects this; fixes classList error).",
         "targetAbi": "10.11.0.0",
