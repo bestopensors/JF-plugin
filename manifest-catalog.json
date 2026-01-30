@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.12",
+        "changelog": "Config iframe: absolute positioning + min-height so it fills dashboard content area.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.12.zip",
+        "checksum": "b43a318221c1517da93c3ef2e44ab67d",
+        "timestamp": "2026-01-30T16:16:06Z"
+      },
+      {
         "version": "1.0.11",
         "changelog": "Settings: embedded config is single div+iframe loading /Plugins/PosterTags/ConfigurationPage so loadView gets valid element; full form in iframe.",
         "targetAbi": "10.11.0.0",
