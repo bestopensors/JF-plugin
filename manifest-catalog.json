@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.4",
+        "changelog": "Workaround: open /Plugins/PosterTags/ConfigurationPage when Settings shows blank.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.4.zip",
+        "checksum": "19021a15bbbfb437171e8f33574a13b9",
+        "timestamp": "2026-01-30T13:40:02Z"
+      },
+      {
         "version": "1.0.3",
         "changelog": "Diagnostics: log manifest resource names; try fallback resource name if main not found.",
         "targetAbi": "10.11.0.0",

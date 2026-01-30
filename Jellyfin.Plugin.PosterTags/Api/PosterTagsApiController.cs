@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Reflection;
 using System.Text.Json;
 using Jellyfin.Plugin.PosterTags.Configuration;
 using Jellyfin.Plugin.PosterTags.Services;
@@ -18,6 +19,8 @@ namespace Jellyfin.Plugin.PosterTags.Api;
 [Route("Plugins/PosterTags")]
 public class PosterTagsApiController : ControllerBase
 {
+    private const string ConfigPageResourceName = "Jellyfin.Plugin.PosterTags.Configuration.configPage.html";
+
     private readonly ILibraryManager _libraryManager;
     private readonly PosterTagService _posterTagService;
 
@@ -30,6 +33,26 @@ public class PosterTagsApiController : ControllerBase
     {
         _libraryManager = libraryManager;
         _posterTagService = posterTagService;
+    }
+
+    /// <summary>
+    /// GET configuration page HTML (workaround when Dashboard → Plugins → Poster Tags → Settings shows a blank page).
+    /// Open this URL in the same browser where you're logged into Jellyfin: {server}/Plugins/PosterTags/ConfigurationPage
+    /// </summary>
+    [HttpGet("ConfigurationPage")]
+    [Produces("text/html")]
+    public IActionResult GetConfigurationPage()
+    {
+        var asm = typeof(Plugin).Assembly;
+        using var stream = asm.GetManifestResourceStream(ConfigPageResourceName);
+        if (stream is null)
+        {
+            return NotFound();
+        }
+
+        using var reader = new StreamReader(stream);
+        var html = reader.ReadToEnd();
+        return Content(html, "text/html; charset=utf-8");
     }
 
     /// <summary>

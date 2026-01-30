@@ -33,6 +33,15 @@ Install via the **plugin catalog** by adding this repository. Copy the link belo
 
 If installation fails with **404** in the logs: the catalog uses a direct zip URL (`releases/` in the repo) so Jellyfin gets a 200 response; avoid GitHub release download URLs if they cause 404 (redirects). See **docs/CATALOG.md** for more troubleshooting.
 
+### Blank Settings page (workaround)
+
+If **Dashboard → Plugins → Poster Tags → Settings** shows a black/blank screen, open the configuration page directly in the same browser (while logged in):
+
+- **URL:** `http://YOUR_JELLYFIN_SERVER/Plugins/PosterTags/ConfigurationPage`  
+  Example: `http://localhost:8096/Plugins/PosterTags/ConfigurationPage` or `https://jellyfin.example.com/Plugins/PosterTags/ConfigurationPage`
+
+Bookmark that URL to access settings until the built-in Settings button is fixed in your Jellyfin version.
+
 ### Updates (no GitHub Release needed)
 
 New versions are published by updating the catalog and the zip in the repo (`releases/`). You do **not** need to create a new GitHub Release. After we push a new version (e.g. 1.0.1), **Dashboard → Plugins → Catalog** will show **Update** for Poster Tags if you have an older version installed. Click **Update**, then restart Jellyfin.
