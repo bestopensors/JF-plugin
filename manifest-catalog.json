@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.1",
+        "changelog": "Settings page fix (HTML fragment). Resolution, HDR, premium audio, ratings, custom tag, live preview, auto-apply on scan.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.1.zip",
+        "checksum": "4d744a32475be8bd7521c742870120c4",
+        "timestamp": "2026-01-30T13:14:55Z"
+      },
+      {
         "version": "1.0",
         "changelog": "Initial release. Resolution, HDR, premium audio, ratings, custom tag, live preview, auto-apply on scan.",
         "targetAbi": "10.11.0.0",

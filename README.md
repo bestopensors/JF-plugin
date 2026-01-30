@@ -33,6 +33,19 @@ Install via the **plugin catalog** by adding this repository. Copy the link belo
 
 If installation fails with **404** in the logs: the catalog uses a direct zip URL (`releases/` in the repo) so Jellyfin gets a 200 response; avoid GitHub release download URLs if they cause 404 (redirects). See **docs/CATALOG.md** for more troubleshooting.
 
+### Updates (no GitHub Release needed)
+
+New versions are published by updating the catalog and the zip in the repo (`releases/`). You do **not** need to create a new GitHub Release. After we push a new version (e.g. 1.0.1), **Dashboard → Plugins → Catalog** will show **Update** for Poster Tags if you have an older version installed. Click **Update**, then restart Jellyfin.
+
+### If you can’t uninstall from the UI
+
+If the **Uninstall** button is missing or doesn’t work (e.g. repo was removed before uninstalling), remove the plugin manually:
+
+1. **Stop Jellyfin.**
+2. **Open the plugins folder** (e.g. Windows: `%LOCALAPPDATA%\jellyfin\plugins\` or `C:\Program Data\Jellyfin\Server\plugins\`).
+3. **Delete** the folder `Jellyfin.Plugin.PosterTags_1.0` or `Jellyfin.Plugin.PosterTags_1.0.1` (any folder whose name starts with `Jellyfin.Plugin.PosterTags_`).
+4. **Start Jellyfin.** Then add the repository again (see above) and install from the catalog if you want to reinstall.
+
 ---
 
 ## Manual install (optional)
