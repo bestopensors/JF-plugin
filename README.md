@@ -42,7 +42,13 @@ If **Dashboard → Plugins → Poster Tags → Settings** shows a black/blank sc
 
 Bookmark that URL to access settings until the built-in Settings button is fixed in your Jellyfin version.
 
-**Debugging the blank Settings page:** Open DevTools (F12) → **Network** tab → click **Settings** on the plugin → find the request to `configurationpage?name=Poster%20Tags` → check **Response**. If it’s empty, the server returned nothing (plugin resource not found on server side). If the response contains `POSTERTAGS_CONFIG_PAGE_START`, our HTML was returned and the issue is in the web client’s loadView. In **Console**, look for `[Poster Tags]` logs; they only appear if our HTML runs in a document/iframe (not when injected via innerHTML).
+**Important — please check these two things:**
+
+1. **Response body:** In DevTools (F12) → **Network** tab → click **Settings** on the plugin → click the request **`configurationpage?name=Poster%20Tags`** → open the **Response** (or **Preview**) sub-tab. Is the response body **completely empty**, or do you see HTML (e.g. the text “Poster Tags” or “POSTERTAGS_CONFIG_PAGE_START”)? If it’s empty, the server is not sending our HTML (embedded resource not found when serving that route).
+
+2. **Workaround URL:** In the same browser (while logged in), open:  
+   **`https://YOUR_JELLYFIN_SERVER/Plugins/PosterTags/ConfigurationPage`**  
+   (e.g. `https://gledaj.digitalnaspajza.com/Plugins/PosterTags/ConfigurationPage`). Does that page show the Poster Tags settings (libraries, preview, Save button)? If yes, use that URL to configure the plugin; the built-in Settings button is failing due to a client/server quirk (e.g. empty response or loadView expecting a different HTML shape).
 
 ### Updates (no GitHub Release needed)
 
