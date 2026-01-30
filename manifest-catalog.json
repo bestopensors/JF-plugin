@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.25",
+        "changelog": "Settings layout: 420px left padding so main settings and live preview are not cut off by sidebar.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.25.zip",
+        "checksum": "6215ca3a271319076436e83a1ac31e4f",
+        "timestamp": "2026-01-30T23:01:32Z"
+      },
+      {
         "version": "1.0.24",
         "changelog": "Cutoff fix: 340px left + overflow-x hidden + max-width 100%. Libraries: fallback to all root children if no UserView so list always visible.",
         "targetAbi": "10.11.0.0",
