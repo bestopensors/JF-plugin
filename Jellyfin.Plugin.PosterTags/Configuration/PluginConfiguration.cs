@@ -29,6 +29,14 @@ public class PluginConfiguration : BasePluginConfiguration
         CustomTagText = string.Empty;
         CustomTagPosition = BadgePosition.TopLeft;
         TagCurvature = 0;
+        TagSize = 18;
+        ResolutionFormat = ResolutionFormatOption.Letters;
+        ResolutionPosition = BadgePosition.BottomLeft;
+        ImdbPosition = BadgePosition.BottomLeft;
+        RottenTomatoesPosition = BadgePosition.BottomLeft;
+        HdrPosition = BadgePosition.BottomLeft;
+        AudioPosition = BadgePosition.BottomLeft;
+        AudioFlagsPosition = BadgePosition.BottomLeft;
         AutoApplyOnLibraryScan = true;
         ShowHDR = true;
         ShowDolbyAtmos = true;
@@ -121,6 +129,46 @@ public class PluginConfiguration : BasePluginConfiguration
     public int TagCurvature { get; set; }
 
     /// <summary>
+    /// Gets or sets the font size for tags (12–28). Applies to all badges and custom tag.
+    /// </summary>
+    public int TagSize { get; set; }
+
+    /// <summary>
+    /// Gets or sets resolution display format: Letters (SD/HD/FHD/UHD), Numbers (480p/720p/1080p/4K), or Both.
+    /// </summary>
+    public ResolutionFormatOption ResolutionFormat { get; set; }
+
+    /// <summary>
+    /// Gets or sets the position of the resolution badge.
+    /// </summary>
+    public BadgePosition ResolutionPosition { get; set; }
+
+    /// <summary>
+    /// Gets or sets the position of the IMDb rating badge.
+    /// </summary>
+    public BadgePosition ImdbPosition { get; set; }
+
+    /// <summary>
+    /// Gets or sets the position of the Rotten Tomatoes badge.
+    /// </summary>
+    public BadgePosition RottenTomatoesPosition { get; set; }
+
+    /// <summary>
+    /// Gets or sets the position of the HDR badge.
+    /// </summary>
+    public BadgePosition HdrPosition { get; set; }
+
+    /// <summary>
+    /// Gets or sets the position of the audio badges (Dolby Atmos, DTS:X).
+    /// </summary>
+    public BadgePosition AudioPosition { get; set; }
+
+    /// <summary>
+    /// Gets or sets the position of the audio language flags badge.
+    /// </summary>
+    public BadgePosition AudioFlagsPosition { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether to automatically apply poster tags when a library scan completes.
     /// </summary>
     public bool AutoApplyOnLibraryScan { get; set; }
@@ -139,6 +187,21 @@ public class PluginConfiguration : BasePluginConfiguration
     /// Gets or sets a value indicating whether to show DTS:X badge.
     /// </summary>
     public bool ShowDtsX { get; set; }
+}
+
+/// <summary>
+/// Resolution display format: letters only, numbers only, or both.
+/// </summary>
+public enum ResolutionFormatOption
+{
+    /// <summary>Letters only (SD, HD, FHD, UHD).</summary>
+    Letters = 0,
+
+    /// <summary>Numbers only (480p, 720p, 1080p, 4K).</summary>
+    Numbers = 1,
+
+    /// <summary>Both (e.g. 1080p FHD).</summary>
+    Both = 2,
 }
 
 /// <summary>

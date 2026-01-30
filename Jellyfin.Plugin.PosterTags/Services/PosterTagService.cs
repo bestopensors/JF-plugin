@@ -21,6 +21,11 @@ using SixLabors.ImageSharp.Processing;
 namespace Jellyfin.Plugin.PosterTags.Services;
 
 /// <summary>
+/// A single badge to draw at a specific position.
+/// </summary>
+internal sealed record BadgeItem(string Text, BadgePosition Position);
+
+/// <summary>
 /// Service that draws tag badges (4K, HD, flags, IMDB, RT) onto poster images.
 /// </summary>
 public class PosterTagService
@@ -184,10 +189,10 @@ public class PosterTagService
             }
         }
 
-        List<string> badges;
+        List<BadgeItem> badgeItems;
         try
         {
-            badges = BuildBadges(item!, config, externalRatings);
+            badgeItems = BuildBadges(item!, config, externalRatings);
         }
         catch (Exception ex)
         {
@@ -196,7 +201,7 @@ public class PosterTagService
         }
 
         var hasCustomTag = config.CustomTagEnabled && !string.IsNullOrWhiteSpace(config.CustomTagText?.Trim());
-        if (badges.Count == 0 && !hasCustomTag)
+        if (badgeItems.Count == 0 && !hasCustomTag)
         {
             return false;
         }
@@ -215,7 +220,7 @@ public class PosterTagService
         {
             using (var image = await Image.LoadAsync<Rgba32>(primaryPath, cancellationToken).ConfigureAwait(false))
             {
-                DrawBadges(image, badges, config);
+                DrawBadges(image, badgeItems, config);
 
                 try
                 {
@@ -363,10 +368,10 @@ public class PosterTagService
             }
         }
 
-        List<string> badges;
+        List<BadgeItem> badgeItems;
         try
         {
-            badges = BuildBadges(item, config, externalRatings);
+            badgeItems = BuildBadges(item, config, externalRatings);
         }
         catch
         {
@@ -374,7 +379,7 @@ public class PosterTagService
         }
 
         var hasCustomTag = config.CustomTagEnabled && !string.IsNullOrWhiteSpace(config.CustomTagText?.Trim());
-        if (badges.Count == 0 && !hasCustomTag)
+        if (badgeItems.Count == 0 && !hasCustomTag)
         {
             // Still return the poster image so preview always shows something; user can enable badges and refresh.
             try
@@ -398,7 +403,7 @@ public class PosterTagService
         try
         {
             using var image = await Image.LoadAsync<Rgba32>(primaryPath, cancellationToken).ConfigureAwait(false);
-            DrawBadges(image, badges, config);
+            DrawBadges(image, badgeItems, config);
             using var ms = new MemoryStream();
             await image.SaveAsPngAsync(ms, cancellationToken).ConfigureAwait(false);
             return ms.ToArray();
@@ -527,9 +532,50 @@ public class PosterTagService
         }
     }
 
-    private List<string> BuildBadges(BaseItem item, PluginConfiguration config, Dictionary<string, double>? externalRatings = null)
+    private static string GetResolutionString(int height, PluginConfiguration config)
     {
-        var badges = new List<string>();
+        string? letter = null;
+        string? number = null;
+        if (height >= 2160 && config.Show4K)
+        {
+            letter = "UHD";
+            number = "4K";
+        }
+        else if (height >= 1080 && config.ShowHD)
+        {
+            letter = "FHD";
+            number = "1080p";
+        }
+        else if (height >= 720 && config.ShowHD)
+        {
+            letter = "HD";
+            number = "720p";
+        }
+        else if (height > 0)
+        {
+            letter = "SD";
+            number = FormatResolutionNumber(height);
+        }
+
+        if (string.IsNullOrEmpty(letter) && string.IsNullOrEmpty(number))
+        {
+            return string.Empty;
+        }
+
+        return config.ResolutionFormat switch
+        {
+            ResolutionFormatOption.Letters => letter ?? number ?? string.Empty,
+            ResolutionFormatOption.Numbers => number ?? letter ?? string.Empty,
+            ResolutionFormatOption.Both => string.IsNullOrEmpty(number) || string.IsNullOrEmpty(letter)
+                ? (number ?? letter ?? string.Empty)
+                : number + " " + letter,
+            _ => config.UseLetterResolution ? (letter ?? number ?? string.Empty) : (number ?? letter ?? string.Empty)
+        };
+    }
+
+    private List<BadgeItem> BuildBadges(BaseItem item, PluginConfiguration config, Dictionary<string, double>? externalRatings = null)
+    {
+        var badges = new List<BadgeItem>();
 
         if (item is Video video && config.ShowQuality)
         {
@@ -551,30 +597,10 @@ public class PosterTagService
                 }
             }
 
-            string? res = null;
-            if (height > 0)
+            var res = height > 0 ? GetResolutionString(height, config) : null;
+            if (!string.IsNullOrEmpty(res))
             {
-                if (height >= 2160 && config.Show4K)
-                {
-                    res = config.UseLetterResolution ? "UHD" : "4K";
-                }
-                else if (height >= 1080 && config.ShowHD)
-                {
-                    res = config.UseLetterResolution ? "FHD" : "1080p";
-                }
-                else if (height >= 720 && config.ShowHD)
-                {
-                    res = config.UseLetterResolution ? "HD" : "720p";
-                }
-                else
-                {
-                    res = config.UseLetterResolution ? "SD" : FormatResolutionNumber(height);
-                }
-
-                if (!string.IsNullOrEmpty(res))
-                {
-                    badges.Add(res);
-                }
+                badges.Add(new BadgeItem(res, config.ResolutionPosition));
             }
         }
 
@@ -583,7 +609,7 @@ public class PosterTagService
             var flagEmojis = GetAudioLanguageFlagEmojis(item);
             if (flagEmojis.Count > 0)
             {
-                badges.Add(string.Join(" ", flagEmojis.Take(4)));
+                badges.Add(new BadgeItem(string.Join(" ", flagEmojis.Take(4)), config.AudioFlagsPosition));
             }
         }
 
@@ -591,11 +617,11 @@ public class PosterTagService
         {
             if (externalRatings != null && externalRatings.TryGetValue("imdb", out var imdbVal) && imdbVal > 0)
             {
-                badges.Add($"IMDB {imdbVal:0.0}");
+                badges.Add(new BadgeItem($"IMDB {imdbVal:0.0}", config.ImdbPosition));
             }
             else if (item.CommunityRating.HasValue && item.CommunityRating.Value > 0)
             {
-                badges.Add($"IMDB {item.CommunityRating.Value:0.0}");
+                badges.Add(new BadgeItem($"IMDB {item.CommunityRating.Value:0.0}", config.ImdbPosition));
             }
         }
 
@@ -605,12 +631,12 @@ public class PosterTagService
             {
                 var pct = rtVal <= 1 ? (int)Math.Round(rtVal * 100) : (int)Math.Round(rtVal);
                 pct = Math.Clamp(pct, 0, 100);
-                badges.Add($"RT {pct}%");
+                badges.Add(new BadgeItem($"RT {pct}%", config.RottenTomatoesPosition));
             }
             else if (item.CriticRating.HasValue && item.CriticRating.Value > 0)
             {
                 var pct = (int)Math.Round(item.CriticRating.Value * 10);
-                badges.Add($"RT {pct}%");
+                badges.Add(new BadgeItem($"RT {pct}%", config.RottenTomatoesPosition));
             }
         }
 
@@ -619,7 +645,7 @@ public class PosterTagService
             var hdrBadge = GetHdrBadge(item);
             if (!string.IsNullOrEmpty(hdrBadge))
             {
-                badges.Add(hdrBadge);
+                badges.Add(new BadgeItem(hdrBadge, config.HdrPosition));
             }
         }
 
@@ -628,7 +654,7 @@ public class PosterTagService
             var audioBadges = GetPremiumAudioBadges(item, config);
             foreach (var ab in audioBadges)
             {
-                badges.Add(ab);
+                badges.Add(new BadgeItem(ab, config.AudioPosition));
             }
         }
 
@@ -943,16 +969,16 @@ public class PosterTagService
         return SystemFonts.CreateFont("Arial", fontSize, FontStyle.Bold);
     }
 
-    private void DrawBadges(Image<Rgba32> image, List<string> badges, PluginConfiguration config)
+    private void DrawBadges(Image<Rgba32> image, List<BadgeItem> badgeItems, PluginConfiguration config)
     {
         if (config == null)
         {
             return;
         }
 
-        const int padding = 8;
-        const int lineHeight = 28;
-        const int fontSize = 18;
+        var fontSize = Math.Clamp(config.TagSize, 12, 28);
+        var padding = Math.Max(4, fontSize / 2);
+        var lineHeight = fontSize + 10;
         var curvature = Math.Clamp(config.TagCurvature, 0, 100);
         var semiBlack = new Color(new Rgba32(0, 0, 0, 180));
 
@@ -960,36 +986,22 @@ public class PosterTagService
         {
             var font = GetBadgeFont(fontSize);
 
-            // Draw main badges box if any
-            if (badges != null && badges.Count > 0)
+            // Draw each badge at its configured position
+            if (badgeItems != null)
             {
-                var maxWidth = 0f;
-                var totalHeight = 0f;
-                foreach (var badge in badges)
+                foreach (var item in badgeItems)
                 {
-                    if (string.IsNullOrEmpty(badge))
+                    if (string.IsNullOrEmpty(item.Text))
                     {
                         continue;
                     }
 
-                    var size = TextMeasurer.MeasureSize(badge, new TextOptions(font));
-                    if (size.Width > maxWidth)
-                    {
-                        maxWidth = size.Width;
-                    }
-
-                    totalHeight += lineHeight;
-                }
-
-                if (totalHeight > 0)
-                {
-                    totalHeight += padding * 2;
-                    maxWidth += padding * 2;
-                    var boxWidth = Math.Min((int)Math.Ceiling(maxWidth), image.Width - padding * 2);
-                    var boxHeight = (int)Math.Ceiling(totalHeight);
-                    GetPosition(config.BadgePosition, image.Width, image.Height, boxWidth, boxHeight, padding, out var x, out var y);
+                    var size = TextMeasurer.MeasureSize(item.Text, new TextOptions(font));
+                    var boxWidth = (int)Math.Ceiling(size.Width) + padding * 2;
+                    var boxHeight = lineHeight + padding * 2;
+                    GetPosition(item.Position, image.Width, image.Height, boxWidth, boxHeight, padding, out var x, out var y);
                     var rect = new SixLabors.ImageSharp.RectangleF(x, y, boxWidth, boxHeight);
-                    DrawTagBox(image, rect, semiBlack, font, badges, padding, lineHeight, curvature);
+                    DrawTagBox(image, rect, semiBlack, font, new List<string> { item.Text }, padding, lineHeight, curvature);
                 }
             }
 
@@ -1007,7 +1019,7 @@ public class PosterTagService
         }
         catch (Exception ex)
         {
-            _logger.LogWarning(ex, "Poster Tags: could not draw badge text; Arial may be missing. Badges: {Badges}", badges != null ? string.Join(", ", badges) : string.Empty);
+            _logger.LogWarning(ex, "Poster Tags: could not draw badge text; Badges: {Count}", badgeItems?.Count ?? 0);
         }
     }
 

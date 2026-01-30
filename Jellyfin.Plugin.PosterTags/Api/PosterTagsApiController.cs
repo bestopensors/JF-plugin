@@ -364,6 +364,33 @@ public class PosterTagsApiController : ControllerBase
         {
             config.TagCurvature = Math.Clamp(curv, 0, 100);
         }
+        if (TryGetConfigValue(dict, "TagSize", out v) && v.TryGetInt32(out var tagSize))
+        {
+            config.TagSize = Math.Clamp(tagSize, 12, 28);
+        }
+        if (TryGetConfigValue(dict, "ResolutionFormat", out v))
+        {
+            if (v.TryGetInt32(out var rf))
+            {
+                config.ResolutionFormat = (ResolutionFormatOption)Math.Clamp(rf, 0, 2);
+            }
+            else if (Enum.TryParse<ResolutionFormatOption>(v.GetString(), true, out var rfEnum))
+            {
+                config.ResolutionFormat = rfEnum;
+            }
+        }
+        if (TryGetConfigValue(dict, "ResolutionPosition", out v) && Enum.TryParse<BadgePosition>(v.GetString(), out var rp))
+            config.ResolutionPosition = rp;
+        if (TryGetConfigValue(dict, "ImdbPosition", out v) && Enum.TryParse<BadgePosition>(v.GetString(), out var ip))
+            config.ImdbPosition = ip;
+        if (TryGetConfigValue(dict, "RottenTomatoesPosition", out v) && Enum.TryParse<BadgePosition>(v.GetString(), out var rtp))
+            config.RottenTomatoesPosition = rtp;
+        if (TryGetConfigValue(dict, "HdrPosition", out v) && Enum.TryParse<BadgePosition>(v.GetString(), out var hp))
+            config.HdrPosition = hp;
+        if (TryGetConfigValue(dict, "AudioPosition", out v) && Enum.TryParse<BadgePosition>(v.GetString(), out var ap))
+            config.AudioPosition = ap;
+        if (TryGetConfigValue(dict, "AudioFlagsPosition", out v) && Enum.TryParse<BadgePosition>(v.GetString(), out var afp))
+            config.AudioFlagsPosition = afp;
         if (TryGetConfigValue(dict, "AutoApplyOnLibraryScan", out v)) config.AutoApplyOnLibraryScan = GetConfigBool(v);
         if (TryGetConfigValue(dict, "ShowHDR", out v)) config.ShowHDR = GetConfigBool(v);
         if (TryGetConfigValue(dict, "ShowDolbyAtmos", out v)) config.ShowDolbyAtmos = GetConfigBool(v);

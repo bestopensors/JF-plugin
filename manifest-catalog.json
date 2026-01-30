@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.31",
+        "changelog": "Per-tag positions, tag size slider, resolution format Both (e.g. 1080p FHD). Save fix for all options. UI polish: slider rows, tag rows with position.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.31.zip",
+        "checksum": "0c066c77aa8821c65e93635704a7ab8d",
+        "timestamp": "2026-01-30T23:52:54Z"
+      },
+      {
         "version": "1.0.30",
         "changelog": "Live preview fix: send itemId/config (camelCase) so tags apply; robust bool parsing; fallback font for badges.",
         "targetAbi": "10.11.0.0",
