@@ -6,78 +6,60 @@ Add configurable tags and badges to library posters: resolution (4K, HD), HDR (H
 
 ---
 
-## Step-by-step setup (build and install on Jellyfin)
+## Install from Jellyfin Plugins Catalog (recommended)
 
-### 1. Clone the repository
+The plugin is delivered via a **plugin repository**. Add the repository once; then the plugin appears in the catalog and you can install it like any other.
 
-```bash
-git clone https://github.com/bestopensors/JF-plugin.git
-cd JF-plugin
-```
+### 1. Add the repository URL
 
-### 2. Requirements
+1. In Jellyfin go to **Dashboard → Plugins → Repositories**.
+2. Click **Add** and paste this URL:
 
-- **.NET 9.0 SDK**  
-  - [Download](https://dotnet.microsoft.com/download/dotnet/9.0)  
-  - Check: `dotnet --version` (should be 9.x)
-
-- **Jellyfin 10.11.x** (e.g. 10.11.6)  
-  - Plugin targets Jellyfin 10.11.6; usually works on 10.11.x.
-
-### 3. Build the plugin
-
-**Debug (for development):**
-```bash
-dotnet build Jellyfin.Plugin.PosterTags.sln
-```
-
-**Release (for installation):**
-```bash
-dotnet publish Jellyfin.Plugin.PosterTags/Jellyfin.Plugin.PosterTags.csproj -c Release -o publish
-```
-
-Output will be in the `publish` folder (and `publish` is in `.gitignore`).
-
-### 4. Install the plugin on Jellyfin
-
-1. **Locate Jellyfin’s plugin directory** on your system:
-
-   | Platform   | Plugins path |
-   |-----------|---------------|
-   | **Linux** | `~/.local/share/jellyfin/plugins/` or `/var/lib/jellyfin/plugins/` |
-   | **Docker** | `/config/plugins/` (inside the container) |
-   | **Windows** | `%LOCALAPPDATA%\jellyfin\plugins\` (e.g. `C:\Users\YourName\AppData\Local\jellyfin\plugins\`) |
-
-2. **Create the plugin folder** (if it doesn’t exist):
-   ```bash
-   mkdir -p /path/to/jellyfin/plugins/Jellyfin.Plugin.PosterTags
    ```
-   Use your actual path (e.g. `~/.local/share/jellyfin/plugins/Jellyfin.Plugin.PosterTags`).
-
-3. **Copy the built files** into that folder:
-   - Copy **everything** from `publish/` (after the `dotnet publish` step) into  
-     `.../plugins/Jellyfin.Plugin.PosterTags/`.
-   - Copy **manifest.json** from  
-     `Jellyfin.Plugin.PosterTags/manifest.json`  
-     into the same `Jellyfin.Plugin.PosterTags` plugin folder (overwrite if it exists).
-
-   **Example (Linux):**
-   ```bash
-   cp -r publish/* ~/.local/share/jellyfin/plugins/Jellyfin.Plugin.PosterTags/
-   cp Jellyfin.Plugin.PosterTags/manifest.json ~/.local/share/jellyfin/plugins/Jellyfin.Plugin.PosterTags/
+   https://raw.githubusercontent.com/bestopensors/JF-plugin/main/manifest-catalog.json
    ```
 
-4. **Restart Jellyfin** so it loads the plugin.
+3. Save.
 
-5. **Enable the plugin**  
-   - Open **Dashboard → Plugins → Catalog** (or **Installed**).  
-   - Find **Poster Tags** and enable it if it’s disabled.
+### 2. Install the plugin
 
-### 5. Configure and use
+1. Go to **Dashboard → Plugins → Catalog**.
+2. Find **Poster Tags** and click **Install**.
+3. Restart Jellyfin when prompted (or restart the server).
+4. The plugin is then available under **Dashboard → Plugins → Poster Tags**.
+
+That’s it. No manual download or file copying.
+
+---
+
+## Manual install (optional)
+
+If you prefer not to use the catalog or the repository is unavailable:
+
+1. **Build** (requires [.NET 9.0 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)):
+   ```bash
+   git clone https://github.com/bestopensors/JF-plugin.git
+   cd JF-plugin
+   dotnet publish Jellyfin.Plugin.PosterTags/Jellyfin.Plugin.PosterTags.csproj -c Release -o publish
+   ```
+2. **Copy** everything from `publish/` and `Jellyfin.Plugin.PosterTags/manifest.json` into your Jellyfin plugin folder (e.g. `~/.local/share/jellyfin/plugins/Jellyfin.Plugin.PosterTags/` on Linux, or `%LOCALAPPDATA%\jellyfin\plugins\Jellyfin.Plugin.PosterTags\` on Windows).
+3. **Restart** Jellyfin and enable **Poster Tags** in **Dashboard → Plugins**.
+
+See the table below for plugin paths on each platform.
+
+| Platform   | Plugins path |
+|-----------|---------------|
+| **Linux** | `~/.local/share/jellyfin/plugins/` or `/var/lib/jellyfin/plugins/` |
+| **Docker** | `/config/plugins/` (inside the container) |
+| **Windows** | `%LOCALAPPDATA%\jellyfin\plugins\` |
+
+---
+
+## Configure and use
 
 1. Go to **Dashboard → Plugins → Poster Tags**.
 2. **Libraries:** Select which libraries to process (or leave empty for all).
-3. Use the **Live preview** section: click **“Pick random & refresh preview”** to see a sample poster with your current options. Only items with a primary poster image are used.
+3. Use **Live preview**: click **“Pick random & refresh preview”** to see a sample poster. Only items with a primary poster image are used.
 4. Adjust options (resolution, HDR, Dolby Atmos, DTS:X, ratings, custom tag, position, curvature, etc.). The preview updates automatically after a short delay.
 5. Click **Save**.
 6. **Apply tags:**
@@ -94,8 +76,15 @@ Output will be in the `publish` folder (and `publish` is in `.gitignore`).
 - **Other:** Audio language flags, IMDb rating, Rotten Tomatoes, custom text tag  
 - **Shape:** Tag curvature from rectangle to pill (slider)  
 - **Positions:** Top/bottom, left/center/right for main badges and custom tag  
-- **Live preview:** Random movie/series from selected libraries; only items with a primary poster are used; loading spinner and clear status messages  
+- **Live preview:** Random movie/series from selected libraries; loading spinner and clear status  
 - **Automation:** Optional auto-apply after library scan  
+
+---
+
+## Requirements
+
+- **Jellyfin 10.11.x** (e.g. 10.11.6)  
+- For manual build: **.NET 9.0 SDK**  
 
 ---
 
@@ -103,9 +92,8 @@ Output will be in the `publish` folder (and `publish` is in `.gitignore`).
 
 - **Solution:** `Jellyfin.Plugin.PosterTags.sln`  
 - **Project:** `Jellyfin.Plugin.PosterTags/Jellyfin.Plugin.PosterTags.csproj`  
-- **Target:** .NET 9.0, Jellyfin 10.11.6  
 
-After changing code, run `dotnet publish ...` again and copy the `publish` output and `manifest.json` into your Jellyfin plugin folder, then restart Jellyfin.
+To rebuild and update the plugin zip for new releases, run `scripts/build-repo.ps1` (Windows) or `scripts/build-repo.sh` (Linux/macOS). See **docs/CATALOG.md** for maintaining the plugin repository and manifest.
 
 ---
 
