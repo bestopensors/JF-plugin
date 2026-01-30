@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.14",
+        "changelog": "Config page root div: id=\"configPage\" (Jellyfin web client expects this; fixes classList error).",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.14.zip",
+        "checksum": "064ee98521482c6a1b24b8734a954311",
+        "timestamp": "2026-01-30T16:26:40Z"
+      },
+      {
         "version": "1.0.13",
         "changelog": "Config: full HTML document (DOCTYPE+html+body+div) so loadView gets body.firstElementChild with classList.",
         "targetAbi": "10.11.0.0",
