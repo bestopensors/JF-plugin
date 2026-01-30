@@ -19,7 +19,6 @@
             .postertags-page a { color: #00a4dc; text-decoration: none; }
             .postertags-page a:hover { text-decoration: underline; }
             #PreviewContainer { border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); }
-            .postertags-scroll-wrap { overflow-y: auto; overflow-x: hidden; max-height: 100vh; min-height: 0; -webkit-overflow-scrolling: touch; }
             .postertags-preview-placeholder { display: flex; align-items: center; justify-content: center; min-height: 200px; padding: 1.5rem; color: #888; font-size: 0.95rem; text-align: center; background: rgba(0,0,0,0.2); border-radius: 4px; }
             #PreviewImageWrap.has-image .postertags-preview-placeholder { display: none; }
             #PreviewImageWrap .postertags-preview-img { display: none; max-width: 300px; max-height: 450px; border-radius: 4px; min-height: 200px; background: rgba(0,0,0,0.3); }
@@ -230,8 +229,6 @@
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>
-        </div>
-        </div>
         </div>
     <script>
         (function () {
@@ -465,21 +462,27 @@
             updateCurvatureLabel(parseInt(this.value, 10));
         });
 
+        function getLibrariesUrl() {
+            if (typeof ApiClient !== 'undefined' && ApiClient.getUrl) return ApiClient.getUrl('Plugins/PosterTags/Libraries');
+            return (window.location.origin || '') + '/Plugins/PosterTags/Libraries';
+        }
         function loadLibraries(selectedIds) {
-            ApiClient.getViews().then(function (views) {
-                var select = document.querySelector('#LibraryIds');
-                if (!select) return;
-                select.innerHTML = '';
-                if (views && views.Items) {
-                    views.Items.forEach(function (view) {
+            var select = document.querySelector('#LibraryIds');
+            if (!select) return;
+            select.innerHTML = '';
+            var url = getLibrariesUrl();
+            fetch(url, { credentials: 'include', headers: getAuthHeaders() })
+                .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error(r.statusText)); })
+                .then(function (libraries) {
+                    (libraries || []).forEach(function (lib) {
                         var option = document.createElement('option');
-                        option.value = view.Id;
-                        option.textContent = view.Name || view.Id;
-                        option.selected = selectedIds.indexOf(view.Id) !== -1;
+                        option.value = lib.Id || '';
+                        option.textContent = lib.Name || lib.Id || '';
+                        option.selected = selectedIds.indexOf(lib.Id) !== -1;
                         select.appendChild(option);
                     });
-                }
-            }).catch(function () {});
+                })
+                .catch(function () {});
         }
 
         var formEl = document.querySelector('#PosterTagsConfigForm');

@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.18",
+        "changelog": "Scroll: config served as full HTML so body scrolls natively (clickable scrollbar). Libraries: server API /Plugins/PosterTags/Libraries so list always loads.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.18.zip",
+        "checksum": "058dc2b16b797e4df515e0e96cf78aba",
+        "timestamp": "2026-01-30T16:52:22Z"
+      },
+      {
         "version": "1.0.17",
         "changelog": "Config: scroll fix; libraries load in iframe (parent ApiClient); preview shows placeholder when blank.",
         "targetAbi": "10.11.0.0",

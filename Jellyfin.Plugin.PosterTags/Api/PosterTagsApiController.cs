@@ -66,7 +66,10 @@ public class PosterTagsApiController : ControllerBase
         using var reader = new StreamReader(stream);
         var html = reader.ReadToEnd();
         html = html.Replace("{{POSTERTAGS_VERSION}}", Plugin.AssemblyVersion, StringComparison.Ordinal);
-        return Content(html, "text/html; charset=utf-8");
+
+        // Wrap in full document so the body scrolls natively (fixes non-interactive scrollbar in iframe)
+        var doc = "<!DOCTYPE html><html><head><meta charset=\"utf-8\"><style>html,body{overflow-y:auto;overflow-x:hidden;margin:0;padding:0;min-height:100%;-webkit-overflow-scrolling:touch;}body{position:relative;}</style></head><body>" + html + "</body></html>";
+        return Content(doc, "text/html; charset=utf-8");
     }
 
     /// <summary>
@@ -159,6 +162,34 @@ public class PosterTagsApiController : ControllerBase
         }
 
         return File(bytes, "image/png");
+    }
+
+    /// <summary>
+    /// GET list of libraries (views) for the config page. Returns all user-visible libraries so the dropdown populates without relying on client ApiClient.
+    /// </summary>
+    [HttpGet("Libraries")]
+    [Produces("application/json")]
+    public IActionResult GetLibraries()
+    {
+        var root = _libraryManager.RootFolder;
+        if (root == null)
+        {
+            return Ok(new List<object>());
+        }
+
+        var children = _libraryManager.GetItemList(new InternalItemsQuery
+        {
+            ParentId = root.Id,
+            IncludeItemTypes = new[] { BaseItemKind.CollectionFolder, BaseItemKind.Folder }
+        });
+
+        var list = children
+            .Where(c => c != null && !string.IsNullOrEmpty(c.Name))
+            .Select(c => new { Id = c!.Id.ToString("N", CultureInfo.InvariantCulture), Name = c.Name })
+            .OrderBy(x => x.Name, StringComparer.OrdinalIgnoreCase)
+            .ToList<object>();
+
+        return Ok(list);
     }
 
     /// <summary>
