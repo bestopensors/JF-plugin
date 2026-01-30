@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.29",
+        "changelog": "Preview: copy artwork on Pick random (original unchanged); embed tags on copy; sticky live preview sidebar.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.29.zip",
+        "checksum": "ee0c9e7212b1778752493b9d51e88e0f",
+        "timestamp": "2026-01-30T23:30:51Z"
+      },
+      {
         "version": "1.0.28",
         "changelog": "Preview: always use form config (no save needed); resolution from media streams when needed; modern UI (cards, selects, accents); note that live preview uses current settings.",
         "targetAbi": "10.11.0.0",

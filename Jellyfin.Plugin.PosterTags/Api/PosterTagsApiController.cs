@@ -1,9 +1,11 @@
 using System.Globalization;
+using System.IO;
 using System.Reflection;
 using System.Text.Json;
 using Jellyfin.Plugin.PosterTags.Configuration;
 using Jellyfin.Plugin.PosterTags.Services;
 using Jellyfin.Data.Enums;
+using MediaBrowser.Common.Configuration;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Model.Entities;
@@ -24,16 +26,25 @@ public class PosterTagsApiController : ControllerBase
 
     private readonly ILibraryManager _libraryManager;
     private readonly PosterTagService _posterTagService;
+    private readonly IApplicationPaths _applicationPaths;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PosterTagsApiController"/> class.
     /// </summary>
     public PosterTagsApiController(
         ILibraryManager libraryManager,
-        PosterTagService posterTagService)
+        PosterTagService posterTagService,
+        IApplicationPaths applicationPaths)
     {
         _libraryManager = libraryManager;
         _posterTagService = posterTagService;
+        _applicationPaths = applicationPaths;
+    }
+
+    private string GetPreviewCopyPath(Guid itemId, string extension)
+    {
+        var dir = Path.Combine(_applicationPaths.DataPath, "postertags", "preview");
+        return Path.Combine(dir, "preview_" + itemId.ToString("N", CultureInfo.InvariantCulture) + extension);
     }
 
     /// <summary>
@@ -108,7 +119,9 @@ public class PosterTagsApiController : ControllerBase
             return NotFound();
         }
 
-        var bytes = await _posterTagService.GetPreviewImageAsync(item, config, cancellationToken).ConfigureAwait(false);
+        var copyPath = GetPreviewCopyPath(item.Id, Path.GetExtension(item.GetImagePath(ImageType.Primary, 0) ?? ".jpg"));
+        var sourcePath = System.IO.File.Exists(copyPath) ? copyPath : null;
+        var bytes = await _posterTagService.GetPreviewImageAsync(item, config, sourcePath, cancellationToken).ConfigureAwait(false);
         if (bytes == null || bytes.Length == 0)
         {
             return NotFound();
@@ -156,7 +169,9 @@ public class PosterTagsApiController : ControllerBase
             return NotFound();
         }
 
-        var bytes = await _posterTagService.GetPreviewImageAsync(item, config, cancellationToken).ConfigureAwait(false);
+        var copyPath = GetPreviewCopyPath(item.Id, Path.GetExtension(item.GetImagePath(ImageType.Primary, 0) ?? ".jpg"));
+        var sourcePath = System.IO.File.Exists(copyPath) ? copyPath : null;
+        var bytes = await _posterTagService.GetPreviewImageAsync(item, config, sourcePath, cancellationToken).ConfigureAwait(false);
         if (bytes == null || bytes.Length == 0)
         {
             return NotFound();
@@ -206,7 +221,7 @@ public class PosterTagsApiController : ControllerBase
     }
 
     /// <summary>
-    /// GET a random item from selected libraries that has a poster (for preview dropdown/label).
+    /// GET a random item from selected libraries that has a poster. Copies the artwork to a temp file for preview (original unchanged).
     /// </summary>
     [HttpGet("PreviewItem")]
     public IActionResult GetPreviewItem()
@@ -222,6 +237,16 @@ public class PosterTagsApiController : ControllerBase
         {
             return NotFound();
         }
+
+        var primaryPath = item.GetImagePath(ImageType.Primary, 0);
+        var ext = string.IsNullOrEmpty(primaryPath) ? ".jpg" : Path.GetExtension(primaryPath);
+        if (string.IsNullOrEmpty(ext))
+        {
+            ext = ".jpg";
+        }
+
+        var copyPath = GetPreviewCopyPath(item.Id, ext);
+        _posterTagService.EnsurePreviewCopy(item, copyPath);
 
         return Ok(new { Id = item.Id.ToString("N", CultureInfo.InvariantCulture), Name = item.Name });
     }

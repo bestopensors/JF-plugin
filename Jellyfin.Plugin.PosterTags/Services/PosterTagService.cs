@@ -46,6 +46,41 @@ public class PosterTagService
     }
 
     /// <summary>
+    /// Copies the item's primary poster to a destination path for live preview. Does not modify the original.
+    /// Creates the destination directory if needed.
+    /// </summary>
+    public bool EnsurePreviewCopy(BaseItem item, string destPath)
+    {
+        if (item == null || string.IsNullOrWhiteSpace(destPath))
+        {
+            return false;
+        }
+
+        var primaryPath = item.GetImagePath(ImageType.Primary, 0);
+        if (string.IsNullOrWhiteSpace(primaryPath) || !_fileSystem.FileExists(primaryPath))
+        {
+            return false;
+        }
+
+        try
+        {
+            var dir = System.IO.Path.GetDirectoryName(destPath);
+            if (!string.IsNullOrEmpty(dir))
+            {
+                System.IO.Directory.CreateDirectory(dir);
+            }
+
+            System.IO.File.Copy(primaryPath, destPath, overwrite: true);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Poster Tags: failed to copy preview image to {Path}", destPath);
+            return false;
+        }
+    }
+
+    /// <summary>
     /// Returns true if the item has a primary image file that exists on disk (for preview or processing).
     /// </summary>
     public bool HasUsablePrimaryImage(BaseItem item)
@@ -275,10 +310,12 @@ public class PosterTagService
     /// <summary>
     /// Generates a preview image with badges drawn (same logic as ProcessItemAsync but returns PNG bytes without saving).
     /// Used for live preview in plugin settings. Fetches external ratings if config.UseExternalRatings is set.
+    /// When sourceImagePath is set and exists, loads from that path (preview copy) instead of the item's primary image.
     /// </summary>
     public async Task<byte[]?> GetPreviewImageAsync(
         BaseItem item,
         PluginConfiguration config,
+        string? sourceImagePath,
         CancellationToken cancellationToken)
     {
         if (config == null || item == null)
@@ -286,7 +323,12 @@ public class PosterTagService
             return null;
         }
 
-        var primaryPath = item.GetImagePath(ImageType.Primary, 0);
+        var primaryPath = sourceImagePath;
+        if (string.IsNullOrWhiteSpace(primaryPath) || !_fileSystem.FileExists(primaryPath))
+        {
+            primaryPath = item.GetImagePath(ImageType.Primary, 0);
+        }
+
         if (string.IsNullOrWhiteSpace(primaryPath))
         {
             return null;

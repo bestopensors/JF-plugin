@@ -1,9 +1,9 @@
 <style>
-            #PosterTagsConfigPage { box-sizing: border-box; position: relative; pointer-events: auto; z-index: 1; overflow-x: hidden; max-width: 100%; }
+            #PosterTagsConfigPage { box-sizing: border-box; position: relative; pointer-events: auto; z-index: 1; max-width: 100%; }
             .postertags-page { max-width: 100%; margin: 0; padding: 2rem 2rem 3rem 3rem; color: #e4e4e7; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 14px; line-height: 1.55; }
-            .postertags-layout { display: flex; gap: 2rem; align-items: flex-start; max-width: min(1200px, 100%); margin: 0 auto; width: 100%; }
-            .postertags-main { flex: 1; min-width: 0; max-width: 720px; }
-            .postertags-preview-sidebar { width: 300px; min-width: 260px; flex-shrink: 0; position: sticky; top: 0; }
+            .postertags-layout { display: flex; gap: 2rem; align-items: flex-start; max-width: min(1200px, 100%); margin: 0 auto; width: 100%; min-height: 0; }
+            .postertags-main { flex: 1; min-width: 0; max-width: 720px; overflow-x: hidden; }
+            .postertags-preview-sidebar { width: 300px; min-width: 260px; flex-shrink: 0; align-self: flex-start; position: sticky; top: 1rem; }
             .postertags-preview-sidebar .sectionTitle { margin-top: 0; }
             .postertags-page .postertags-version { margin: 0 0 1rem; font-size: 0.8rem; color: #71717a; }
             .postertags-page .sectionTitleContainer { margin-bottom: 0.5rem; }
