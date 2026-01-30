@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.5",
+        "changelog": "Config page: single-root fragment so Jellyfin loadView finds element (fix classList undefined).",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.5.zip",
+        "checksum": "eabe1e2d302b171fe08d010cd2b6ed4e",
+        "timestamp": "2026-01-30T13:43:48Z"
+      },
+      {
         "version": "1.0.4",
         "changelog": "Workaround: open /Plugins/PosterTags/ConfigurationPage when Settings shows blank.",
         "targetAbi": "10.11.0.0",
