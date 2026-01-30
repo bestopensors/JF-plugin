@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.8",
+        "changelog": "Config page: match template (fragment + namespace path). Version display on workaround page + console + /Plugins/PosterTags/Version API.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.8.zip",
+        "checksum": "f1bb54822f180f9e698f0c929b917b36",
+        "timestamp": "2026-01-30T15:43:07Z"
+      },
+      {
         "version": "1.0.7",
         "changelog": "Config page: full HTML document + explicit LogicalName for embedded resource; README: confirm Response body and workaround URL.",
         "targetAbi": "10.11.0.0",

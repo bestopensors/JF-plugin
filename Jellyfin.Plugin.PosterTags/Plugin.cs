@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Reflection;
 using Jellyfin.Plugin.PosterTags.Configuration;
 using MediaBrowser.Common.Configuration;
@@ -44,18 +45,23 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     /// </summary>
     public static Plugin? Instance { get; private set; }
 
+    /// <summary>
+    /// Plugin version (from assembly, e.g. "1.0.8"). Use to confirm updates when opening the workaround config URL.
+    /// </summary>
+    public static string AssemblyVersion =>
+        typeof(Plugin).Assembly.GetName().Version?.ToString(3) ?? "0.0.0";
+
     /// <inheritdoc />
     public IEnumerable<PluginPageInfo> GetPages()
     {
+        // Match official template: path = "{Namespace}.Configuration.configPage.html"
+        var pathToUse = string.Format(CultureInfo.InvariantCulture, "{0}.Configuration.configPage.html", GetType().Namespace);
         var asm = GetType().Assembly;
-        var allNames = asm.GetManifestResourceNames();
-
-        // Try exact path first, then any name containing "configPage"
-        var pathToUse = "Jellyfin.Plugin.PosterTags.Configuration.configPage.html";
         using (var stream = asm.GetManifestResourceStream(pathToUse))
         {
             if (stream is null)
             {
+                var allNames = asm.GetManifestResourceNames();
                 var fallback = allNames.FirstOrDefault(n => n.EndsWith("configPage.html", StringComparison.OrdinalIgnoreCase));
                 if (!string.IsNullOrEmpty(fallback))
                 {
@@ -72,7 +78,7 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
             }
         }
 
-        _logger.LogInformation("Poster Tags: GetPages returning config page with EmbeddedResourcePath = {Path}", pathToUse);
+        _logger.LogInformation("Poster Tags: GetPages returning EmbeddedResourcePath = {Path}", pathToUse);
         return new[]
         {
             new PluginPageInfo

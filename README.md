@@ -40,7 +40,7 @@ If **Dashboard → Plugins → Poster Tags → Settings** shows a black/blank sc
 - **URL:** `http://YOUR_JELLYFIN_SERVER/Plugins/PosterTags/ConfigurationPage`  
   Example: `http://localhost:8096/Plugins/PosterTags/ConfigurationPage` or `https://jellyfin.example.com/Plugins/PosterTags/ConfigurationPage`
 
-Bookmark that URL to access settings until the built-in Settings button is fixed in your Jellyfin version.
+On that page you’ll see **“Poster Tags plugin version: 1.0.x”** at the top and in the browser console (`[Poster Tags] Plugin version: 1.0.x`). Use this to confirm that updates are applied. You can also call **`/Plugins/PosterTags/Version`** to get `{"version":"1.0.x"}`. Bookmark the ConfigurationPage URL to access settings until the built-in Settings button is fixed in your Jellyfin version.
 
 **Important — please check these two things:**
 

@@ -36,6 +36,16 @@ public class PosterTagsApiController : ControllerBase
     }
 
     /// <summary>
+    /// GET plugin version (e.g. {"version":"1.0.8"}). Use to confirm updates.
+    /// </summary>
+    [HttpGet("Version")]
+    [Produces("application/json")]
+    public IActionResult GetVersion()
+    {
+        return Ok(new { version = Plugin.AssemblyVersion });
+    }
+
+    /// <summary>
     /// GET configuration page HTML (workaround when Dashboard → Plugins → Poster Tags → Settings shows a blank page).
     /// Open this URL in the same browser where you're logged into Jellyfin: {server}/Plugins/PosterTags/ConfigurationPage
     /// </summary>
@@ -52,6 +62,7 @@ public class PosterTagsApiController : ControllerBase
 
         using var reader = new StreamReader(stream);
         var html = reader.ReadToEnd();
+        html = html.Replace("{{POSTERTAGS_VERSION}}", Plugin.AssemblyVersion, StringComparison.Ordinal);
         return Content(html, "text/html; charset=utf-8");
     }
 

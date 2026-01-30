@@ -1,17 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"></head>
-<body>
-<!-- POSTERTAGS_CONFIG_PAGE_START (search in Network tab response to confirm this HTML was returned) -->
+<!-- POSTERTAGS_CONFIG_PAGE_START -->
 <div id="PosterTagsConfigPage" class="configPage" style="color:#e0e0e0;padding:1em;min-height:200px;">
-        <p id="PosterTagsDebug" style="margin:0 0 0.5em 0;font-size:0.85em;color:#888;">[Poster Tags] config fragment loaded. If you see this, the HTML was injected.</p>
+        <p id="PosterTagsVersion" style="margin:0 0 0.5em 0;font-size:0.85em;color:#888;">Poster Tags plugin version: <strong>{{POSTERTAGS_VERSION}}</strong></p>
         <script>
             (function(){
                 try {
-                    var inFrame = window.self !== window.top;
-                    var target = inFrame ? window.top : window;
-                    if (target.console && target.console.log) {
-                        target.console.log('[Poster Tags] configPage HTML parsed. inFrame=', inFrame, 'root=', !!document.getElementById('PosterTagsConfigPage'), 'parentElement=', document.getElementById('PosterTagsConfigPage') ? document.getElementById('PosterTagsConfigPage').parentElement : null);
+                    var v = '{{POSTERTAGS_VERSION}}';
+                    if (window.console && window.console.log) {
+                        window.console.log('[Poster Tags] Plugin version:', v);
                     }
                 } catch (e) { if (window.console) window.console.log('[Poster Tags] log error', e); }
             })();
@@ -492,5 +487,3 @@
         }
     </script>
 </div>
-</body>
-</html>
