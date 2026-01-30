@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.6",
+        "changelog": "Config page: debug line, console logs, Network-tab marker for troubleshooting.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.6.zip",
+        "checksum": "6043a769895b537bd6fae06c2b25c439",
+        "timestamp": "2026-01-30T15:07:36Z"
+      },
+      {
         "version": "1.0.5",
         "changelog": "Config page: single-root fragment so Jellyfin loadView finds element (fix classList undefined).",
         "targetAbi": "10.11.0.0",

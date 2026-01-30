@@ -42,6 +42,8 @@ If **Dashboard → Plugins → Poster Tags → Settings** shows a black/blank sc
 
 Bookmark that URL to access settings until the built-in Settings button is fixed in your Jellyfin version.
 
+**Debugging the blank Settings page:** Open DevTools (F12) → **Network** tab → click **Settings** on the plugin → find the request to `configurationpage?name=Poster%20Tags` → check **Response**. If it’s empty, the server returned nothing (plugin resource not found on server side). If the response contains `POSTERTAGS_CONFIG_PAGE_START`, our HTML was returned and the issue is in the web client’s loadView. In **Console**, look for `[Poster Tags]` logs; they only appear if our HTML runs in a document/iframe (not when injected via innerHTML).
+
 ### Updates (no GitHub Release needed)
 
 New versions are published by updating the catalog and the zip in the repo (`releases/`). You do **not** need to create a new GitHub Release. After we push a new version (e.g. 1.0.1), **Dashboard → Plugins → Catalog** will show **Update** for Poster Tags if you have an older version installed. Click **Update**, then restart Jellyfin.

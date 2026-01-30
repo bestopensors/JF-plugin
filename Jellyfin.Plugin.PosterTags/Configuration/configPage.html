@@ -1,4 +1,17 @@
 <div id="PosterTagsConfigPage" class="configPage" style="color:#e0e0e0;padding:1em;min-height:200px;">
+        <!-- POSTERTAGS_CONFIG_PAGE_START (search in Network tab response to confirm this HTML was returned) -->
+        <p id="PosterTagsDebug" style="margin:0 0 0.5em 0;font-size:0.85em;color:#888;">[Poster Tags] config fragment loaded. If you see this, the HTML was injected.</p>
+        <script>
+            (function(){
+                try {
+                    var inFrame = window.self !== window.top;
+                    var target = inFrame ? window.top : window;
+                    if (target.console && target.console.log) {
+                        target.console.log('[Poster Tags] configPage HTML parsed. inFrame=', inFrame, 'root=', !!document.getElementById('PosterTagsConfigPage'), 'parentElement=', document.getElementById('PosterTagsConfigPage') ? document.getElementById('PosterTagsConfigPage').parentElement : null);
+                    }
+                } catch (e) { if (window.console) window.console.log('[Poster Tags] log error', e); }
+            })();
+        </script>
         <div class="sectionTitleContainer flex align-items-center">
             <h2 class="sectionTitle">Poster Tags — Settings</h2>
         </div>
@@ -192,6 +205,7 @@
             </form>
         </div>
     <script>
+        try { console.log('[Poster Tags] script block running. ApiClient=', typeof ApiClient, 'Dashboard=', typeof Dashboard, 'document.body=', !!document.body); } catch (e) {}
         (function () {
             if (typeof ApiClient === 'undefined' || typeof Dashboard === 'undefined') {
                 var msg = document.createElement('p');
