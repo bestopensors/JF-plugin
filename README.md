@@ -31,6 +31,8 @@ Install via the **plugin catalog** by adding this repository. Copy the link belo
 
 **That’s the intended way to install:** add the JSON link above, then install from the catalog. No manual download or file copying.
 
+If the zip **downloads** from the release URL but installation still fails in Jellyfin, see **docs/CATALOG.md** → *Troubleshooting: Download works but installation still fails* (checksum, Jellyfin version, and how to read the server log). The exact error line in the log will show the cause.
+
 ---
 
 ## Manual install (optional)
@@ -98,15 +100,17 @@ To rebuild and update the plugin zip for new releases, run `scripts/build-repo.p
 
 ### Creating a GitHub release (e.g. Initial v1.0)
 
-1. Run `scripts/build-repo.ps1` so `dist/Jellyfin.Plugin.PosterTags_1.0.0.0.zip` exists.
+1. Run `scripts/build-repo.ps1` so `dist/Jellyfin.Plugin.PosterTags_1.0.zip` exists.
 2. On GitHub: **Releases → Create a new release**.
-3. **Tag:** `v1.0.0.0` (create new tag).
+3. **Tag:** `v1.0` (create new tag).
 4. **Release title:** `Initial v1.0`.
 5. **Description:** e.g. "Initial release. Resolution, HDR, premium audio, ratings, custom tag, live preview, auto-apply on scan."
-6. **Upload** the file `dist/Jellyfin.Plugin.PosterTags_1.0.0.0.zip` as an asset.
+6. **Upload** the file `dist/Jellyfin.Plugin.PosterTags_1.0.zip` as an asset.
 7. Publish the release.
 
 After that, the catalog URL `https://raw.githubusercontent.com/bestopensors/JF-plugin/main/manifest-catalog.json` will serve the plugin; users who added that JSON link will see **Poster Tags** in the catalog and can install it.
+
+**If Jellyfin shows version as 1.0.0.0 instead of 1.0:** Ensure the release asset is the zip built *after* the version was set to 1.0 (i.e. `dist/Jellyfin.Plugin.PosterTags_1.0.zip`). Re-run `scripts/build-repo.ps1`, then on GitHub edit the release, remove the old asset, and upload the new zip. Jellyfin may also display versions in 4-part form (1.0 → 1.0.0.0); that is normal and does not affect behavior.
 
 ---
 

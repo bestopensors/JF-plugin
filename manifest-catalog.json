@@ -8,12 +8,12 @@
     "category": "Library",
     "versions": [
       {
-        "version": "1.0.0.0",
+        "version": "1.0",
         "changelog": "Initial release. Resolution, HDR, premium audio, ratings, custom tag, live preview, auto-apply on scan.",
         "targetAbi": "10.11.0.0",
-        "sourceUrl": "https://github.com/bestopensors/JF-plugin/releases/download/v1.0.0.0/Jellyfin.Plugin.PosterTags_1.0.0.0.zip",
-        "checksum": "ceb9bdc04b5857147e66d0760b1f7b3f",
-        "timestamp": "2026-01-30T11:51:12Z"
+        "sourceUrl": "https://github.com/bestopensors/JF-plugin/releases/download/v1.0/Jellyfin.Plugin.PosterTags_1.0.zip",
+        "checksum": "4a5545144d872d4551fd36fba82abb7d",
+        "timestamp": "2026-01-30T11:55:08Z"
       }
     ]
   }

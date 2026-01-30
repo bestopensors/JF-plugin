@@ -50,8 +50,8 @@ You can host your **own** plugin repository. Users add your repository URL once;
    - It will print the **checksum** and a **manifest entry** you can use.
 
 2. **Upload the .zip**
-   - Create a **GitHub Release** (e.g. tag `v1.0.0.0`), attach the generated `.zip` as an asset.  
-   - Copy the **asset URL** (e.g. `https://github.com/bestopensors/JF-plugin/releases/download/v1.0.0.0/Jellyfin.Plugin.PosterTags_1.0.0.0.zip`).
+   - Create a **GitHub Release** (e.g. tag `v1.0`), attach the generated `.zip` as an asset.  
+   - Copy the **asset URL** (e.g. `https://github.com/bestopensors/JF-plugin/releases/download/v1.0/Jellyfin.Plugin.PosterTags_1.0.zip`).
 
 3. **Create the catalog manifest**
    - Use the manifest entry printed by the script (or the template in the repo).  
@@ -74,6 +74,50 @@ You can host your **own** plugin repository. Users add your repository URL once;
    - For new versions: build, zip, create a new release, update `manifest-catalog.json` with a new entry in **versions** (new version, sourceUrl, checksum, targetAbi, changelog, timestamp), commit, and push.  
    - Users with your repo added will see the update in the Catalog.
 
+### Troubleshooting: "404 (Not Found)" when installing
+
+If Jellyfin shows **"An error occurred while installing the plugin"** and the server log says **404 (Not Found)** when downloading the package, the **sourceUrl** in your catalog manifest points to a URL that does not exist. Check:
+
+1. **Release exists**  
+   On GitHub go to **Releases** for your repo. There must be a **published** release (not a draft).
+
+2. **Tag matches the URL**  
+   The release **tag** must match the tag in **sourceUrl**. For example, if sourceUrl is  
+   `.../releases/download/v1.0/Jellyfin.Plugin.PosterTags_1.0.zip`,  
+   the release tag must be exactly **v1.0** (not `v1.0.0` or `1.0`).
+
+3. **Asset filename matches**  
+   The uploaded file name must match the filename in the URL. For the URL above, the release must have an asset named exactly **Jellyfin.Plugin.PosterTags_1.0.zip**. If you uploaded a different file (e.g. `Jellyfin.Plugin.PosterTags_1.0.0.0.zip`), either re-upload the correct file and delete the wrong one, or change **sourceUrl** in `manifest-catalog.json` to use the actual asset URL (and commit/push).
+
+4. **Repo and owner**  
+   The owner and repo name in the URL must match your GitHub repo (e.g. `https://github.com/YOUR_USERNAME/YOUR_REPO/releases/...`).
+
+5. **Test the URL**  
+   Open the **sourceUrl** in a browser (logged out). You should get a download of the zip file. If you get a 404 page, fix the release tag and asset name (and optionally the repo URL) as above, then update `manifest-catalog.json` and push.
+
+### Troubleshooting: Download works but installation still fails
+
+If the zip **downloads** when you open **sourceUrl** in a browser, but Jellyfin still shows **"An error occurred while installing the plugin"**, check the following.
+
+1. **Checksum must match**  
+   Jellyfin verifies the downloaded zip against the **checksum** in the catalog. If the file on GitHub was re-uploaded or is different from the one used to generate the catalog, the checksum will fail and installation is rejected.  
+   - **Fix:** Download the zip from GitHub, compute its MD5 (e.g. PowerShell: `(Get-FileHash -Path .\Jellyfin.Plugin.PosterTags_1.0.zip -Algorithm MD5).Hash.ToLowerInvariant()`).  
+   - If it does **not** match the `checksum` in `manifest-catalog.json`, either:  
+     - Update `manifest-catalog.json` with the new checksum and push, or  
+     - Re-build with `scripts/build-repo.ps1`, then on GitHub replace the release asset with the new zip so the catalog checksum is correct.
+
+2. **Jellyfin server version**  
+   This plugin uses **targetAbi** `10.11.0.0`, which requires **Jellyfin 10.11.x** or compatible. If you run an older Jellyfin (e.g. 10.8), the server may refuse to install.  
+   - Check your Jellyfin version in **Dashboard → Help** (or the About page).  
+   - If you are on an older version, either upgrade Jellyfin or build the plugin against that ABI (different package versions and targetAbi in the catalog).
+
+3. **Exact error from logs**  
+   To pinpoint the cause, check the Jellyfin server log at the time you click Install. Look for lines containing `InstallationManager` or `Package installation` or the plugin name. The message may say e.g. checksum mismatch, ABI incompatible, or extraction/load failure.  
+   - **Log locations:**  
+     - Linux: often `~/.local/share/jellyfin/log/` or `/var/log/jellyfin/`.  
+     - Windows: `%LOCALAPPDATA%\jellyfin-server\log\` or under the Jellyfin install folder.  
+   - Copy the full error line(s) when installation fails; that will confirm whether it is checksum, ABI, or something else.
+
 ### Manifest format (minimal)
 
 Your hosted file should be a **JSON array** of plugins. One plugin can look like this (one version only for brevity):
@@ -89,10 +133,10 @@ Your hosted file should be a **JSON array** of plugins. One plugin can look like
     "category": "Library",
     "versions": [
       {
-        "version": "1.0.0.0",
+        "version": "1.0",
         "changelog": "Initial release.",
         "targetAbi": "10.11.0.0",
-        "sourceUrl": "https://github.com/bestopensors/JF-plugin/releases/download/v1.0.0.0/Jellyfin.Plugin.PosterTags_1.0.0.0.zip",
+        "sourceUrl": "https://github.com/bestopensors/JF-plugin/releases/download/v1.0/Jellyfin.Plugin.PosterTags_1.0.zip",
         "checksum": "REPLACE_WITH_MD5_FROM_SCRIPT",
         "timestamp": "2025-01-30T12:00:00Z"
       }
