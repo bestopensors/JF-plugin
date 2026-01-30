@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.3",
+        "changelog": "Diagnostics: log manifest resource names; try fallback resource name if main not found.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.3.zip",
+        "checksum": "c07a31bcb056f3d872a1d2aef69f50f7",
+        "timestamp": "2026-01-30T13:32:41Z"
+      },
+      {
         "version": "1.0.2",
         "changelog": "Settings page: full HTML document for iframe so Settings button shows form.",
         "targetAbi": "10.11.0.0",

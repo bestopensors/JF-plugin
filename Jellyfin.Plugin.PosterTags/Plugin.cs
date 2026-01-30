@@ -1,3 +1,4 @@
+using System.Reflection;
 using Jellyfin.Plugin.PosterTags.Configuration;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
@@ -25,12 +26,10 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     {
         _logger = logger;
         Instance = this;
-        const string EmbeddedPath = "Jellyfin.Plugin.PosterTags.Configuration.configPage.html";
         var asm = GetType().Assembly;
         var names = asm.GetManifestResourceNames();
         _logger.LogInformation(
-            "Poster Tags: GetPages embedded path = {Path}. Assembly manifest resources: [{Resources}]",
-            EmbeddedPath,
+            "Poster Tags: Assembly manifest resource names: [{Resources}]",
             names.Length > 0 ? string.Join(", ", names) : "(none)");
     }
 
@@ -48,14 +47,38 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     /// <inheritdoc />
     public IEnumerable<PluginPageInfo> GetPages()
     {
-        const string EmbeddedPath = "Jellyfin.Plugin.PosterTags.Configuration.configPage.html";
-        _logger.LogInformation("Poster Tags: GetPages returning config page with EmbeddedResourcePath = {Path}", EmbeddedPath);
+        var asm = GetType().Assembly;
+        var allNames = asm.GetManifestResourceNames();
+
+        // Try exact path first, then any name containing "configPage"
+        var pathToUse = "Jellyfin.Plugin.PosterTags.Configuration.configPage.html";
+        using (var stream = asm.GetManifestResourceStream(pathToUse))
+        {
+            if (stream is null)
+            {
+                var fallback = allNames.FirstOrDefault(n => n.EndsWith("configPage.html", StringComparison.OrdinalIgnoreCase));
+                if (!string.IsNullOrEmpty(fallback))
+                {
+                    pathToUse = fallback;
+                    _logger.LogWarning("Poster Tags: Using fallback resource name: {Name}", pathToUse);
+                }
+                else
+                {
+                    _logger.LogError(
+                        "Poster Tags: Embedded resource not found. Tried: {Path}. Available: [{Resources}]",
+                        pathToUse,
+                        allNames.Length > 0 ? string.Join(", ", allNames) : "(none)");
+                }
+            }
+        }
+
+        _logger.LogInformation("Poster Tags: GetPages returning config page with EmbeddedResourcePath = {Path}", pathToUse);
         return new[]
         {
             new PluginPageInfo
             {
                 Name = Name,
-                EmbeddedResourcePath = EmbeddedPath
+                EmbeddedResourcePath = pathToUse
             }
         };
     }
