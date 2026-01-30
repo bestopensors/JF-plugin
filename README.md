@@ -35,7 +35,7 @@ If installation fails with **404** in the logs: the catalog uses a direct zip UR
 
 ### Blank Settings page (workaround)
 
-From 1.0.11 the embedded config page is a single div containing an **iframe** that loads the full settings from `/Plugins/PosterTags/ConfigurationPage`. In the dashboard: open **Plugins** in the left menu, then click **Poster Tags** — you may see a plugin card with a **Settings** button; click **Settings** to open the config (the iframe loads the form). If the main area stays black or blank, use the direct URL below (it works in a new tab).
+The embedded config page is a full HTML document with one root div containing an **iframe** that loads the full settings from `/Plugins/PosterTags/ConfigurationPage`. This structure avoids the Jellyfin web client’s `loadView`/`classList` error. Open **Dashboard → Plugins → Poster Tags → Settings** to use it.
 
 - **URL:** `http://YOUR_JELLYFIN_SERVER/Plugins/PosterTags/ConfigurationPage`  
   Example: `http://localhost:8096/Plugins/PosterTags/ConfigurationPage` or `https://jellyfin.example.com/Plugins/PosterTags/ConfigurationPage`

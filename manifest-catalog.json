@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.13",
+        "changelog": "Config: full HTML document (DOCTYPE+html+body+div) so loadView gets body.firstElementChild with classList.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.13.zip",
+        "checksum": "e0fc5e5d32c5d53a1adf64b43bc4657b",
+        "timestamp": "2026-01-30T16:21:15Z"
+      },
+      {
         "version": "1.0.12",
         "changelog": "Config iframe: absolute positioning + min-height so it fills dashboard content area.",
         "targetAbi": "10.11.0.0",
