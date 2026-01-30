@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.17",
+        "changelog": "Config: scroll fix; libraries load in iframe (parent ApiClient); preview shows placeholder when blank.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.17.zip",
+        "checksum": "d863de4d25490958aa5c5dea2b49908d",
+        "timestamp": "2026-01-30T16:47:22Z"
+      },
+      {
         "version": "1.0.16",
         "changelog": "Config page: padding for sidebar clearance; modern CSS and layout for settings.",
         "targetAbi": "10.11.0.0",
