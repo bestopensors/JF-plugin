@@ -1,9 +1,9 @@
-using System.Globalization;
 using Jellyfin.Plugin.PosterTags.Configuration;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
+using Microsoft.Extensions.Logging;
 
 namespace Jellyfin.Plugin.PosterTags;
 
@@ -12,15 +12,26 @@ namespace Jellyfin.Plugin.PosterTags;
 /// </summary>
 public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
 {
+    private readonly ILogger<Plugin> _logger;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Plugin"/> class.
     /// </summary>
     /// <param name="applicationPaths">Application paths.</param>
     /// <param name="xmlSerializer">XML serializer.</param>
-    public Plugin(IApplicationPaths applicationPaths, IXmlSerializer xmlSerializer)
+    /// <param name="logger">Logger instance.</param>
+    public Plugin(IApplicationPaths applicationPaths, IXmlSerializer xmlSerializer, ILogger<Plugin> logger)
         : base(applicationPaths, xmlSerializer)
     {
+        _logger = logger;
         Instance = this;
+        const string EmbeddedPath = "Jellyfin.Plugin.PosterTags.Configuration.configPage.html";
+        var asm = GetType().Assembly;
+        var names = asm.GetManifestResourceNames();
+        _logger.LogInformation(
+            "Poster Tags: GetPages embedded path = {Path}. Assembly manifest resources: [{Resources}]",
+            EmbeddedPath,
+            names.Length > 0 ? string.Join(", ", names) : "(none)");
     }
 
     /// <inheritdoc />
@@ -37,15 +48,14 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     /// <inheritdoc />
     public IEnumerable<PluginPageInfo> GetPages()
     {
+        const string EmbeddedPath = "Jellyfin.Plugin.PosterTags.Configuration.configPage.html";
+        _logger.LogInformation("Poster Tags: GetPages returning config page with EmbeddedResourcePath = {Path}", EmbeddedPath);
         return new[]
         {
             new PluginPageInfo
             {
                 Name = Name,
-                EmbeddedResourcePath = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "{0}.Configuration.configPage.html",
-                    GetType().Namespace)
+                EmbeddedResourcePath = EmbeddedPath
             }
         };
     }

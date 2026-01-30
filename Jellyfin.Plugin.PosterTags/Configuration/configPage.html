@@ -201,6 +201,16 @@
     </div>
 
     <script>
+        (function () {
+            if (typeof ApiClient === 'undefined' || typeof Dashboard === 'undefined') {
+                var msg = document.createElement('p');
+                msg.className = 'fieldDescription';
+                msg.style.cssText = 'color:#e74c3c;margin:1em;';
+                msg.textContent = 'Poster Tags: Jellyfin API (ApiClient/Dashboard) not available in this context. Open plugin Settings from Dashboard → Plugins → Poster Tags.';
+                document.body.insertBefore(msg, document.body.firstChild);
+                return;
+            }
+        })();
         var PosterTagsConfig = {
             pluginUniqueId: 'a7b8c9d0-e1f2-3456-7890-abcdef123456',
             previewBase: 'Plugins/PosterTags',
@@ -210,7 +220,7 @@
         };
 
         function getAuthHeaders() {
-            var token = ApiClient.accessToken();
+            var token = typeof ApiClient !== 'undefined' ? ApiClient.accessToken() : null;
             return token ? { 'X-Emby-Token': token } : {};
         }
 
@@ -341,9 +351,11 @@
                 });
         }
 
-        document.querySelector('#PosterTagsConfigPage').addEventListener('pageshow', function () {
-            Dashboard.showLoadingMsg();
-            ApiClient.getPluginConfiguration(PosterTagsConfig.pluginUniqueId).then(function (config) {
+        var pageEl = document.querySelector('#PosterTagsConfigPage');
+        if (pageEl && typeof ApiClient !== 'undefined' && typeof Dashboard !== 'undefined') {
+            pageEl.addEventListener('pageshow', function () {
+                Dashboard.showLoadingMsg();
+                ApiClient.getPluginConfiguration(PosterTagsConfig.pluginUniqueId).then(function (config) {
                 if (config) {
                     document.querySelector('#Show4K').checked = config.Show4K !== false;
                     document.querySelector('#ShowHD').checked = config.ShowHD !== false;
@@ -373,11 +385,14 @@
             }).catch(function () {
                 Dashboard.hideLoadingMsg();
             });
-        });
-
-        document.querySelector('#RefreshPreviewBtn').addEventListener('click', function () {
-            fetchPreviewItemAndImage();
-        });
+            });
+        }
+        var refreshBtn = document.querySelector('#RefreshPreviewBtn');
+        if (refreshBtn && typeof ApiClient !== 'undefined') {
+            refreshBtn.addEventListener('click', function () {
+                fetchPreviewItemAndImage();
+            });
+        }
 
         function scheduleLivePreview() {
             if (PosterTagsConfig.previewDebounce) clearTimeout(PosterTagsConfig.previewDebounce);
@@ -423,9 +438,11 @@
             }).catch(function () {});
         }
 
-        document.querySelector('#PosterTagsConfigForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            Dashboard.showLoadingMsg();
+        var formEl = document.querySelector('#PosterTagsConfigForm');
+        if (formEl && typeof ApiClient !== 'undefined' && typeof Dashboard !== 'undefined') {
+            formEl.addEventListener('submit', function (e) {
+                e.preventDefault();
+                Dashboard.showLoadingMsg();
             var select = document.querySelector('#LibraryIds');
             var selectedIds = select ? Array.from(select.selectedOptions || []).map(function (o) { return o.value; }) : [];
             ApiClient.getPluginConfiguration(PosterTagsConfig.pluginUniqueId).then(function (config) {
@@ -459,8 +476,9 @@
             }).catch(function () {
                 Dashboard.hideLoadingMsg();
             });
-            return false;
-        });
+                return false;
+            });
+        }
     </script>
 </body>
 </html>
