@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.26",
+        "changelog": "Settings layout: scoped CSS with left:420px !important so dashboard cannot override; config view stays right of sidebar.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.26.zip",
+        "checksum": "0223ea6f62069a099569c1e849561ab3",
+        "timestamp": "2026-01-30T23:04:51Z"
+      },
+      {
         "version": "1.0.25",
         "changelog": "Settings layout: 420px left padding so main settings and live preview are not cut off by sidebar.",
         "targetAbi": "10.11.0.0",
