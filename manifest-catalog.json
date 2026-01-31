@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.33",
+        "changelog": "Tag colors UI: clickable tag names (enable/disable), info (i) tooltips, position dropdown per row.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.33.zip",
+        "checksum": "d6fa3b66dea089705b1c6b5da0387ab6",
+        "timestamp": "2026-01-31T09:08:37Z"
+      },
+      {
         "version": "1.0.32",
         "changelog": "Tag size up to 100px. Per-tag colors: pick or enter hex (#RRGGBB or #AARRGGBB) for each badge.",
         "targetAbi": "10.11.0.0",

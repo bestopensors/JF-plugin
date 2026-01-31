@@ -37,7 +37,11 @@
             .postertags-tag-row .tag-position select { width: 100%; }
             .postertags-page input[type="color"] { width: 2.5rem; height: 2rem; padding: 2px; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; cursor: pointer; background: transparent; }
             .postertags-color-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
-            .postertags-color-row label.color-label { min-width: 8rem; font-weight: 500; color: #e4e4e7; }
+            .postertags-color-row label.color-label { min-width: 8rem; font-weight: 500; color: #e4e4e7; cursor: pointer; }
+            .postertags-color-row label.color-label:hover { color: #fff; }
+            .postertags-info-icon { display: inline-flex; align-items: center; justify-content: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: rgba(255,255,255,0.15); color: #a1a1aa; font-size: 0.7rem; font-weight: 700; cursor: help; flex-shrink: 0; }
+            .postertags-info-icon:hover { background: rgba(255,255,255,0.25); color: #e4e4e7; }
+            .postertags-color-row .tag-position-select { min-width: 120px; }
             #PreviewContainer { border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); background: rgba(0,0,0,0.2); box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
             .postertags-preview-placeholder { display: flex; align-items: center; justify-content: center; min-height: 200px; padding: 1.5rem; color: #71717a; font-size: 0.9rem; text-align: center; background: rgba(0,0,0,0.15); border-radius: 8px; }
             #PreviewImageWrap.has-image .postertags-preview-placeholder { display: none; }
@@ -100,43 +104,106 @@
                 </div>
 
                 <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Tag colors</h3>
-                <p class="fieldDescription" style="margin-bottom: 0.75rem;">Background color for each tag type. Text stays white. Use hex (#RRGGBB) or pick a color.</p>
+                <p class="fieldDescription" style="margin-bottom: 0.75rem;">Click a tag name to enable or disable it. Background color and position per tag. Text stays white.</p>
                 <div class="postertags-color-row">
-                    <label class="color-label" for="ResolutionColor">Resolution</label>
+                    <span class="postertags-info-icon" title="Shows quality tier (SD, HD, FHD, UHD or 480p, 720p, 1080p, 4K)">i</span>
+                    <label class="color-label" for="ShowQuality">Resolution</label>
                     <input type="color" id="ResolutionColor" value="#000000" />
                     <input type="text" id="ResolutionColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                    <select id="ResolutionPosition" name="ResolutionPosition" class="select tag-position-select">
+                        <option value="TopLeft">Top Left</option>
+                        <option value="TopCenter">Top Center</option>
+                        <option value="TopRight">Top Right</option>
+                        <option value="BottomLeft">Bottom Left</option>
+                        <option value="BottomCenter">Bottom Center</option>
+                        <option value="BottomRight">Bottom Right</option>
+                    </select>
                 </div>
                 <div class="postertags-color-row">
-                    <label class="color-label" for="ImdbColor">IMDb</label>
+                    <span class="postertags-info-icon" title="Shows IMDb rating from API or Jellyfin community rating">i</span>
+                    <label class="color-label" for="ShowImdbRating">IMDb</label>
                     <input type="color" id="ImdbColor" value="#000000" />
                     <input type="text" id="ImdbColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                    <select id="ImdbPosition" name="ImdbPosition" class="select tag-position-select">
+                        <option value="TopLeft">Top Left</option>
+                        <option value="TopCenter">Top Center</option>
+                        <option value="TopRight">Top Right</option>
+                        <option value="BottomLeft">Bottom Left</option>
+                        <option value="BottomCenter">Bottom Center</option>
+                        <option value="BottomRight">Bottom Right</option>
+                    </select>
                 </div>
                 <div class="postertags-color-row">
-                    <label class="color-label" for="RottenTomatoesColor">Rotten Tomatoes</label>
+                    <span class="postertags-info-icon" title="Shows Rotten Tomatoes critic score">i</span>
+                    <label class="color-label" for="ShowRottenTomatoes">Rotten Tomatoes</label>
                     <input type="color" id="RottenTomatoesColor" value="#000000" />
                     <input type="text" id="RottenTomatoesColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                    <select id="RottenTomatoesPosition" name="RottenTomatoesPosition" class="select tag-position-select">
+                        <option value="TopLeft">Top Left</option>
+                        <option value="TopCenter">Top Center</option>
+                        <option value="TopRight">Top Right</option>
+                        <option value="BottomLeft">Bottom Left</option>
+                        <option value="BottomCenter">Bottom Center</option>
+                        <option value="BottomRight">Bottom Right</option>
+                    </select>
                 </div>
                 <div class="postertags-color-row">
-                    <label class="color-label" for="HdrColor">HDR</label>
+                    <span class="postertags-info-icon" title="Shows HDR type (HDR10, HDR10+, Dolby Vision, HLG) when detected">i</span>
+                    <label class="color-label" for="ShowHDR">HDR</label>
                     <input type="color" id="HdrColor" value="#000000" />
                     <input type="text" id="HdrColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                    <select id="HdrPosition" name="HdrPosition" class="select tag-position-select">
+                        <option value="TopLeft">Top Left</option>
+                        <option value="TopCenter">Top Center</option>
+                        <option value="TopRight">Top Right</option>
+                        <option value="BottomLeft">Bottom Left</option>
+                        <option value="BottomCenter">Bottom Center</option>
+                        <option value="BottomRight">Bottom Right</option>
+                    </select>
                 </div>
                 <div class="postertags-color-row">
-                    <label class="color-label" for="AudioColor">Audio (Dolby/DTS)</label>
+                    <span class="postertags-info-icon" title="Shows Dolby Atmos and/or DTS:X when present in audio">i</span>
+                    <label class="color-label" for="ShowDolbyAtmos">Audio (Dolby/DTS)</label>
                     <input type="color" id="AudioColor" value="#000000" />
                     <input type="text" id="AudioColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                    <select id="AudioPosition" name="AudioPosition" class="select tag-position-select">
+                        <option value="TopLeft">Top Left</option>
+                        <option value="TopCenter">Top Center</option>
+                        <option value="TopRight">Top Right</option>
+                        <option value="BottomLeft">Bottom Left</option>
+                        <option value="BottomCenter">Bottom Center</option>
+                        <option value="BottomRight">Bottom Right</option>
+                    </select>
                 </div>
                 <div class="postertags-color-row">
-                    <label class="color-label" for="AudioFlagsColor">Audio flags</label>
+                    <span class="postertags-info-icon" title="Shows country flags for audio languages">i</span>
+                    <label class="color-label" for="ShowAudioLanguageFlags">Audio flags</label>
                     <input type="color" id="AudioFlagsColor" value="#000000" />
                     <input type="text" id="AudioFlagsColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                    <select id="AudioFlagsPosition" name="AudioFlagsPosition" class="select tag-position-select">
+                        <option value="TopLeft">Top Left</option>
+                        <option value="TopCenter">Top Center</option>
+                        <option value="TopRight">Top Right</option>
+                        <option value="BottomLeft">Bottom Left</option>
+                        <option value="BottomCenter">Bottom Center</option>
+                        <option value="BottomRight">Bottom Right</option>
+                    </select>
                 </div>
                 <div class="postertags-color-row">
-                    <label class="color-label" for="CustomTagColor">Custom tag</label>
+                    <span class="postertags-info-icon" title="Custom text label (e.g. NEW, FAVORITE) — set text below">i</span>
+                    <label class="color-label" for="CustomTagEnabled">Custom tag</label>
                     <input type="color" id="CustomTagColor" value="#000000" />
                     <input type="text" id="CustomTagColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                    <select id="CustomTagPosition" name="CustomTagPosition" class="select tag-position-select">
+                        <option value="TopLeft">Top Left</option>
+                        <option value="TopCenter">Top Center</option>
+                        <option value="TopRight">Top Right</option>
+                        <option value="BottomLeft">Bottom Left</option>
+                        <option value="BottomCenter">Bottom Center</option>
+                        <option value="BottomRight">Bottom Right</option>
+                    </select>
                 </div>
-                <p class="fieldDescription" style="margin-top: 0.25rem;">Hex with alpha: #AARRGGBB (e.g. #B4000000). Plain hex: #RRGGBB.</p>
+                <p class="fieldDescription" style="margin-top: 0.25rem;">Hex: #RRGGBB or #AARRGGBB (e.g. #B4000000).</p>
 
                 <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Resolution badge</h3>
                 <p class="fieldDescription" style="margin-bottom: 0.75rem;">Display quality tier on the poster. Choose format and position.</p>
@@ -154,17 +221,6 @@
                         <option value="2">Both (e.g. 1080p FHD)</option>
                     </select>
                     <div class="fieldDescription">Letters only, numbers only, or both on the same badge.</div>
-                </div>
-                <div class="selectContainer" style="margin-top: 0.5em;">
-                    <label class="inputLabel inputLabelUnified" for="ResolutionPosition">Position</label>
-                    <select id="ResolutionPosition" name="ResolutionPosition" class="select flex align-items-center">
-                        <option value="TopLeft">Top Left</option>
-                        <option value="TopCenter">Top Center</option>
-                        <option value="TopRight">Top Right</option>
-                        <option value="BottomLeft">Bottom Left</option>
-                        <option value="BottomCenter">Bottom Center</option>
-                        <option value="BottomRight">Bottom Right</option>
-                    </select>
                 </div>
                 <div class="checkboxContainer checkboxContainer-withDescription" style="margin-top: 0.75em;">
                     <label class="checkboxLabel">
@@ -200,22 +256,11 @@
 
                 <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Other tags</h3>
                 <p class="fieldDescription" style="margin-bottom: 0.75rem;">Each tag can be enabled and placed at a different corner or center.</p>
-                <div class="postertags-tag-row">
-                    <label class="checkboxLabel tag-check">
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label class="checkboxLabel">
                         <input type="checkbox" id="ShowAudioLanguageFlags" />
                         <span>Audio language flags</span>
                     </label>
-                    <div class="tag-position">
-                        <label class="inputLabel" for="AudioFlagsPosition">Position</label>
-                        <select id="AudioFlagsPosition" name="AudioFlagsPosition" class="select">
-                            <option value="TopLeft">Top Left</option>
-                            <option value="TopCenter">Top Center</option>
-                            <option value="TopRight">Top Right</option>
-                            <option value="BottomLeft">Bottom Left</option>
-                            <option value="BottomCenter">Bottom Center</option>
-                            <option value="BottomRight">Bottom Right</option>
-                        </select>
-                    </div>
                 </div>
                 <div class="checkboxContainer" style="margin-bottom: 0.5rem;">
                     <label class="checkboxLabel">
@@ -223,105 +268,51 @@
                         <span>Skip items with no known audio language</span>
                     </label>
                 </div>
-                <div class="postertags-tag-row">
-                    <label class="checkboxLabel tag-check">
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label class="checkboxLabel">
                         <input type="checkbox" id="ShowImdbRating" />
                         <span>IMDb rating</span>
                     </label>
-                    <div class="tag-position">
-                        <label class="inputLabel" for="ImdbPosition">Position</label>
-                        <select id="ImdbPosition" name="ImdbPosition" class="select">
-                            <option value="TopLeft">Top Left</option>
-                            <option value="TopCenter">Top Center</option>
-                            <option value="TopRight">Top Right</option>
-                            <option value="BottomLeft">Bottom Left</option>
-                            <option value="BottomCenter">Bottom Center</option>
-                            <option value="BottomRight">Bottom Right</option>
-                        </select>
-                    </div>
                 </div>
-                <div class="postertags-tag-row">
-                    <label class="checkboxLabel tag-check">
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label class="checkboxLabel">
                         <input type="checkbox" id="ShowRottenTomatoes" />
                         <span>Rotten Tomatoes rating</span>
                     </label>
-                    <div class="tag-position">
-                        <label class="inputLabel" for="RottenTomatoesPosition">Position</label>
-                        <select id="RottenTomatoesPosition" name="RottenTomatoesPosition" class="select">
-                            <option value="TopLeft">Top Left</option>
-                            <option value="TopCenter">Top Center</option>
-                            <option value="TopRight">Top Right</option>
-                            <option value="BottomLeft">Bottom Left</option>
-                            <option value="BottomCenter">Bottom Center</option>
-                            <option value="BottomRight">Bottom Right</option>
-                        </select>
-                    </div>
                 </div>
 
                 <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Video &amp; audio quality</h3>
                 <p class="fieldDescription" style="margin-bottom: 0.75rem;">HDR (HDR10, Dolby Vision, etc.) and premium audio badges.</p>
-                <div class="postertags-tag-row">
-                    <label class="checkboxLabel tag-check">
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label class="checkboxLabel">
                         <input type="checkbox" id="ShowHDR" />
                         <span>HDR badge</span>
                     </label>
-                    <div class="tag-position">
-                        <label class="inputLabel" for="HdrPosition">Position</label>
-                        <select id="HdrPosition" name="HdrPosition" class="select">
-                            <option value="TopLeft">Top Left</option>
-                            <option value="TopCenter">Top Center</option>
-                            <option value="TopRight">Top Right</option>
-                            <option value="BottomLeft">Bottom Left</option>
-                            <option value="BottomCenter">Bottom Center</option>
-                            <option value="BottomRight">Bottom Right</option>
-                        </select>
-                    </div>
                 </div>
-                <div class="postertags-tag-row">
-                    <label class="checkboxLabel tag-check">
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label class="checkboxLabel">
                         <input type="checkbox" id="ShowDolbyAtmos" />
                         <span>Dolby Atmos</span>
                     </label>
-                    <label class="checkboxLabel tag-check">
+                    <label class="checkboxLabel" style="margin-left: 1rem;">
                         <input type="checkbox" id="ShowDtsX" />
                         <span>DTS:X</span>
                     </label>
-                    <div class="tag-position">
-                        <label class="inputLabel" for="AudioPosition">Position</label>
-                        <select id="AudioPosition" name="AudioPosition" class="select">
-                            <option value="TopLeft">Top Left</option>
-                            <option value="TopCenter">Top Center</option>
-                            <option value="TopRight">Top Right</option>
-                            <option value="BottomLeft">Bottom Left</option>
-                            <option value="BottomCenter">Bottom Center</option>
-                            <option value="BottomRight">Bottom Right</option>
-                        </select>
-                    </div>
                 </div>
-                <p class="fieldDescription" style="margin-top: 0.25rem; margin-bottom: 0.5rem;">Dolby Atmos and DTS:X share one position.</p>
+                <p class="fieldDescription" style="margin-top: 0.25rem; margin-bottom: 0.5rem;">Dolby Atmos and DTS:X share one position (set in Tag colors above).</p>
 
                 <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Custom tag</h3>
                 <p class="fieldDescription" style="margin-bottom: 0.75rem;">Display a custom label (e.g. NEW, FAVORITE) at a chosen position.</p>
-                <div class="postertags-tag-row">
-                    <label class="checkboxLabel tag-check">
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label class="checkboxLabel">
                         <input type="checkbox" id="CustomTagEnabled" />
                         <span>Show custom tag</span>
                     </label>
-                    <div class="inputContainer" style="margin: 0; flex: 1; min-width: 120px;">
-                        <label class="inputLabel" for="CustomTagText">Text</label>
-                        <input type="text" id="CustomTagText" class="inputControl" placeholder="e.g. NEW" maxlength="32" />
-                    </div>
-                    <div class="tag-position">
-                        <label class="inputLabel" for="CustomTagPosition">Position</label>
-                        <select id="CustomTagPosition" name="CustomTagPosition" class="select">
-                            <option value="TopLeft">Top Left</option>
-                            <option value="TopCenter">Top Center</option>
-                            <option value="TopRight">Top Right</option>
-                            <option value="BottomLeft">Bottom Left</option>
-                            <option value="BottomCenter">Bottom Center</option>
-                            <option value="BottomRight">Bottom Right</option>
-                        </select>
-                    </div>
+                </div>
+                <div class="inputContainer" style="margin-top: 0.5em;">
+                    <label class="inputLabel inputLabelUnified" for="CustomTagText">Custom tag text</label>
+                    <input type="text" id="CustomTagText" class="inputControl" placeholder="e.g. NEW" maxlength="32" />
+                    <div class="fieldDescription">Color and position are set in Tag colors above.</div>
                 </div>
 
                 <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Automation</h3>
