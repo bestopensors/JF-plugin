@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.38",
+        "changelog": "Tag colors: 5-section grid (enable, custom, color, opacity, position), Resolution format in row, uniform opacity sliders, stretch left.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.38.zip",
+        "checksum": "d01518014cf6d3eb8ff0766c96e68d64",
+        "timestamp": "2026-01-31T11:12:05Z"
+      },
+      {
         "version": "1.0.37",
         "changelog": "Config: opacity reading fix (valueAsNumber), main card stretched left, step=1 on opacity sliders.",
         "targetAbi": "10.11.0.0",

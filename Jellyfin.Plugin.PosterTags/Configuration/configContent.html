@@ -1,6 +1,6 @@
 <style>
             #PosterTagsConfigPage { box-sizing: border-box; position: relative; pointer-events: auto; z-index: 1; max-width: 100%; }
-            .postertags-page { max-width: 100%; margin: 0; padding: 2rem 1.25rem 3rem 1.25rem; color: #e4e4e7; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 14px; line-height: 1.55; }
+            .postertags-page { max-width: 100%; margin: 0; padding: 2rem 0.75rem 3rem 0.75rem; color: #e4e4e7; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 14px; line-height: 1.55; }
             .postertags-layout { display: flex; gap: 2rem; align-items: flex-start; max-width: min(1400px, 100%); margin: 0; width: 100%; min-height: 0; }
             .postertags-main { flex: 1; min-width: 0; max-width: none; overflow-x: hidden; }
             .postertags-preview-sidebar { width: 300px; min-width: 260px; flex-shrink: 0; align-self: flex-start; position: sticky; top: 1rem; }
@@ -39,26 +39,26 @@
             .postertags-tag-section { font-size: 0.8125rem; overflow-x: auto; padding-bottom: 0.25rem; }
             .postertags-tag-section::-webkit-scrollbar { height: 6px; }
             .postertags-tag-section::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
-            .postertags-tag-grid { display: grid; grid-template-columns: minmax(0, auto) minmax(0, 1fr) minmax(0, 1fr) minmax(140px, 1fr); gap: 0.5rem 1rem; align-items: center; margin-bottom: 0.5rem; }
-            .postertags-tag-grid .tag-label-cell { display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
+            /* 5 sections: enable | custom options | color | opacity | position — section below section */
+            .postertags-tag-grid { display: grid; grid-template-columns: minmax(0, auto) minmax(140px, 160px) minmax(0, 1fr) 160px minmax(120px, 140px); gap: 0.6rem 1rem; align-items: start; margin-bottom: 0.75rem; }
+            .postertags-tag-grid .tag-section { display: flex; flex-direction: column; gap: 0.25rem; min-width: 0; }
+            .postertags-tag-grid .tag-section-enable { display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
             .postertags-tag-grid .postertags-row-cb { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
             .postertags-tag-btn { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 999px; font-weight: 500; font-size: inherit; cursor: pointer; border: 1px solid rgba(255,255,255,0.3); background: transparent; color: #e4e4e7; transition: background 0.15s, border-color 0.15s, color 0.15s; user-select: none; flex-shrink: 0; white-space: nowrap; }
             .postertags-tag-btn:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
-            .postertags-tag-grid .tag-label-cell:has(.postertags-row-cb:checked) .postertags-tag-btn { background: #3b82f6; border-color: #3b82f6; color: #fff; }
-            .postertags-tag-grid .tag-custom-input { width: 5em; min-width: 4em; padding: 0.4rem 0.5rem; min-height: 32px; font-size: inherit; }
-            .postertags-tag-grid .tag-color-cell { display: flex; align-items: center; gap: 0.4rem; }
-            .postertags-tag-grid .tag-color-cell input[type="color"] { width: 2.25rem; height: 1.75rem; flex-shrink: 0; cursor: pointer; }
-            .postertags-tag-grid .tag-hex-input { width: 6em; min-width: 0; padding: 0.4rem 0.5rem; min-height: 32px; font-size: inherit; }
-            .postertags-tag-grid .tag-opacity-cell { display: flex; align-items: center; gap: 0.4rem; min-width: 0; }
-            .postertags-tag-grid .tag-opacity-cell input[type="range"] { width: 100%; min-width: 100px; max-width: 180px; margin: 0; height: 6px; cursor: pointer; flex: 1; }
+            .postertags-tag-grid .tag-section-enable:has(.postertags-row-cb:checked) .postertags-tag-btn { background: #3b82f6; border-color: #3b82f6; color: #fff; }
+            .postertags-tag-grid .tag-section-custom .select { width: 100%; min-height: 36px; padding: 0.45rem 2rem 0.45rem 0.5rem; font-size: 0.9375rem; }
+            .postertags-tag-grid .tag-custom-input { width: 100%; min-width: 0; padding: 0.4rem 0.5rem; min-height: 36px; font-size: inherit; box-sizing: border-box; }
+            .postertags-tag-grid .tag-section-color { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+            .postertags-tag-grid .tag-section-color input[type="color"] { width: 2.25rem; height: 1.75rem; flex-shrink: 0; cursor: pointer; }
+            .postertags-tag-grid .tag-hex-input { width: 6.5em; min-width: 0; padding: 0.4rem 0.5rem; min-height: 36px; font-size: inherit; }
+            .postertags-tag-grid .tag-section-opacity { display: flex; align-items: center; gap: 0.4rem; width: 100%; }
+            .postertags-tag-grid .tag-section-opacity input[type="range"] { width: 120px; min-width: 120px; max-width: 120px; margin: 0; height: 6px; cursor: pointer; flex-shrink: 0; }
             .postertags-tag-grid .opacity-val { font-size: 0.8rem; color: #a1a1aa; min-width: 2.5em; }
-            .postertags-tag-grid .tag-position-cell select { width: 100%; min-height: 36px; padding: 0.45rem 2rem 0.45rem 0.75rem; font-size: 0.9375rem; }
+            .postertags-tag-grid .tag-section-position select { width: 100%; min-height: 36px; padding: 0.45rem 2rem 0.45rem 0.75rem; font-size: 0.9375rem; }
             .postertags-info-icon { display: inline-flex; align-items: center; justify-content: center; width: 1rem; height: 1rem; border-radius: 50%; background: rgba(255,255,255,0.15); color: #a1a1aa; font-size: 0.65rem; font-weight: 700; cursor: help; flex-shrink: 0; }
             .postertags-info-icon:hover { background: rgba(255,255,255,0.25); color: #e4e4e7; }
-            .postertags-format-row { margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-            .postertags-format-row .inputLabel { margin-bottom: 0; }
-            .postertags-format-row .select { min-height: 36px; padding: 0.45rem 2rem 0.45rem 0.75rem; font-size: 0.9375rem; min-width: 140px; }
-            @media (max-width: 640px) { .postertags-tag-grid { grid-template-columns: 1fr 1fr; } .postertags-tag-grid .tag-label-cell { grid-column: 1 / -1; } }
+            @media (max-width: 768px) { .postertags-tag-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; } .postertags-tag-grid .tag-section-enable { grid-column: 1 / -1; } .postertags-tag-grid .tag-section-custom { grid-column: 1; } .postertags-tag-grid .tag-section-color { grid-column: 2; } .postertags-tag-grid .tag-section-opacity { grid-column: 1; } .postertags-tag-grid .tag-section-position { grid-column: 2; } }
             #PreviewContainer { border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); background: rgba(0,0,0,0.2); box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
             .postertags-preview-placeholder { display: flex; align-items: center; justify-content: center; min-height: 200px; padding: 1.5rem; color: #71717a; font-size: 0.9rem; text-align: center; background: rgba(0,0,0,0.15); border-radius: 8px; }
             #PreviewImageWrap.has-image .postertags-preview-placeholder { display: none; }
@@ -121,31 +121,30 @@
                 </div>
 
                 <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Tag colors</h3>
-                <p class="fieldDescription" style="margin-bottom: 0.5rem;">Click a tag name to enable or disable. Color, opacity, and position per tag.</p>
-                <div class="postertags-format-row">
-                    <label class="inputLabel" for="ResolutionFormat">Resolution format</label>
-                    <select id="ResolutionFormat" name="ResolutionFormat" class="select">
-                        <option value="0">Letters</option>
-                        <option value="1">Numbers</option>
-                        <option value="2">Both</option>
-                    </select>
-                </div>
+                <p class="fieldDescription" style="margin-bottom: 0.5rem;">Click a tag name to enable or disable. Sections: enable → custom options → color → opacity → position.</p>
                 <div class="postertags-tag-section">
                 <div class="postertags-tag-grid">
-                    <div class="tag-label-cell">
+                    <div class="tag-section tag-section-enable">
                         <span class="postertags-info-icon" title="Shows quality tier (SD, HD, FHD, UHD or 480p, 720p, 1080p, 4K)">i</span>
                         <input type="checkbox" id="ShowQuality" class="postertags-row-cb" />
                         <label for="ShowQuality" class="postertags-tag-btn">Resolution</label>
                     </div>
-                    <div class="tag-color-cell">
+                    <div class="tag-section tag-section-custom">
+                        <select id="ResolutionFormat" name="ResolutionFormat" class="select">
+                            <option value="0">Letters</option>
+                            <option value="1">Numbers</option>
+                            <option value="2">Both</option>
+                        </select>
+                    </div>
+                    <div class="tag-section tag-section-color">
                         <input type="color" id="ResolutionColor" value="#000000" />
                         <input type="text" id="ResolutionColorHex" class="inputControl tag-hex-input" placeholder="#000000" maxlength="9" />
                     </div>
-                    <div class="tag-opacity-cell">
+                    <div class="tag-section tag-section-opacity">
                         <input type="range" id="ResolutionOpacity" min="0" max="100" value="100" step="1" />
                         <span id="ResolutionOpacityVal" class="opacity-val">100%</span>
                     </div>
-                    <div class="tag-position-cell">
+                    <div class="tag-section tag-section-position">
                         <select id="ResolutionPosition" name="ResolutionPosition" class="select">
                             <option value="TopLeft">Top Left</option>
                             <option value="TopCenter">Top Center</option>
@@ -157,20 +156,21 @@
                     </div>
                 </div>
                 <div class="postertags-tag-grid">
-                    <div class="tag-label-cell">
+                    <div class="tag-section tag-section-enable">
                         <span class="postertags-info-icon" title="Shows IMDb rating from API or Jellyfin community rating">i</span>
                         <input type="checkbox" id="ShowImdbRating" class="postertags-row-cb" />
                         <label for="ShowImdbRating" class="postertags-tag-btn">IMDb</label>
                     </div>
-                    <div class="tag-color-cell">
+                    <div class="tag-section tag-section-custom"></div>
+                    <div class="tag-section tag-section-color">
                         <input type="color" id="ImdbColor" value="#000000" />
                         <input type="text" id="ImdbColorHex" class="inputControl tag-hex-input" placeholder="#000000" maxlength="9" />
                     </div>
-                    <div class="tag-opacity-cell">
+                    <div class="tag-section tag-section-opacity">
                         <input type="range" id="ImdbOpacity" min="0" max="100" value="100" step="1" />
                         <span id="ImdbOpacityVal" class="opacity-val">100%</span>
                     </div>
-                    <div class="tag-position-cell">
+                    <div class="tag-section tag-section-position">
                         <select id="ImdbPosition" name="ImdbPosition" class="select">
                             <option value="TopLeft">Top Left</option>
                             <option value="TopCenter">Top Center</option>
@@ -182,20 +182,21 @@
                     </div>
                 </div>
                 <div class="postertags-tag-grid">
-                    <div class="tag-label-cell">
+                    <div class="tag-section tag-section-enable">
                         <span class="postertags-info-icon" title="Shows Rotten Tomatoes critic score">i</span>
                         <input type="checkbox" id="ShowRottenTomatoes" class="postertags-row-cb" />
                         <label for="ShowRottenTomatoes" class="postertags-tag-btn">Rotten Tomatoes</label>
                     </div>
-                    <div class="tag-color-cell">
+                    <div class="tag-section tag-section-custom"></div>
+                    <div class="tag-section tag-section-color">
                         <input type="color" id="RottenTomatoesColor" value="#000000" />
                         <input type="text" id="RottenTomatoesColorHex" class="inputControl tag-hex-input" placeholder="#000000" maxlength="9" />
                     </div>
-                    <div class="tag-opacity-cell">
+                    <div class="tag-section tag-section-opacity">
                         <input type="range" id="RottenTomatoesOpacity" min="0" max="100" value="100" step="1" />
                         <span id="RottenTomatoesOpacityVal" class="opacity-val">100%</span>
                     </div>
-                    <div class="tag-position-cell">
+                    <div class="tag-section tag-section-position">
                         <select id="RottenTomatoesPosition" name="RottenTomatoesPosition" class="select">
                             <option value="TopLeft">Top Left</option>
                             <option value="TopCenter">Top Center</option>
@@ -207,20 +208,21 @@
                     </div>
                 </div>
                 <div class="postertags-tag-grid">
-                    <div class="tag-label-cell">
+                    <div class="tag-section tag-section-enable">
                         <span class="postertags-info-icon" title="Shows HDR type (HDR10, HDR10+, Dolby Vision, HLG) when detected">i</span>
                         <input type="checkbox" id="ShowHDR" class="postertags-row-cb" />
                         <label for="ShowHDR" class="postertags-tag-btn">HDR</label>
                     </div>
-                    <div class="tag-color-cell">
+                    <div class="tag-section tag-section-custom"></div>
+                    <div class="tag-section tag-section-color">
                         <input type="color" id="HdrColor" value="#000000" />
                         <input type="text" id="HdrColorHex" class="inputControl tag-hex-input" placeholder="#000000" maxlength="9" />
                     </div>
-                    <div class="tag-opacity-cell">
+                    <div class="tag-section tag-section-opacity">
                         <input type="range" id="HdrOpacity" min="0" max="100" value="100" step="1" />
                         <span id="HdrOpacityVal" class="opacity-val">100%</span>
                     </div>
-                    <div class="tag-position-cell">
+                    <div class="tag-section tag-section-position">
                         <select id="HdrPosition" name="HdrPosition" class="select">
                             <option value="TopLeft">Top Left</option>
                             <option value="TopCenter">Top Center</option>
@@ -232,20 +234,21 @@
                     </div>
                 </div>
                 <div class="postertags-tag-grid">
-                    <div class="tag-label-cell">
+                    <div class="tag-section tag-section-enable">
                         <span class="postertags-info-icon" title="Shows Dolby Atmos and/or DTS:X when present in audio">i</span>
                         <input type="checkbox" id="ShowDolbyAtmos" class="postertags-row-cb" />
                         <label for="ShowDolbyAtmos" class="postertags-tag-btn">Audio (Dolby/DTS)</label>
                     </div>
-                    <div class="tag-color-cell">
+                    <div class="tag-section tag-section-custom"></div>
+                    <div class="tag-section tag-section-color">
                         <input type="color" id="AudioColor" value="#000000" />
                         <input type="text" id="AudioColorHex" class="inputControl tag-hex-input" placeholder="#000000" maxlength="9" />
                     </div>
-                    <div class="tag-opacity-cell">
-                        <input type="range" id="AudioOpacity" min="0" max="100" value="100" />
+                    <div class="tag-section tag-section-opacity">
+                        <input type="range" id="AudioOpacity" min="0" max="100" value="100" step="1" />
                         <span id="AudioOpacityVal" class="opacity-val">100%</span>
                     </div>
-                    <div class="tag-position-cell">
+                    <div class="tag-section tag-section-position">
                         <select id="AudioPosition" name="AudioPosition" class="select">
                             <option value="TopLeft">Top Left</option>
                             <option value="TopCenter">Top Center</option>
@@ -257,20 +260,21 @@
                     </div>
                 </div>
                 <div class="postertags-tag-grid">
-                    <div class="tag-label-cell">
+                    <div class="tag-section tag-section-enable">
                         <span class="postertags-info-icon" title="Shows country flags for audio languages">i</span>
                         <input type="checkbox" id="ShowAudioLanguageFlags" class="postertags-row-cb" />
                         <label for="ShowAudioLanguageFlags" class="postertags-tag-btn">Audio flags</label>
                     </div>
-                    <div class="tag-color-cell">
+                    <div class="tag-section tag-section-custom"></div>
+                    <div class="tag-section tag-section-color">
                         <input type="color" id="AudioFlagsColor" value="#000000" />
                         <input type="text" id="AudioFlagsColorHex" class="inputControl tag-hex-input" placeholder="#000000" maxlength="9" />
                     </div>
-                    <div class="tag-opacity-cell">
+                    <div class="tag-section tag-section-opacity">
                         <input type="range" id="AudioFlagsOpacity" min="0" max="100" value="100" step="1" />
                         <span id="AudioFlagsOpacityVal" class="opacity-val">100%</span>
                     </div>
-                    <div class="tag-position-cell">
+                    <div class="tag-section tag-section-position">
                         <select id="AudioFlagsPosition" name="AudioFlagsPosition" class="select">
                             <option value="TopLeft">Top Left</option>
                             <option value="TopCenter">Top Center</option>
@@ -282,21 +286,23 @@
                     </div>
                 </div>
                 <div class="postertags-tag-grid">
-                    <div class="tag-label-cell">
+                    <div class="tag-section tag-section-enable">
                         <span class="postertags-info-icon" title="Custom text label (e.g. NEW, FAVORITE)">i</span>
                         <input type="checkbox" id="CustomTagEnabled" class="postertags-row-cb" />
                         <label for="CustomTagEnabled" class="postertags-tag-btn">Custom tag</label>
+                    </div>
+                    <div class="tag-section tag-section-custom">
                         <input type="text" id="CustomTagText" class="inputControl tag-custom-input" placeholder="e.g. NEW" maxlength="32" />
                     </div>
-                    <div class="tag-color-cell">
+                    <div class="tag-section tag-section-color">
                         <input type="color" id="CustomTagColor" value="#000000" />
                         <input type="text" id="CustomTagColorHex" class="inputControl tag-hex-input" placeholder="#000000" maxlength="9" />
                     </div>
-                    <div class="tag-opacity-cell">
+                    <div class="tag-section tag-section-opacity">
                         <input type="range" id="CustomTagOpacity" min="0" max="100" value="100" step="1" />
                         <span id="CustomTagOpacityVal" class="opacity-val">100%</span>
                     </div>
-                    <div class="tag-position-cell">
+                    <div class="tag-section tag-section-position">
                         <select id="CustomTagPosition" name="CustomTagPosition" class="select">
                             <option value="TopLeft">Top Left</option>
                             <option value="TopCenter">Top Center</option>
