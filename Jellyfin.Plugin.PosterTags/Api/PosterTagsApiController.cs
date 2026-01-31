@@ -366,8 +366,15 @@ public class PosterTagsApiController : ControllerBase
         }
         if (TryGetConfigValue(dict, "TagSize", out v) && v.TryGetInt32(out var tagSize))
         {
-            config.TagSize = Math.Clamp(tagSize, 12, 28);
+            config.TagSize = Math.Clamp(tagSize, 12, 100);
         }
+        if (TryGetConfigValue(dict, "ResolutionColor", out v)) config.ResolutionColor = v.GetString() ?? PluginConfiguration.DefaultBadgeColor;
+        if (TryGetConfigValue(dict, "ImdbColor", out v)) config.ImdbColor = v.GetString() ?? PluginConfiguration.DefaultBadgeColor;
+        if (TryGetConfigValue(dict, "RottenTomatoesColor", out v)) config.RottenTomatoesColor = v.GetString() ?? PluginConfiguration.DefaultBadgeColor;
+        if (TryGetConfigValue(dict, "HdrColor", out v)) config.HdrColor = v.GetString() ?? PluginConfiguration.DefaultBadgeColor;
+        if (TryGetConfigValue(dict, "AudioColor", out v)) config.AudioColor = v.GetString() ?? PluginConfiguration.DefaultBadgeColor;
+        if (TryGetConfigValue(dict, "AudioFlagsColor", out v)) config.AudioFlagsColor = v.GetString() ?? PluginConfiguration.DefaultBadgeColor;
+        if (TryGetConfigValue(dict, "CustomTagColor", out v)) config.CustomTagColor = v.GetString() ?? PluginConfiguration.DefaultBadgeColor;
         if (TryGetConfigValue(dict, "ResolutionFormat", out v))
         {
             if (v.TryGetInt32(out var rf))

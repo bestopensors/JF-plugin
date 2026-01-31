@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.32",
+        "changelog": "Tag size up to 100px. Per-tag colors: pick or enter hex (#RRGGBB or #AARRGGBB) for each badge.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.32.zip",
+        "checksum": "fd21f9220179823b80d105fa4d1d13c5",
+        "timestamp": "2026-01-31T00:10:40Z"
+      },
+      {
         "version": "1.0.31",
         "changelog": "Per-tag positions, tag size slider, resolution format Both (e.g. 1080p FHD). Save fix for all options. UI polish: slider rows, tag rows with position.",
         "targetAbi": "10.11.0.0",

@@ -41,7 +41,17 @@ public class PluginConfiguration : BasePluginConfiguration
         ShowHDR = true;
         ShowDolbyAtmos = true;
         ShowDtsX = true;
+        ResolutionColor = DefaultBadgeColor;
+        ImdbColor = DefaultBadgeColor;
+        RottenTomatoesColor = DefaultBadgeColor;
+        HdrColor = DefaultBadgeColor;
+        AudioColor = DefaultBadgeColor;
+        AudioFlagsColor = DefaultBadgeColor;
+        CustomTagColor = DefaultBadgeColor;
     }
+
+    /// <summary>Default badge background color (hex with optional alpha: #RRGGBB or #AARRGGBB).</summary>
+    public const string DefaultBadgeColor = "#B4000000";
 
     /// <summary>
     /// Gets or sets the library IDs selected for poster tagging (empty = all libraries when running task).
@@ -129,7 +139,7 @@ public class PluginConfiguration : BasePluginConfiguration
     public int TagCurvature { get; set; }
 
     /// <summary>
-    /// Gets or sets the font size for tags (12–28). Applies to all badges and custom tag.
+    /// Gets or sets the font size for tags (12–100). Applies to all badges and custom tag.
     /// </summary>
     public int TagSize { get; set; }
 
@@ -187,6 +197,27 @@ public class PluginConfiguration : BasePluginConfiguration
     /// Gets or sets a value indicating whether to show DTS:X badge.
     /// </summary>
     public bool ShowDtsX { get; set; }
+
+    /// <summary>Badge background color (hex #RRGGBB or #AARRGGBB).</summary>
+    public string ResolutionColor { get; set; }
+
+    /// <summary>Badge background color (hex #RRGGBB or #AARRGGBB).</summary>
+    public string ImdbColor { get; set; }
+
+    /// <summary>Badge background color (hex #RRGGBB or #AARRGGBB).</summary>
+    public string RottenTomatoesColor { get; set; }
+
+    /// <summary>Badge background color (hex #RRGGBB or #AARRGGBB).</summary>
+    public string HdrColor { get; set; }
+
+    /// <summary>Badge background color (hex #RRGGBB or #AARRGGBB).</summary>
+    public string AudioColor { get; set; }
+
+    /// <summary>Badge background color (hex #RRGGBB or #AARRGGBB).</summary>
+    public string AudioFlagsColor { get; set; }
+
+    /// <summary>Badge background color (hex #RRGGBB or #AARRGGBB).</summary>
+    public string CustomTagColor { get; set; }
 }
 
 /// <summary>

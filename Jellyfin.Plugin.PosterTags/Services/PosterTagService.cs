@@ -21,9 +21,9 @@ using SixLabors.ImageSharp.Processing;
 namespace Jellyfin.Plugin.PosterTags.Services;
 
 /// <summary>
-/// A single badge to draw at a specific position.
+/// A single badge to draw at a specific position with optional background color (hex).
 /// </summary>
-internal sealed record BadgeItem(string Text, BadgePosition Position);
+internal sealed record BadgeItem(string Text, BadgePosition Position, string? ColorHex = null);
 
 /// <summary>
 /// Service that draws tag badges (4K, HD, flags, IMDB, RT) onto poster images.
@@ -600,7 +600,7 @@ public class PosterTagService
             var res = height > 0 ? GetResolutionString(height, config) : null;
             if (!string.IsNullOrEmpty(res))
             {
-                badges.Add(new BadgeItem(res, config.ResolutionPosition));
+                badges.Add(new BadgeItem(res, config.ResolutionPosition, config.ResolutionColor));
             }
         }
 
@@ -609,7 +609,7 @@ public class PosterTagService
             var flagEmojis = GetAudioLanguageFlagEmojis(item);
             if (flagEmojis.Count > 0)
             {
-                badges.Add(new BadgeItem(string.Join(" ", flagEmojis.Take(4)), config.AudioFlagsPosition));
+                badges.Add(new BadgeItem(string.Join(" ", flagEmojis.Take(4)), config.AudioFlagsPosition, config.AudioFlagsColor));
             }
         }
 
@@ -617,11 +617,11 @@ public class PosterTagService
         {
             if (externalRatings != null && externalRatings.TryGetValue("imdb", out var imdbVal) && imdbVal > 0)
             {
-                badges.Add(new BadgeItem($"IMDB {imdbVal:0.0}", config.ImdbPosition));
+                badges.Add(new BadgeItem($"IMDB {imdbVal:0.0}", config.ImdbPosition, config.ImdbColor));
             }
             else if (item.CommunityRating.HasValue && item.CommunityRating.Value > 0)
             {
-                badges.Add(new BadgeItem($"IMDB {item.CommunityRating.Value:0.0}", config.ImdbPosition));
+                badges.Add(new BadgeItem($"IMDB {item.CommunityRating.Value:0.0}", config.ImdbPosition, config.ImdbColor));
             }
         }
 
@@ -631,12 +631,12 @@ public class PosterTagService
             {
                 var pct = rtVal <= 1 ? (int)Math.Round(rtVal * 100) : (int)Math.Round(rtVal);
                 pct = Math.Clamp(pct, 0, 100);
-                badges.Add(new BadgeItem($"RT {pct}%", config.RottenTomatoesPosition));
+                badges.Add(new BadgeItem($"RT {pct}%", config.RottenTomatoesPosition, config.RottenTomatoesColor));
             }
             else if (item.CriticRating.HasValue && item.CriticRating.Value > 0)
             {
                 var pct = (int)Math.Round(item.CriticRating.Value * 10);
-                badges.Add(new BadgeItem($"RT {pct}%", config.RottenTomatoesPosition));
+                badges.Add(new BadgeItem($"RT {pct}%", config.RottenTomatoesPosition, config.RottenTomatoesColor));
             }
         }
 
@@ -645,7 +645,7 @@ public class PosterTagService
             var hdrBadge = GetHdrBadge(item);
             if (!string.IsNullOrEmpty(hdrBadge))
             {
-                badges.Add(new BadgeItem(hdrBadge, config.HdrPosition));
+                badges.Add(new BadgeItem(hdrBadge, config.HdrPosition, config.HdrColor));
             }
         }
 
@@ -654,7 +654,7 @@ public class PosterTagService
             var audioBadges = GetPremiumAudioBadges(item, config);
             foreach (var ab in audioBadges)
             {
-                badges.Add(new BadgeItem(ab, config.AudioPosition));
+                badges.Add(new BadgeItem(ab, config.AudioPosition, config.AudioColor));
             }
         }
 
@@ -969,6 +969,54 @@ public class PosterTagService
         return SystemFonts.CreateFont("Arial", fontSize, FontStyle.Bold);
     }
 
+    /// <summary>Parses hex color (#RGB, #RRGGBB, or #AARRGGBB) to Rgba32. For 6-char uses alpha 180.</summary>
+    private static bool TryParseHexColor(string? hex, out Rgba32 color)
+    {
+        color = new Rgba32(0, 0, 0, 180);
+        if (string.IsNullOrWhiteSpace(hex))
+        {
+            return false;
+        }
+
+        hex = hex.TrimStart('#');
+        if (hex.Length == 3)
+        {
+            var r = ParseHexByte(hex[0], hex[0]);
+            var g = ParseHexByte(hex[1], hex[1]);
+            var b = ParseHexByte(hex[2], hex[2]);
+            color = new Rgba32(r, g, b, 180);
+            return true;
+        }
+
+        if (hex.Length == 6)
+        {
+            var r = ParseHexByte(hex[0], hex[1]);
+            var g = ParseHexByte(hex[2], hex[3]);
+            var b = ParseHexByte(hex[4], hex[5]);
+            color = new Rgba32(r, g, b, 180);
+            return true;
+        }
+
+        if (hex.Length == 8)
+        {
+            var a = ParseHexByte(hex[0], hex[1]);
+            var r = ParseHexByte(hex[2], hex[3]);
+            var g = ParseHexByte(hex[4], hex[5]);
+            var b = ParseHexByte(hex[6], hex[7]);
+            color = new Rgba32(r, g, b, a);
+            return true;
+        }
+
+        return false;
+    }
+
+    private static byte ParseHexByte(char high, char low)
+    {
+        int H = char.IsAsciiDigit(high) ? high - '0' : (char.ToUpperInvariant(high) >= 'A' && char.ToUpperInvariant(high) <= 'F') ? char.ToUpperInvariant(high) - 'A' + 10 : 0;
+        int L = char.IsAsciiDigit(low) ? low - '0' : (char.ToUpperInvariant(low) >= 'A' && char.ToUpperInvariant(low) <= 'F') ? char.ToUpperInvariant(low) - 'A' + 10 : 0;
+        return (byte)((Math.Clamp(H, 0, 15) << 4) | Math.Clamp(L, 0, 15));
+    }
+
     private void DrawBadges(Image<Rgba32> image, List<BadgeItem> badgeItems, PluginConfiguration config)
     {
         if (config == null)
@@ -976,11 +1024,11 @@ public class PosterTagService
             return;
         }
 
-        var fontSize = Math.Clamp(config.TagSize, 12, 28);
+        var fontSize = Math.Clamp(config.TagSize, 12, 100);
         var padding = Math.Max(4, fontSize / 2);
         var lineHeight = fontSize + 10;
         var curvature = Math.Clamp(config.TagCurvature, 0, 100);
-        var semiBlack = new Color(new Rgba32(0, 0, 0, 180));
+        var defaultFill = new Color(new Rgba32(0, 0, 0, 180));
 
         try
         {
@@ -996,25 +1044,27 @@ public class PosterTagService
                         continue;
                     }
 
+                    var fillColor = TryParseHexColor(item.ColorHex, out var parsed) ? new Color(parsed) : defaultFill;
                     var size = TextMeasurer.MeasureSize(item.Text, new TextOptions(font));
                     var boxWidth = (int)Math.Ceiling(size.Width) + padding * 2;
                     var boxHeight = lineHeight + padding * 2;
                     GetPosition(item.Position, image.Width, image.Height, boxWidth, boxHeight, padding, out var x, out var y);
                     var rect = new SixLabors.ImageSharp.RectangleF(x, y, boxWidth, boxHeight);
-                    DrawTagBox(image, rect, semiBlack, font, new List<string> { item.Text }, padding, lineHeight, curvature);
+                    DrawTagBox(image, rect, fillColor, font, new List<string> { item.Text }, padding, lineHeight, curvature);
                 }
             }
 
             // Draw custom tag if enabled
             if (config.CustomTagEnabled && !string.IsNullOrWhiteSpace(config.CustomTagText))
             {
+                var customFill = TryParseHexColor(config.CustomTagColor, out var customParsed) ? new Color(customParsed) : defaultFill;
                 var customText = config.CustomTagText.Trim();
                 var size = TextMeasurer.MeasureSize(customText, new TextOptions(font));
                 var boxWidth = (int)Math.Ceiling(size.Width) + padding * 2;
                 var boxHeight = lineHeight + padding * 2;
                 GetPosition(config.CustomTagPosition, image.Width, image.Height, boxWidth, boxHeight, padding, out var cx, out var cy);
                 var rect = new SixLabors.ImageSharp.RectangleF(cx, cy, boxWidth, boxHeight);
-                DrawTagBox(image, rect, semiBlack, font, new List<string> { customText }, padding, lineHeight, curvature);
+                DrawTagBox(image, rect, customFill, font, new List<string> { customText }, padding, lineHeight, curvature);
             }
         }
         catch (Exception ex)

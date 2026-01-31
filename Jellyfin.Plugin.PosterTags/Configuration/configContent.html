@@ -35,6 +35,9 @@
             .postertags-tag-row .tag-check { flex-shrink: 0; }
             .postertags-tag-row .tag-position { min-width: 140px; flex: 0 1 auto; }
             .postertags-tag-row .tag-position select { width: 100%; }
+            .postertags-page input[type="color"] { width: 2.5rem; height: 2rem; padding: 2px; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; cursor: pointer; background: transparent; }
+            .postertags-color-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+            .postertags-color-row label.color-label { min-width: 8rem; font-weight: 500; color: #e4e4e7; }
             #PreviewContainer { border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); background: rgba(0,0,0,0.2); box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
             .postertags-preview-placeholder { display: flex; align-items: center; justify-content: center; min-height: 200px; padding: 1.5rem; color: #71717a; font-size: 0.9rem; text-align: center; background: rgba(0,0,0,0.15); border-radius: 8px; }
             #PreviewImageWrap.has-image .postertags-preview-placeholder { display: none; }
@@ -82,10 +85,10 @@
                 <div class="inputContainer">
                     <label class="inputLabel inputLabelUnified" for="TagSize">Tag size</label>
                     <div class="postertags-slider-row">
-                        <input type="range" id="TagSize" name="TagSize" min="12" max="28" value="18" />
+                        <input type="range" id="TagSize" name="TagSize" min="12" max="100" value="18" />
                         <span id="TagSizeLabel" class="postertags-slider-value">18px</span>
                     </div>
-                    <div class="fieldDescription">Font size for all tags (12–28px). Move the slider to preview.</div>
+                    <div class="fieldDescription">Font size for all tags (12–100px). Move the slider to preview.</div>
                 </div>
                 <div class="inputContainer" style="margin-top: 0.75rem;">
                     <label class="inputLabel inputLabelUnified" for="TagCurvature">Tag edge curvature</label>
@@ -95,6 +98,45 @@
                     </div>
                     <div class="fieldDescription">0 = sharp rectangle, 100 = pill.</div>
                 </div>
+
+                <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Tag colors</h3>
+                <p class="fieldDescription" style="margin-bottom: 0.75rem;">Background color for each tag type. Text stays white. Use hex (#RRGGBB) or pick a color.</p>
+                <div class="postertags-color-row">
+                    <label class="color-label" for="ResolutionColor">Resolution</label>
+                    <input type="color" id="ResolutionColor" value="#000000" />
+                    <input type="text" id="ResolutionColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                </div>
+                <div class="postertags-color-row">
+                    <label class="color-label" for="ImdbColor">IMDb</label>
+                    <input type="color" id="ImdbColor" value="#000000" />
+                    <input type="text" id="ImdbColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                </div>
+                <div class="postertags-color-row">
+                    <label class="color-label" for="RottenTomatoesColor">Rotten Tomatoes</label>
+                    <input type="color" id="RottenTomatoesColor" value="#000000" />
+                    <input type="text" id="RottenTomatoesColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                </div>
+                <div class="postertags-color-row">
+                    <label class="color-label" for="HdrColor">HDR</label>
+                    <input type="color" id="HdrColor" value="#000000" />
+                    <input type="text" id="HdrColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                </div>
+                <div class="postertags-color-row">
+                    <label class="color-label" for="AudioColor">Audio (Dolby/DTS)</label>
+                    <input type="color" id="AudioColor" value="#000000" />
+                    <input type="text" id="AudioColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                </div>
+                <div class="postertags-color-row">
+                    <label class="color-label" for="AudioFlagsColor">Audio flags</label>
+                    <input type="color" id="AudioFlagsColor" value="#000000" />
+                    <input type="text" id="AudioFlagsColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                </div>
+                <div class="postertags-color-row">
+                    <label class="color-label" for="CustomTagColor">Custom tag</label>
+                    <input type="color" id="CustomTagColor" value="#000000" />
+                    <input type="text" id="CustomTagColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                </div>
+                <p class="fieldDescription" style="margin-top: 0.25rem;">Hex with alpha: #AARRGGBB (e.g. #B4000000). Plain hex: #RRGGBB.</p>
 
                 <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Resolution badge</h3>
                 <p class="fieldDescription" style="margin-bottom: 0.75rem;">Display quality tier on the poster. Choose format and position.</p>
@@ -371,7 +413,7 @@
                 CustomTagText: (document.querySelector('#CustomTagText').value || '').trim(),
                 CustomTagPosition: document.querySelector('#CustomTagPosition').value || 'TopLeft',
                 TagCurvature: Math.min(100, Math.max(0, parseInt(document.querySelector('#TagCurvature').value, 10) || 0)),
-                TagSize: Math.min(28, Math.max(12, parseInt(document.querySelector('#TagSize').value, 10) || 18)),
+                TagSize: Math.min(100, Math.max(12, parseInt(document.querySelector('#TagSize').value, 10) || 18)),
                 ResolutionFormat: Math.min(2, Math.max(0, parseInt(document.querySelector('#ResolutionFormat').value, 10) || 0)),
                 ResolutionPosition: document.querySelector('#ResolutionPosition').value || 'BottomLeft',
                 ImdbPosition: document.querySelector('#ImdbPosition').value || 'BottomLeft',
@@ -379,11 +421,44 @@
                 HdrPosition: document.querySelector('#HdrPosition').value || 'BottomLeft',
                 AudioPosition: document.querySelector('#AudioPosition').value || 'BottomLeft',
                 AudioFlagsPosition: document.querySelector('#AudioFlagsPosition').value || 'BottomLeft',
+                ResolutionColor: getColorValue('ResolutionColor'),
+                ImdbColor: getColorValue('ImdbColor'),
+                RottenTomatoesColor: getColorValue('RottenTomatoesColor'),
+                HdrColor: getColorValue('HdrColor'),
+                AudioColor: getColorValue('AudioColor'),
+                AudioFlagsColor: getColorValue('AudioFlagsColor'),
+                CustomTagColor: getColorValue('CustomTagColor'),
                 AutoApplyOnLibraryScan: document.querySelector('#AutoApplyOnLibraryScan').checked,
                 ShowHDR: document.querySelector('#ShowHDR').checked,
                 ShowDolbyAtmos: document.querySelector('#ShowDolbyAtmos').checked,
                 ShowDtsX: document.querySelector('#ShowDtsX').checked
             };
+        }
+        function getColorValue(id) {
+            var hexEl = document.querySelector('#' + id + 'Hex');
+            var pickerEl = document.querySelector('#' + id);
+            var hex = hexEl && hexEl.value ? hexEl.value.trim() : '';
+            if (/^#?[0-9A-Fa-f]{6}$/.test(hex)) return hex.charAt(0) === '#' ? hex : '#' + hex;
+            if (/^#?[0-9A-Fa-f]{8}$/.test(hex)) return hex.charAt(0) === '#' ? hex : '#' + hex;
+            return (pickerEl && pickerEl.value) ? pickerEl.value : '#000000';
+        }
+        function setColorInputs(id, hex) {
+            if (!hex) hex = '#000000';
+            hex = hex.trim();
+            var pickerEl = document.querySelector('#' + id);
+            var hexEl = document.querySelector('#' + id + 'Hex');
+            if (hex.length >= 8 && /^#?[0-9A-Fa-f]{8}$/.test(hex.replace('#', ''))) {
+                var six = hex.charAt(0) === '#' ? hex.slice(2, 8) : hex.slice(0, 6);
+                if (pickerEl) pickerEl.value = '#' + six;
+                if (hexEl) hexEl.value = hex.charAt(0) === '#' ? hex : '#' + hex;
+            } else if (hex.length >= 6 && /^#?[0-9A-Fa-f]{6}$/.test(hex.replace('#', ''))) {
+                var val = hex.charAt(0) === '#' ? hex : '#' + hex;
+                if (pickerEl) pickerEl.value = val;
+                if (hexEl) hexEl.value = val;
+            } else {
+                if (pickerEl) pickerEl.value = '#000000';
+                if (hexEl) hexEl.value = '#000000';
+            }
         }
 
         function setPreviewStatus(msg, isError) {
@@ -551,11 +626,21 @@
                 if (PosterTagsConfig.previewItemId) loadPreviewImage(true);
             }, 1200);
         }
-        ['Show4K', 'ShowHD', 'ShowQuality', 'ShowAudioLanguageFlags', 'SkipItemsWithNoAudioLanguage', 'ShowImdbRating', 'ShowRottenTomatoes', 'UseExternalRatings', 'CustomTagEnabled', 'CustomTagText', 'CustomTagPosition', 'TagCurvature', 'TagSize', 'ResolutionFormat', 'ResolutionPosition', 'ImdbPosition', 'RottenTomatoesPosition', 'HdrPosition', 'AudioPosition', 'AudioFlagsPosition', 'ShowHDR', 'ShowDolbyAtmos', 'ShowDtsX'].forEach(function (id) {
+        ['Show4K', 'ShowHD', 'ShowQuality', 'ShowAudioLanguageFlags', 'SkipItemsWithNoAudioLanguage', 'ShowImdbRating', 'ShowRottenTomatoes', 'UseExternalRatings', 'CustomTagEnabled', 'CustomTagText', 'CustomTagPosition', 'TagCurvature', 'TagSize', 'ResolutionFormat', 'ResolutionPosition', 'ImdbPosition', 'RottenTomatoesPosition', 'HdrPosition', 'AudioPosition', 'AudioFlagsPosition', 'ShowHDR', 'ShowDolbyAtmos', 'ShowDtsX', 'ResolutionColor', 'ResolutionColorHex', 'ImdbColor', 'ImdbColorHex', 'RottenTomatoesColor', 'RottenTomatoesColorHex', 'HdrColor', 'HdrColorHex', 'AudioColor', 'AudioColorHex', 'AudioFlagsColor', 'AudioFlagsColorHex', 'CustomTagColor', 'CustomTagColorHex'].forEach(function (id) {
             var el = document.querySelector('#' + id);
             if (el) {
                 el.addEventListener('change', scheduleLivePreview);
                 if (id === 'CustomTagText') el.addEventListener('input', scheduleLivePreview);
+                if (id.endsWith('Color') && !id.endsWith('ColorHex')) {
+                    el.addEventListener('input', function () { var h = document.querySelector('#' + id + 'Hex'); if (h) h.value = el.value; scheduleLivePreview(); });
+                }
+                if (id.endsWith('ColorHex')) {
+                    el.addEventListener('input', function () {
+                        var hex = el.value.trim();
+                        if (/^#?[0-9A-Fa-f]{6}$/.test(hex)) { var picker = document.querySelector('#' + id.replace('Hex', '')); if (picker) picker.value = hex.charAt(0) === '#' ? hex : '#' + hex; }
+                        scheduleLivePreview();
+                    });
+                }
             }
             if (id === 'TagCurvature') {
                 var curv = document.querySelector('#TagCurvature');
@@ -651,7 +736,7 @@
                 config.CustomTagText = (document.querySelector('#CustomTagText').value || '').trim();
                 config.CustomTagPosition = document.querySelector('#CustomTagPosition').value || 'TopLeft';
                 config.TagCurvature = Math.min(100, Math.max(0, parseInt(document.querySelector('#TagCurvature').value, 10) || 0));
-                config.TagSize = Math.min(28, Math.max(12, parseInt(document.querySelector('#TagSize').value, 10) || 18));
+                config.TagSize = Math.min(100, Math.max(12, parseInt(document.querySelector('#TagSize').value, 10) || 18));
                 config.ResolutionFormat = Math.min(2, Math.max(0, parseInt(document.querySelector('#ResolutionFormat').value, 10) || 0));
                 config.ResolutionPosition = document.querySelector('#ResolutionPosition').value || 'BottomLeft';
                 config.ImdbPosition = document.querySelector('#ImdbPosition').value || 'BottomLeft';
@@ -659,6 +744,13 @@
                 config.HdrPosition = document.querySelector('#HdrPosition').value || 'BottomLeft';
                 config.AudioPosition = document.querySelector('#AudioPosition').value || 'BottomLeft';
                 config.AudioFlagsPosition = document.querySelector('#AudioFlagsPosition').value || 'BottomLeft';
+                config.ResolutionColor = getColorValue('ResolutionColor');
+                config.ImdbColor = getColorValue('ImdbColor');
+                config.RottenTomatoesColor = getColorValue('RottenTomatoesColor');
+                config.HdrColor = getColorValue('HdrColor');
+                config.AudioColor = getColorValue('AudioColor');
+                config.AudioFlagsColor = getColorValue('AudioFlagsColor');
+                config.CustomTagColor = getColorValue('CustomTagColor');
                 config.AutoApplyOnLibraryScan = document.querySelector('#AutoApplyOnLibraryScan').checked;
                 config.ShowHDR = document.querySelector('#ShowHDR').checked;
                 config.ShowDolbyAtmos = document.querySelector('#ShowDolbyAtmos').checked;
