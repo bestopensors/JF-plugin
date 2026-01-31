@@ -21,9 +21,9 @@ using SixLabors.ImageSharp.Processing;
 namespace Jellyfin.Plugin.PosterTags.Services;
 
 /// <summary>
-/// A single badge to draw at a specific position with optional background color (hex).
+/// A single badge to draw at a specific position with optional background color (hex) and opacity.
 /// </summary>
-internal sealed record BadgeItem(string Text, BadgePosition Position, string? ColorHex = null);
+internal sealed record BadgeItem(string Text, BadgePosition Position, string? ColorHex = null, int OpacityPercent = 100);
 
 /// <summary>
 /// Service that draws tag badges (4K, HD, flags, IMDB, RT) onto poster images.
@@ -600,7 +600,7 @@ public class PosterTagService
             var res = height > 0 ? GetResolutionString(height, config) : null;
             if (!string.IsNullOrEmpty(res))
             {
-                badges.Add(new BadgeItem(res, config.ResolutionPosition, config.ResolutionColor));
+                badges.Add(new BadgeItem(res, config.ResolutionPosition, config.ResolutionColor, Math.Clamp(config.ResolutionOpacity, 0, 100)));
             }
         }
 
@@ -609,7 +609,7 @@ public class PosterTagService
             var flagEmojis = GetAudioLanguageFlagEmojis(item);
             if (flagEmojis.Count > 0)
             {
-                badges.Add(new BadgeItem(string.Join(" ", flagEmojis.Take(4)), config.AudioFlagsPosition, config.AudioFlagsColor));
+                badges.Add(new BadgeItem(string.Join(" ", flagEmojis.Take(4)), config.AudioFlagsPosition, config.AudioFlagsColor, Math.Clamp(config.AudioFlagsOpacity, 0, 100)));
             }
         }
 
@@ -617,11 +617,11 @@ public class PosterTagService
         {
             if (externalRatings != null && externalRatings.TryGetValue("imdb", out var imdbVal) && imdbVal > 0)
             {
-                badges.Add(new BadgeItem($"IMDB {imdbVal:0.0}", config.ImdbPosition, config.ImdbColor));
+                badges.Add(new BadgeItem($"IMDB {imdbVal:0.0}", config.ImdbPosition, config.ImdbColor, Math.Clamp(config.ImdbOpacity, 0, 100)));
             }
             else if (item.CommunityRating.HasValue && item.CommunityRating.Value > 0)
             {
-                badges.Add(new BadgeItem($"IMDB {item.CommunityRating.Value:0.0}", config.ImdbPosition, config.ImdbColor));
+                badges.Add(new BadgeItem($"IMDB {item.CommunityRating.Value:0.0}", config.ImdbPosition, config.ImdbColor, Math.Clamp(config.ImdbOpacity, 0, 100)));
             }
         }
 
@@ -631,12 +631,12 @@ public class PosterTagService
             {
                 var pct = rtVal <= 1 ? (int)Math.Round(rtVal * 100) : (int)Math.Round(rtVal);
                 pct = Math.Clamp(pct, 0, 100);
-                badges.Add(new BadgeItem($"RT {pct}%", config.RottenTomatoesPosition, config.RottenTomatoesColor));
+                badges.Add(new BadgeItem($"RT {pct}%", config.RottenTomatoesPosition, config.RottenTomatoesColor, Math.Clamp(config.RottenTomatoesOpacity, 0, 100)));
             }
             else if (item.CriticRating.HasValue && item.CriticRating.Value > 0)
             {
                 var pct = (int)Math.Round(item.CriticRating.Value * 10);
-                badges.Add(new BadgeItem($"RT {pct}%", config.RottenTomatoesPosition, config.RottenTomatoesColor));
+                badges.Add(new BadgeItem($"RT {pct}%", config.RottenTomatoesPosition, config.RottenTomatoesColor, Math.Clamp(config.RottenTomatoesOpacity, 0, 100)));
             }
         }
 
@@ -645,7 +645,7 @@ public class PosterTagService
             var hdrBadge = GetHdrBadge(item);
             if (!string.IsNullOrEmpty(hdrBadge))
             {
-                badges.Add(new BadgeItem(hdrBadge, config.HdrPosition, config.HdrColor));
+                badges.Add(new BadgeItem(hdrBadge, config.HdrPosition, config.HdrColor, Math.Clamp(config.HdrOpacity, 0, 100)));
             }
         }
 
@@ -654,7 +654,7 @@ public class PosterTagService
             var audioBadges = GetPremiumAudioBadges(item, config);
             foreach (var ab in audioBadges)
             {
-                badges.Add(new BadgeItem(ab, config.AudioPosition, config.AudioColor));
+                badges.Add(new BadgeItem(ab, config.AudioPosition, config.AudioColor, Math.Clamp(config.AudioOpacity, 0, 100)));
             }
         }
 
@@ -1010,6 +1010,13 @@ public class PosterTagService
         return false;
     }
 
+    private static Color ApplyOpacity(Rgba32 c, int opacityPercent)
+    {
+        var o = Math.Clamp(opacityPercent, 0, 100);
+        var a = (byte)((c.A * o) / 100);
+        return new Color(new Rgba32(c.R, c.G, c.B, a));
+    }
+
     private static byte ParseHexByte(char high, char low)
     {
         int H = char.IsAsciiDigit(high) ? high - '0' : (char.ToUpperInvariant(high) >= 'A' && char.ToUpperInvariant(high) <= 'F') ? char.ToUpperInvariant(high) - 'A' + 10 : 0;
@@ -1044,7 +1051,8 @@ public class PosterTagService
                         continue;
                     }
 
-                    var fillColor = TryParseHexColor(item.ColorHex, out var parsed) ? new Color(parsed) : defaultFill;
+                    var baseColor = TryParseHexColor(item.ColorHex, out var parsed) ? parsed : new Rgba32(0, 0, 0, 180);
+                    var fillColor = ApplyOpacity(baseColor, item.OpacityPercent);
                     var size = TextMeasurer.MeasureSize(item.Text, new TextOptions(font));
                     var boxWidth = (int)Math.Ceiling(size.Width) + padding * 2;
                     var boxHeight = lineHeight + padding * 2;
@@ -1057,7 +1065,8 @@ public class PosterTagService
             // Draw custom tag if enabled
             if (config.CustomTagEnabled && !string.IsNullOrWhiteSpace(config.CustomTagText))
             {
-                var customFill = TryParseHexColor(config.CustomTagColor, out var customParsed) ? new Color(customParsed) : defaultFill;
+                var customOpacity = Math.Clamp(config.CustomTagOpacity, 0, 100);
+                var customFill = TryParseHexColor(config.CustomTagColor, out var customParsed) ? ApplyOpacity(customParsed, customOpacity) : defaultFill;
                 var customText = config.CustomTagText.Trim();
                 var size = TextMeasurer.MeasureSize(customText, new TextOptions(font));
                 var boxWidth = (int)Math.Ceiling(size.Width) + padding * 2;

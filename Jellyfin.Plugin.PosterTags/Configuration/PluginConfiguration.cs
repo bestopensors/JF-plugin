@@ -48,6 +48,13 @@ public class PluginConfiguration : BasePluginConfiguration
         AudioColor = DefaultBadgeColor;
         AudioFlagsColor = DefaultBadgeColor;
         CustomTagColor = DefaultBadgeColor;
+        ResolutionOpacity = 100;
+        ImdbOpacity = 100;
+        RottenTomatoesOpacity = 100;
+        HdrOpacity = 100;
+        AudioOpacity = 100;
+        AudioFlagsOpacity = 100;
+        CustomTagOpacity = 100;
     }
 
     /// <summary>Default badge background color (hex with optional alpha: #RRGGBB or #AARRGGBB).</summary>
@@ -218,6 +225,15 @@ public class PluginConfiguration : BasePluginConfiguration
 
     /// <summary>Badge background color (hex #RRGGBB or #AARRGGBB).</summary>
     public string CustomTagColor { get; set; }
+
+    /// <summary>Badge background opacity 0–100 (100 = fully opaque).</summary>
+    public int ResolutionOpacity { get; set; }
+    public int ImdbOpacity { get; set; }
+    public int RottenTomatoesOpacity { get; set; }
+    public int HdrOpacity { get; set; }
+    public int AudioOpacity { get; set; }
+    public int AudioFlagsOpacity { get; set; }
+    public int CustomTagOpacity { get; set; }
 }
 
 /// <summary>

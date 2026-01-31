@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.34",
+        "changelog": "Tag colors: pill buttons for enable/disable, resolution format & custom text in row, per-tag opacity, duplicate sections removed.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.34.zip",
+        "checksum": "abb0063998317daca78ea0ec5554e2bd",
+        "timestamp": "2026-01-31T09:22:51Z"
+      },
+      {
         "version": "1.0.33",
         "changelog": "Tag colors UI: clickable tag names (enable/disable), info (i) tooltips, position dropdown per row.",
         "targetAbi": "10.11.0.0",

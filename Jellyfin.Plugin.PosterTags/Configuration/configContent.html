@@ -37,8 +37,15 @@
             .postertags-tag-row .tag-position select { width: 100%; }
             .postertags-page input[type="color"] { width: 2.5rem; height: 2rem; padding: 2px; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; cursor: pointer; background: transparent; }
             .postertags-color-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
-            .postertags-color-row label.color-label { min-width: 8rem; font-weight: 500; color: #e4e4e7; cursor: pointer; }
-            .postertags-color-row label.color-label:hover { color: #fff; }
+            .postertags-color-row .postertags-row-cb { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
+            .postertags-tag-btn { display: inline-block; padding: 0.35rem 0.75rem; border-radius: 999px; font-weight: 500; cursor: pointer; border: 1px solid rgba(255,255,255,0.3); background: transparent; color: #e4e4e7; transition: background 0.15s, border-color 0.15s, color 0.15s; user-select: none; }
+            .postertags-tag-btn:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+            .postertags-color-row:has(.postertags-row-cb:checked) .postertags-tag-btn { background: #3b82f6; border-color: #3b82f6; color: #fff; }
+            .postertags-color-row .tag-custom-input { width: 6em; min-width: 5em; }
+            .postertags-color-row .tag-format-select { min-width: 100px; }
+            .postertags-opacity-pill { display: flex; align-items: center; gap: 0.35rem; }
+            .postertags-opacity-pill input[type="range"] { width: 4rem; min-width: 4rem; max-width: 4rem; margin: 0; }
+            .postertags-opacity-pill .opacity-val { font-size: 0.8rem; color: #a1a1aa; min-width: 2.2em; }
             .postertags-info-icon { display: inline-flex; align-items: center; justify-content: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: rgba(255,255,255,0.15); color: #a1a1aa; font-size: 0.7rem; font-weight: 700; cursor: help; flex-shrink: 0; }
             .postertags-info-icon:hover { background: rgba(255,255,255,0.25); color: #e4e4e7; }
             .postertags-color-row .tag-position-select { min-width: 120px; }
@@ -104,12 +111,19 @@
                 </div>
 
                 <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Tag colors</h3>
-                <p class="fieldDescription" style="margin-bottom: 0.75rem;">Click a tag name to enable or disable it. Background color and position per tag. Text stays white.</p>
+                <p class="fieldDescription" style="margin-bottom: 0.75rem;">Click a tag name (button) to enable or disable. Format/custom text, color, opacity, position per tag.</p>
                 <div class="postertags-color-row">
                     <span class="postertags-info-icon" title="Shows quality tier (SD, HD, FHD, UHD or 480p, 720p, 1080p, 4K)">i</span>
-                    <label class="color-label" for="ShowQuality">Resolution</label>
+                    <input type="checkbox" id="ShowQuality" class="postertags-row-cb" />
+                    <label for="ShowQuality" class="postertags-tag-btn">Resolution</label>
+                    <select id="ResolutionFormat" name="ResolutionFormat" class="select tag-format-select">
+                        <option value="0">Letters</option>
+                        <option value="1">Numbers</option>
+                        <option value="2">Both</option>
+                    </select>
                     <input type="color" id="ResolutionColor" value="#000000" />
                     <input type="text" id="ResolutionColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                    <div class="postertags-opacity-pill"><input type="range" id="ResolutionOpacity" min="0" max="100" value="100" /><span id="ResolutionOpacityVal" class="opacity-val">100%</span></div>
                     <select id="ResolutionPosition" name="ResolutionPosition" class="select tag-position-select">
                         <option value="TopLeft">Top Left</option>
                         <option value="TopCenter">Top Center</option>
@@ -121,9 +135,11 @@
                 </div>
                 <div class="postertags-color-row">
                     <span class="postertags-info-icon" title="Shows IMDb rating from API or Jellyfin community rating">i</span>
-                    <label class="color-label" for="ShowImdbRating">IMDb</label>
+                    <input type="checkbox" id="ShowImdbRating" class="postertags-row-cb" />
+                    <label for="ShowImdbRating" class="postertags-tag-btn">IMDb</label>
                     <input type="color" id="ImdbColor" value="#000000" />
                     <input type="text" id="ImdbColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                    <div class="postertags-opacity-pill"><input type="range" id="ImdbOpacity" min="0" max="100" value="100" /><span id="ImdbOpacityVal" class="opacity-val">100%</span></div>
                     <select id="ImdbPosition" name="ImdbPosition" class="select tag-position-select">
                         <option value="TopLeft">Top Left</option>
                         <option value="TopCenter">Top Center</option>
@@ -135,9 +151,11 @@
                 </div>
                 <div class="postertags-color-row">
                     <span class="postertags-info-icon" title="Shows Rotten Tomatoes critic score">i</span>
-                    <label class="color-label" for="ShowRottenTomatoes">Rotten Tomatoes</label>
+                    <input type="checkbox" id="ShowRottenTomatoes" class="postertags-row-cb" />
+                    <label for="ShowRottenTomatoes" class="postertags-tag-btn">Rotten Tomatoes</label>
                     <input type="color" id="RottenTomatoesColor" value="#000000" />
                     <input type="text" id="RottenTomatoesColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                    <div class="postertags-opacity-pill"><input type="range" id="RottenTomatoesOpacity" min="0" max="100" value="100" /><span id="RottenTomatoesOpacityVal" class="opacity-val">100%</span></div>
                     <select id="RottenTomatoesPosition" name="RottenTomatoesPosition" class="select tag-position-select">
                         <option value="TopLeft">Top Left</option>
                         <option value="TopCenter">Top Center</option>
@@ -149,9 +167,11 @@
                 </div>
                 <div class="postertags-color-row">
                     <span class="postertags-info-icon" title="Shows HDR type (HDR10, HDR10+, Dolby Vision, HLG) when detected">i</span>
-                    <label class="color-label" for="ShowHDR">HDR</label>
+                    <input type="checkbox" id="ShowHDR" class="postertags-row-cb" />
+                    <label for="ShowHDR" class="postertags-tag-btn">HDR</label>
                     <input type="color" id="HdrColor" value="#000000" />
                     <input type="text" id="HdrColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                    <div class="postertags-opacity-pill"><input type="range" id="HdrOpacity" min="0" max="100" value="100" /><span id="HdrOpacityVal" class="opacity-val">100%</span></div>
                     <select id="HdrPosition" name="HdrPosition" class="select tag-position-select">
                         <option value="TopLeft">Top Left</option>
                         <option value="TopCenter">Top Center</option>
@@ -163,9 +183,11 @@
                 </div>
                 <div class="postertags-color-row">
                     <span class="postertags-info-icon" title="Shows Dolby Atmos and/or DTS:X when present in audio">i</span>
-                    <label class="color-label" for="ShowDolbyAtmos">Audio (Dolby/DTS)</label>
+                    <input type="checkbox" id="ShowDolbyAtmos" class="postertags-row-cb" />
+                    <label for="ShowDolbyAtmos" class="postertags-tag-btn">Audio (Dolby/DTS)</label>
                     <input type="color" id="AudioColor" value="#000000" />
                     <input type="text" id="AudioColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                    <div class="postertags-opacity-pill"><input type="range" id="AudioOpacity" min="0" max="100" value="100" /><span id="AudioOpacityVal" class="opacity-val">100%</span></div>
                     <select id="AudioPosition" name="AudioPosition" class="select tag-position-select">
                         <option value="TopLeft">Top Left</option>
                         <option value="TopCenter">Top Center</option>
@@ -177,9 +199,11 @@
                 </div>
                 <div class="postertags-color-row">
                     <span class="postertags-info-icon" title="Shows country flags for audio languages">i</span>
-                    <label class="color-label" for="ShowAudioLanguageFlags">Audio flags</label>
+                    <input type="checkbox" id="ShowAudioLanguageFlags" class="postertags-row-cb" />
+                    <label for="ShowAudioLanguageFlags" class="postertags-tag-btn">Audio flags</label>
                     <input type="color" id="AudioFlagsColor" value="#000000" />
                     <input type="text" id="AudioFlagsColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                    <div class="postertags-opacity-pill"><input type="range" id="AudioFlagsOpacity" min="0" max="100" value="100" /><span id="AudioFlagsOpacityVal" class="opacity-val">100%</span></div>
                     <select id="AudioFlagsPosition" name="AudioFlagsPosition" class="select tag-position-select">
                         <option value="TopLeft">Top Left</option>
                         <option value="TopCenter">Top Center</option>
@@ -190,10 +214,13 @@
                     </select>
                 </div>
                 <div class="postertags-color-row">
-                    <span class="postertags-info-icon" title="Custom text label (e.g. NEW, FAVORITE) — set text below">i</span>
-                    <label class="color-label" for="CustomTagEnabled">Custom tag</label>
+                    <span class="postertags-info-icon" title="Custom text label (e.g. NEW, FAVORITE)">i</span>
+                    <input type="checkbox" id="CustomTagEnabled" class="postertags-row-cb" />
+                    <label for="CustomTagEnabled" class="postertags-tag-btn">Custom tag</label>
+                    <input type="text" id="CustomTagText" class="inputControl tag-custom-input" placeholder="e.g. NEW" maxlength="32" />
                     <input type="color" id="CustomTagColor" value="#000000" />
                     <input type="text" id="CustomTagColorHex" class="inputControl" placeholder="#000000" maxlength="9" style="width: 7em;" />
+                    <div class="postertags-opacity-pill"><input type="range" id="CustomTagOpacity" min="0" max="100" value="100" /><span id="CustomTagOpacityVal" class="opacity-val">100%</span></div>
                     <select id="CustomTagPosition" name="CustomTagPosition" class="select tag-position-select">
                         <option value="TopLeft">Top Left</option>
                         <option value="TopCenter">Top Center</option>
@@ -203,36 +230,16 @@
                         <option value="BottomRight">Bottom Right</option>
                     </select>
                 </div>
-                <p class="fieldDescription" style="margin-top: 0.25rem;">Hex: #RRGGBB or #AARRGGBB (e.g. #B4000000).</p>
-
-                <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Resolution badge</h3>
-                <p class="fieldDescription" style="margin-bottom: 0.75rem;">Display quality tier on the poster. Choose format and position.</p>
-                <div class="checkboxContainer checkboxContainer-withDescription">
-                    <label class="checkboxLabel">
-                        <input type="checkbox" id="ShowQuality" />
-                        <span>Show resolution badge</span>
-                    </label>
+                <p class="fieldDescription" style="margin-top: 0.25rem;">Hex: #RRGGBB or #AARRGGBB. Opacity 0–100%.</p>
+                <div class="checkboxContainer" style="margin-top: 0.75rem;">
+                    <label class="checkboxLabel"><input type="checkbox" id="Show4K" /><span>Resolution: include 4K / UHD</span></label>
+                    <label class="checkboxLabel" style="margin-left: 1rem;"><input type="checkbox" id="ShowHD" /><span>Include HD / FHD</span></label>
                 </div>
-                <div class="selectContainer" style="margin-top: 0.5em;">
-                    <label class="inputLabel inputLabelUnified" for="ResolutionFormat">Resolution format</label>
-                    <select id="ResolutionFormat" name="ResolutionFormat" class="select flex align-items-center">
-                        <option value="0">Letters (SD, HD, FHD, UHD)</option>
-                        <option value="1">Numbers (480p, 720p, 1080p, 4K)</option>
-                        <option value="2">Both (e.g. 1080p FHD)</option>
-                    </select>
-                    <div class="fieldDescription">Letters only, numbers only, or both on the same badge.</div>
+                <div class="checkboxContainer" style="margin-top: 0.35rem;">
+                    <label class="checkboxLabel"><input type="checkbox" id="SkipItemsWithNoAudioLanguage" /><span>Skip items with no known audio language</span></label>
                 </div>
-                <div class="checkboxContainer checkboxContainer-withDescription" style="margin-top: 0.75em;">
-                    <label class="checkboxLabel">
-                        <input type="checkbox" id="Show4K" />
-                        <span>Include 4K / UHD</span>
-                    </label>
-                </div>
-                <div class="checkboxContainer checkboxContainer-withDescription">
-                    <label class="checkboxLabel">
-                        <input type="checkbox" id="ShowHD" />
-                        <span>Include HD / FHD</span>
-                    </label>
+                <div class="checkboxContainer" style="margin-top: 0.35rem;">
+                    <label class="checkboxLabel"><input type="checkbox" id="ShowDtsX" /><span>Audio: also show DTS:X (with Dolby Atmos)</span></label>
                 </div>
 
                 <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">External ratings (API)</h3>
@@ -252,67 +259,6 @@
                     <label class="inputLabel inputLabelUnified" for="TmdbApiKey">TMDB API key (optional)</label>
                     <input type="password" id="TmdbApiKey" class="inputControl" autocomplete="off" placeholder="Optional" />
                     <div class="fieldDescription">Get a key at <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">themoviedb.org</a>. For episode/season ratings.</div>
-                </div>
-
-                <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Other tags</h3>
-                <p class="fieldDescription" style="margin-bottom: 0.75rem;">Each tag can be enabled and placed at a different corner or center.</p>
-                <div class="checkboxContainer checkboxContainer-withDescription">
-                    <label class="checkboxLabel">
-                        <input type="checkbox" id="ShowAudioLanguageFlags" />
-                        <span>Audio language flags</span>
-                    </label>
-                </div>
-                <div class="checkboxContainer" style="margin-bottom: 0.5rem;">
-                    <label class="checkboxLabel">
-                        <input type="checkbox" id="SkipItemsWithNoAudioLanguage" />
-                        <span>Skip items with no known audio language</span>
-                    </label>
-                </div>
-                <div class="checkboxContainer checkboxContainer-withDescription">
-                    <label class="checkboxLabel">
-                        <input type="checkbox" id="ShowImdbRating" />
-                        <span>IMDb rating</span>
-                    </label>
-                </div>
-                <div class="checkboxContainer checkboxContainer-withDescription">
-                    <label class="checkboxLabel">
-                        <input type="checkbox" id="ShowRottenTomatoes" />
-                        <span>Rotten Tomatoes rating</span>
-                    </label>
-                </div>
-
-                <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Video &amp; audio quality</h3>
-                <p class="fieldDescription" style="margin-bottom: 0.75rem;">HDR (HDR10, Dolby Vision, etc.) and premium audio badges.</p>
-                <div class="checkboxContainer checkboxContainer-withDescription">
-                    <label class="checkboxLabel">
-                        <input type="checkbox" id="ShowHDR" />
-                        <span>HDR badge</span>
-                    </label>
-                </div>
-                <div class="checkboxContainer checkboxContainer-withDescription">
-                    <label class="checkboxLabel">
-                        <input type="checkbox" id="ShowDolbyAtmos" />
-                        <span>Dolby Atmos</span>
-                    </label>
-                    <label class="checkboxLabel" style="margin-left: 1rem;">
-                        <input type="checkbox" id="ShowDtsX" />
-                        <span>DTS:X</span>
-                    </label>
-                </div>
-                <p class="fieldDescription" style="margin-top: 0.25rem; margin-bottom: 0.5rem;">Dolby Atmos and DTS:X share one position (set in Tag colors above).</p>
-
-                <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Custom tag</h3>
-                <p class="fieldDescription" style="margin-bottom: 0.75rem;">Display a custom label (e.g. NEW, FAVORITE) at a chosen position.</p>
-                <div class="checkboxContainer checkboxContainer-withDescription">
-                    <label class="checkboxLabel">
-                        <input type="checkbox" id="CustomTagEnabled" />
-                        <span>Show custom tag</span>
-                    </label>
-                </div>
-                <div class="inputContainer" style="margin-top: 0.5em;">
-                    <label class="inputLabel inputLabelUnified" for="CustomTagText">Custom tag text</label>
-                    <input type="text" id="CustomTagText" class="inputControl" placeholder="e.g. NEW" maxlength="32" />
-                    <div class="fieldDescription">Color and position are set in Tag colors above.</div>
                 </div>
 
                 <h3 class="sectionTitle" style="font-size: 1em; margin: 1.5em 0 0.5em;">Automation</h3>
@@ -419,6 +365,13 @@
                 AudioColor: getColorValue('AudioColor'),
                 AudioFlagsColor: getColorValue('AudioFlagsColor'),
                 CustomTagColor: getColorValue('CustomTagColor'),
+                ResolutionOpacity: Math.min(100, Math.max(0, parseInt(document.querySelector('#ResolutionOpacity').value, 10) || 100)),
+                ImdbOpacity: Math.min(100, Math.max(0, parseInt(document.querySelector('#ImdbOpacity').value, 10) || 100)),
+                RottenTomatoesOpacity: Math.min(100, Math.max(0, parseInt(document.querySelector('#RottenTomatoesOpacity').value, 10) || 100)),
+                HdrOpacity: Math.min(100, Math.max(0, parseInt(document.querySelector('#HdrOpacity').value, 10) || 100)),
+                AudioOpacity: Math.min(100, Math.max(0, parseInt(document.querySelector('#AudioOpacity').value, 10) || 100)),
+                AudioFlagsOpacity: Math.min(100, Math.max(0, parseInt(document.querySelector('#AudioFlagsOpacity').value, 10) || 100)),
+                CustomTagOpacity: Math.min(100, Math.max(0, parseInt(document.querySelector('#CustomTagOpacity').value, 10) || 100)),
                 AutoApplyOnLibraryScan: document.querySelector('#AutoApplyOnLibraryScan').checked,
                 ShowHDR: document.querySelector('#ShowHDR').checked,
                 ShowDolbyAtmos: document.querySelector('#ShowDolbyAtmos').checked,
@@ -579,7 +532,7 @@
                     document.querySelector('#CustomTagText').value = config.CustomTagText || '';
                     document.querySelector('#CustomTagPosition').value = config.CustomTagPosition || 'TopLeft';
                     document.querySelector('#TagCurvature').value = Math.min(100, Math.max(0, parseInt(config.TagCurvature, 10) || 0));
-                    document.querySelector('#TagSize').value = Math.min(28, Math.max(12, parseInt(config.TagSize, 10) || 18));
+                    document.querySelector('#TagSize').value = Math.min(100, Math.max(12, parseInt(config.TagSize, 10) || 18));
                     var rf = config.ResolutionFormat !== undefined ? Math.min(2, Math.max(0, parseInt(config.ResolutionFormat, 10))) : (config.UseLetterResolution !== false ? 0 : 1);
                     document.querySelector('#ResolutionFormat').value = String(rf);
                     document.querySelector('#ResolutionPosition').value = config.ResolutionPosition || 'BottomLeft';
@@ -588,6 +541,16 @@
                     document.querySelector('#HdrPosition').value = config.HdrPosition || 'BottomLeft';
                     document.querySelector('#AudioPosition').value = config.AudioPosition || 'BottomLeft';
                     document.querySelector('#AudioFlagsPosition').value = config.AudioFlagsPosition || 'BottomLeft';
+                    setColorInputs('ResolutionColor', config.ResolutionColor);
+                    setColorInputs('ImdbColor', config.ImdbColor);
+                    setColorInputs('RottenTomatoesColor', config.RottenTomatoesColor);
+                    setColorInputs('HdrColor', config.HdrColor);
+                    setColorInputs('AudioColor', config.AudioColor);
+                    setColorInputs('AudioFlagsColor', config.AudioFlagsColor);
+                    setColorInputs('CustomTagColor', config.CustomTagColor);
+                    var opIds = ['ResolutionOpacity', 'ImdbOpacity', 'RottenTomatoesOpacity', 'HdrOpacity', 'AudioOpacity', 'AudioFlagsOpacity', 'CustomTagOpacity'];
+                    var opVals = [config.ResolutionOpacity, config.ImdbOpacity, config.RottenTomatoesOpacity, config.HdrOpacity, config.AudioOpacity, config.AudioFlagsOpacity, config.CustomTagOpacity];
+                    opIds.forEach(function (id, i) { var el = document.querySelector('#' + id); if (el) { var v = Math.min(100, Math.max(0, parseInt(opVals[i], 10) || 100)); el.value = v; var lab = document.querySelector('#' + id + 'Val'); if (lab) lab.textContent = v + '%'; } });
                     document.querySelector('#AutoApplyOnLibraryScan').checked = config.AutoApplyOnLibraryScan !== false;
                     document.querySelector('#ShowHDR').checked = config.ShowHDR !== false;
                     document.querySelector('#ShowDolbyAtmos').checked = config.ShowDolbyAtmos !== false;
@@ -617,7 +580,7 @@
                 if (PosterTagsConfig.previewItemId) loadPreviewImage(true);
             }, 1200);
         }
-        ['Show4K', 'ShowHD', 'ShowQuality', 'ShowAudioLanguageFlags', 'SkipItemsWithNoAudioLanguage', 'ShowImdbRating', 'ShowRottenTomatoes', 'UseExternalRatings', 'CustomTagEnabled', 'CustomTagText', 'CustomTagPosition', 'TagCurvature', 'TagSize', 'ResolutionFormat', 'ResolutionPosition', 'ImdbPosition', 'RottenTomatoesPosition', 'HdrPosition', 'AudioPosition', 'AudioFlagsPosition', 'ShowHDR', 'ShowDolbyAtmos', 'ShowDtsX', 'ResolutionColor', 'ResolutionColorHex', 'ImdbColor', 'ImdbColorHex', 'RottenTomatoesColor', 'RottenTomatoesColorHex', 'HdrColor', 'HdrColorHex', 'AudioColor', 'AudioColorHex', 'AudioFlagsColor', 'AudioFlagsColorHex', 'CustomTagColor', 'CustomTagColorHex'].forEach(function (id) {
+        ['Show4K', 'ShowHD', 'ShowQuality', 'ShowAudioLanguageFlags', 'SkipItemsWithNoAudioLanguage', 'ShowImdbRating', 'ShowRottenTomatoes', 'UseExternalRatings', 'CustomTagEnabled', 'CustomTagText', 'CustomTagPosition', 'TagCurvature', 'TagSize', 'ResolutionFormat', 'ResolutionPosition', 'ImdbPosition', 'RottenTomatoesPosition', 'HdrPosition', 'AudioPosition', 'AudioFlagsPosition', 'ShowHDR', 'ShowDolbyAtmos', 'ShowDtsX', 'ResolutionColor', 'ResolutionColorHex', 'ImdbColor', 'ImdbColorHex', 'RottenTomatoesColor', 'RottenTomatoesColorHex', 'HdrColor', 'HdrColorHex', 'AudioColor', 'AudioColorHex', 'AudioFlagsColor', 'AudioFlagsColorHex', 'CustomTagColor', 'CustomTagColorHex', 'ResolutionOpacity', 'ImdbOpacity', 'RottenTomatoesOpacity', 'HdrOpacity', 'AudioOpacity', 'AudioFlagsOpacity', 'CustomTagOpacity'].forEach(function (id) {
             var el = document.querySelector('#' + id);
             if (el) {
                 el.addEventListener('change', scheduleLivePreview);
@@ -640,6 +603,12 @@
             if (id === 'TagSize') {
                 var ts = document.querySelector('#TagSize');
                 if (ts) ts.addEventListener('input', scheduleLivePreview);
+            }
+            if (id.endsWith('Opacity')) {
+                var opEl = document.querySelector('#' + id);
+                if (opEl) {
+                    opEl.addEventListener('input', function () { var v = document.querySelector('#' + id + 'Val'); if (v) v.textContent = this.value + '%'; scheduleLivePreview(); });
+                }
             }
         });
 
@@ -742,6 +711,13 @@
                 config.AudioColor = getColorValue('AudioColor');
                 config.AudioFlagsColor = getColorValue('AudioFlagsColor');
                 config.CustomTagColor = getColorValue('CustomTagColor');
+                config.ResolutionOpacity = Math.min(100, Math.max(0, parseInt(document.querySelector('#ResolutionOpacity').value, 10) || 100));
+                config.ImdbOpacity = Math.min(100, Math.max(0, parseInt(document.querySelector('#ImdbOpacity').value, 10) || 100));
+                config.RottenTomatoesOpacity = Math.min(100, Math.max(0, parseInt(document.querySelector('#RottenTomatoesOpacity').value, 10) || 100));
+                config.HdrOpacity = Math.min(100, Math.max(0, parseInt(document.querySelector('#HdrOpacity').value, 10) || 100));
+                config.AudioOpacity = Math.min(100, Math.max(0, parseInt(document.querySelector('#AudioOpacity').value, 10) || 100));
+                config.AudioFlagsOpacity = Math.min(100, Math.max(0, parseInt(document.querySelector('#AudioFlagsOpacity').value, 10) || 100));
+                config.CustomTagOpacity = Math.min(100, Math.max(0, parseInt(document.querySelector('#CustomTagOpacity').value, 10) || 100));
                 config.AutoApplyOnLibraryScan = document.querySelector('#AutoApplyOnLibraryScan').checked;
                 config.ShowHDR = document.querySelector('#ShowHDR').checked;
                 config.ShowDolbyAtmos = document.querySelector('#ShowDolbyAtmos').checked;

@@ -375,6 +375,13 @@ public class PosterTagsApiController : ControllerBase
         if (TryGetConfigValue(dict, "AudioColor", out v)) config.AudioColor = v.GetString() ?? PluginConfiguration.DefaultBadgeColor;
         if (TryGetConfigValue(dict, "AudioFlagsColor", out v)) config.AudioFlagsColor = v.GetString() ?? PluginConfiguration.DefaultBadgeColor;
         if (TryGetConfigValue(dict, "CustomTagColor", out v)) config.CustomTagColor = v.GetString() ?? PluginConfiguration.DefaultBadgeColor;
+        if (TryGetConfigValue(dict, "ResolutionOpacity", out v) && v.TryGetInt32(out var resOp)) config.ResolutionOpacity = Math.Clamp(resOp, 0, 100);
+        if (TryGetConfigValue(dict, "ImdbOpacity", out v) && v.TryGetInt32(out var imdbOp)) config.ImdbOpacity = Math.Clamp(imdbOp, 0, 100);
+        if (TryGetConfigValue(dict, "RottenTomatoesOpacity", out v) && v.TryGetInt32(out var rtOp)) config.RottenTomatoesOpacity = Math.Clamp(rtOp, 0, 100);
+        if (TryGetConfigValue(dict, "HdrOpacity", out v) && v.TryGetInt32(out var hdrOp)) config.HdrOpacity = Math.Clamp(hdrOp, 0, 100);
+        if (TryGetConfigValue(dict, "AudioOpacity", out v) && v.TryGetInt32(out var audioOp)) config.AudioOpacity = Math.Clamp(audioOp, 0, 100);
+        if (TryGetConfigValue(dict, "AudioFlagsOpacity", out v) && v.TryGetInt32(out var afOp)) config.AudioFlagsOpacity = Math.Clamp(afOp, 0, 100);
+        if (TryGetConfigValue(dict, "CustomTagOpacity", out v) && v.TryGetInt32(out var customOp)) config.CustomTagOpacity = Math.Clamp(customOp, 0, 100);
         if (TryGetConfigValue(dict, "ResolutionFormat", out v))
         {
             if (v.TryGetInt32(out var rf))
