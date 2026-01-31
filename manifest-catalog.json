@@ -8,6 +8,14 @@
     "category": "Library",
     "versions": [
       {
+        "version": "1.0.36",
+        "changelog": "Config UI: opacity slider fix, bigger dropdowns, Resolution format moved out of row, stacked grid (color/opacity/position aligned).",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://raw.githubusercontent.com/bestopensors/JF-plugin/main/releases/Jellyfin.Plugin.PosterTags_1.0.36.zip",
+        "checksum": "576400ba27a477a00564f599c714d46a",
+        "timestamp": "2026-01-31T09:48:39Z"
+      },
+      {
         "version": "1.0.35",
         "changelog": "Tag colors UI: smaller, neater layout; one line per row; compact controls.",
         "targetAbi": "10.11.0.0",
